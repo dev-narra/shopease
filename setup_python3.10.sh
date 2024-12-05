@@ -37,24 +37,20 @@ echo "Downloading and installing pip..."
 wget https://bootstrap.pypa.io/get-pip.py
 python3.10 get-pip.py
 
-# Set Python 3.10 as the default version
-echo "Setting Python 3.10 as the default Python version..."
-sudo update-alternatives --install /usr/bin/python3 python3 /usr/bin/python3.10 1
-
-# Configure the default python3 version
-echo "Configuring the default Python 3 version..."
-sudo update-alternatives --config python3
 
 # Clean up the downloaded get-pip.py file
 echo "Cleaning up..."
 rm get-pip.py
 
+
+echo "Installing python3.10-venv"
+sudo apt install python3.10-venv
+
 # Create a virtual environment
 echo "Creating a virtual environment..."
-python3 -m venv env
+python3.10 -m venv env
 
-# Activate the virtual environment
-echo "Activating the virtual environment..."
+echo "Activating env"
 source env/bin/activate
 
 echo "Python 3.10 and pip installation complete. Virtual environment activated."
