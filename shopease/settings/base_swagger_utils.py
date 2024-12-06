@@ -24,6 +24,7 @@ from django_swagger_utils.drf_server.utils.general.import_app_settings import \
 THIRD_PARTY_APPS = []
 APPS = [
     "shop",
+    'django_extensions'
 ]
 
 INSTALLED_APPS += THIRD_PARTY_APPS

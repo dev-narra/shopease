@@ -16,19 +16,7 @@
         "produces": [
             "application/json"
         ],
-        "securityDefinitions": {
-            "oauth": {
-                "tokenUrl": "http://auth.ibtspl.com/oauth2/",
-                "flow": "password",
-                "scopes": {
-                    "read": "read users",
-                    "write": "create users",
-                    "update": "update users",
-                    "delete": "delete users"
-                },
-                "type": "oauth2"
-            }
-        },
+
         "security": [],
         "definitions": {
             "DefaultHttpExceptionFields": {
@@ -54,7 +42,7 @@
                     "res_status"
                 ]
             },
-            "TodoId": {
+            "ProductId": {
                 "type": "object",
                 "properties": {
                     "id": {
@@ -62,49 +50,66 @@
                     }
                 }
             },
-            "BasicTodo": {
+            "BasicProduct": {
                 "type": "object",
                 "properties": {
+                    "name":{
+                      "type":"string"
+                    },
                     "description": {
                         "type": "string"
                     },
-                    "is_completed": {
-                        "type": "boolean"
+                    "price": {
+                        "type": "number",
+                        "format":"float"
                     },
-                    "remind_at": {
+                    "mfg_date": {
                         "type": "string"
+                    },
+                    "exp_date": {
+                        "type": "string"
+                    },
+                    "stock_quantity": {
+                        "type": "number",
+                        "format":"int32"
                     }
                 },
                 "required": [
-                    "description"
+                    "description",
+                    "name",
+                    "stock_quantity",
+                    "exp_date",
+                    "mfg_date",
+                    "price"
+                
                 ]
             },
-            "Todo": {
+            "Product": {
                 "allOf": [
                     {
-                        "$ref": "#/definitions/BasicTodo"
+                        "$ref": "#/definitions/BasicProduct"
                     },
                     {
-                        "$ref": "#/definitions/TodoId"
+                        "$ref": "#/definitions/ProductId"
                     }
                 ]
             }
         },
         "parameters": {
-            "TodoId": {
-                "description": "todo id",
+            "ProductId": {
+                "description": "Product id",
                 "in": "path",
                 "name": "id",
                 "required": true,
                 "type": "integer"
             },
-            "BasicTodo": {
-                "description": "Todo Parameter",
+            "BasicProduct": {
+                "description": "Prodcut Parameter",
                 "in": "body",
                 "name": "todo",
                 "required": true,
                 "schema": {
-                    "$ref": "#/definitions/BasicTodo"
+                    "$ref": "#/definitions/BasicProduct"
                 }
             }
         },
@@ -114,207 +119,39 @@
             }
         },
         "paths": {
-            "/todos/": {
+            "/products/": {
                 "get": {
-                    "summary": "Get all todos",
-                    "description": "Returns a list containing all todos.",
-                    "operationId": "get_todos",
-                    "security": [
-                        {
-                            "oauth": [
-                                "read"
-                            ]
-                        }
-                    ],
+                    "summary": "Get all products",
+                    "description": "Returns a list containing all products.",
+                    "operationId": "get_products",
                     "responses": {
                         "200": {
-                            "description": "A list of todos",
+                            "description": "A list of products",
                             "schema": {
                                 "type": "array",
                                 "items": {
-                                    "$ref": "#/definitions/Todo"
+                                    "$ref": "#/definitions/Product"
                                 }
-                            }
-                        },
-                        "401": {
-                            "description": "Unauthorized",
-                            "schema": {
-                                "$ref": "#/definitions/DefaultHttpExceptionFields"
-                            }
-                        },
-                        "403": {
-                            "description": "Forbidden",
-                            "schema": {
-                                "$ref": "#/definitions/DefaultHttpExceptionFields"
-                            }
-                        },
-                        "404": {
-                            "description": "Not Found",
-                            "schema": {
-                                "$ref": "#/definitions/DefaultHttpExceptionFields"
-                            }
-                        }
-                    }
-                },
-                "post": {
-                    "summary": "create a todo",
-                    "description": "Create a todo",
-                    "operationId": "create_todo",
-                    "security": [
-                        {
-                            "oauth": [
-                                "write"
-                            ]
-                        }
-                    ],
-                    "parameters": [
-                        {
-                            "$ref": "#/parameters/BasicTodo"
-                        }
-                    ],
-                    "responses": {
-                        "200": {
-                            "description": "create a todo",
-                            "schema": {
-                                "$ref": "#/definitions/TodoId"
-                            }
-                        },
-                        "401": {
-                            "description": "Unauthorized",
-                            "schema": {
-                                "$ref": "#/definitions/DefaultHttpExceptionFields"
-                            }
-                        },
-                        "403": {
-                            "description": "Forbidden",
-                            "schema": {
-                                "$ref": "#/definitions/DefaultHttpExceptionFields"
-                            }
-                        },
-                        "404": {
-                            "description": "Not Found",
-                            "schema": {
-                                "$ref": "#/definitions/DefaultHttpExceptionFields"
                             }
                         }
                     }
                 }
             },
-            "/todos/{id}/": {
-                "parameters": [
-                    {
-                        "$ref": "#/parameters/TodoId"
-                    }
-                ],
-                "get": {
-                    "summary": "Get a todo",
-                    "description": "Returns a todo.",
-                    "operationId": "get_todo",
-                    "security": [
-                        {
-                            "oauth": [
-                                "read"
-                            ]
-                        }
-                    ],
-                    "responses": {
-                        "200": {
-                            "description": "A todo",
-                            "schema": {
-                                "$ref": "#/definitions/Todo"
-                            }
-                        },
-                        "401": {
-                            "description": "Unauthorized",
-                            "schema": {
-                                "$ref": "#/definitions/DefaultHttpExceptionFields"
-                            }
-                        },
-                        "403": {
-                            "description": "Forbidden",
-                            "schema": {
-                                "$ref": "#/definitions/DefaultHttpExceptionFields"
-                            }
-                        },
-                        "404": {
-                            "description": "Not Found",
-                            "schema": {
-                                "$ref": "#/definitions/DefaultHttpExceptionFields"
-                            }
-                        }
-                    }
-                },
-                "put": {
+            "/product/create/":{
+                "post": {
+                    "summary": "create a Product",
+                    "description": "Create a product",
+                    "operationId": "create_product",
                     "parameters": [
                         {
-                            "$ref": "#/parameters/BasicTodo"
-                        }
-                    ],
-                    "summary": "Updates a todo",
-                    "description": "Updates a todo.",
-                    "operationId": "update_todo",
-                    "security": [
-                        {
-                            "oauth": [
-                                "update"
-                            ]
+                            "$ref": "#/parameters/BasicProduct"
                         }
                     ],
                     "responses": {
                         "200": {
-                            "$ref": "#/responses/SuccessResponse"
-                        },
-                        "401": {
-                            "description": "Unauthorized",
+                            "description": "create a Product",
                             "schema": {
-                                "$ref": "#/definitions/DefaultHttpExceptionFields"
-                            }
-                        },
-                        "403": {
-                            "description": "Forbidden",
-                            "schema": {
-                                "$ref": "#/definitions/DefaultHttpExceptionFields"
-                            }
-                        },
-                        "404": {
-                            "description": "Not Found",
-                            "schema": {
-                                "$ref": "#/definitions/DefaultHttpExceptionFields"
-                            }
-                        }
-                    }
-                },
-                "delete": {
-                    "summary": "Deletes a todo",
-                    "description": "Deletes a todo.",
-                    "operationId": "delete_todo",
-                    "security": [
-                        {
-                            "oauth": [
-                                "delete"
-                            ]
-                        }
-                    ],
-                    "responses": {
-                        "200": {
-                            "$ref": "#/responses/SuccessResponse"
-                        },
-                        "401": {
-                            "description": "Unauthorized",
-                            "schema": {
-                                "$ref": "#/definitions/DefaultHttpExceptionFields"
-                            }
-                        },
-                        "403": {
-                            "description": "Forbidden",
-                            "schema": {
-                                "$ref": "#/definitions/DefaultHttpExceptionFields"
-                            }
-                        },
-                        "404": {
-                            "description": "Not Found",
-                            "schema": {
-                                "$ref": "#/definitions/DefaultHttpExceptionFields"
+                                "$ref": "#/definitions/ProductId"
                             }
                         }
                     }

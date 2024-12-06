@@ -1,10 +1,10 @@
 from django.urls import re_path
 
-from shop.build.view_environments.todos_.router import todos_
-from shop.build.view_environments.todos__id__.router import todos__id__
+from shop.build.view_environments.products_.router import products_
+from shop.build.view_environments.product_create_.router import product_create_
 
 
 urlpatterns = [
-    re_path(r'^todos/$', todos_),
-    re_path(r'^todos/(?P<id>\d+)/$', todos__id__),
+    re_path(r'^products/$', products_),
+    re_path(r'^product/create/$', product_create_),
 ]

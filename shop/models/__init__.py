@@ -1,4 +1,18 @@
-__all__ = []
+from .user import User
+from .order import Order
+from .product import Product
+from .order_item import OrderItem
+from .payment import Payment
+from .feedback import Feedback
+
+__all__ = [
+  'User',
+  'Product',
+  'Order',
+  'OrderItem',
+  'Payment',
+  "Feedback"
+]
 
 # class DummyModel(AbstractDateTimeModel):
 #     """
