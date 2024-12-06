@@ -1,162 +1,475 @@
 {
-        "swagger": "2.0",
-        "host": "127.0.0.1:8000",
-        "basePath": "/api/shop/",
-        "info": {
-            "version": "1.0.0",
-            "title": "Simple API",
-            "description": "A simple API to learn how to write OpenAPI Specification"
-        },
-        "schemes": [
-            "http"
-        ],
-        "consumes": [
-            "application/json"
-        ],
-        "produces": [
-            "application/json"
-        ],
+    "swagger": "2.0",
+    "host": "127.0.0.1:8000",
+    "basePath": "/api/shop/",
+    "info": {
+        "version": "1.0.0",
+        "title": "Simple API",
+        "description": "A simple API to learn how to write OpenAPI Specification"
+    },
+    "schemes": [
+        "http"
+    ],
+    "consumes": [
+        "application/json"
+    ],
+    "produces": [
+        "application/json"
+    ],
 
-        "security": [],
-        "definitions": {
-            "DefaultHttpExceptionFields": {
-                "type": "object",
-                "properties": {
-                    "response": {
-                        "type": "string"
-                    },
-                    "http_status_code": {
-                        "type": "integer"
-                    },
-                    "res_status": {
-                        "type": "string",
-                        "enum": [
-                            "DUPLICATE_TO_IDS",
-                            "INVALID_INPUT_TO_IDS"
-                        ]
-                    }
+    "security": [],
+    "definitions": {
+        "DefaultHttpExceptionFields": {
+            "type": "object",
+            "properties": {
+                "response": {
+                    "type": "string"
                 },
-                "required": [
-                    "response",
-                    "http_status_code",
-                    "res_status"
-                ]
-            },
-            "ProductId": {
-                "type": "object",
-                "properties": {
-                    "id": {
-                        "type": "integer"
-                    }
+                "http_status_code": {
+                    "type": "integer"
+                },
+                "res_status": {
+                    "type": "string",
+                    "enum": [
+                        "DUPLICATE_TO_IDS",
+                        "INVALID_INPUT_TO_IDS"
+                    ]
                 }
             },
-            "BasicProduct": {
-                "type": "object",
-                "properties": {
-                    "name":{
-                      "type":"string"
-                    },
-                    "description": {
-                        "type": "string"
-                    },
-                    "price": {
-                        "type": "number",
-                        "format":"float"
-                    },
-                    "mfg_date": {
-                        "type": "string"
-                    },
-                    "exp_date": {
-                        "type": "string"
-                    },
-                    "stock_quantity": {
-                        "type": "number",
-                        "format":"int32"
-                    }
-                },
-                "required": [
-                    "description",
-                    "name",
-                    "stock_quantity",
-                    "exp_date",
-                    "mfg_date",
-                    "price"
-                
-                ]
-            },
-            "Product": {
-                "allOf": [
-                    {
-                        "$ref": "#/definitions/BasicProduct"
-                    },
-                    {
-                        "$ref": "#/definitions/ProductId"
-                    }
-                ]
+            "required": [
+                "response",
+                "http_status_code",
+                "res_status"
+            ]
+        },
+        "ProductId": {
+            "type": "object",
+            "properties": {
+                "id": {
+                    "type": "integer"
+                }
             }
         },
-        "parameters": {
-            "ProductId": {
-                "description": "Product id",
-                "in": "path",
-                "name": "id",
-                "required": true,
-                "type": "integer"
+        "BasicProduct": {
+            "type": "object",
+            "properties": {
+                "name":{
+                  "type":"string"
+                },
+                "description": {
+                    "type": "string"
+                },
+                "price": {
+                    "type": "number",
+                    "format":"float"
+                },
+                "mfg_date": {
+                    "type": "string"
+                },
+                "exp_date": {
+                    "type": "string"
+                },
+                "stock_quantity": {
+                    "type": "number",
+                    "format":"int32"
+                }
             },
-            "BasicProduct": {
-                "description": "Prodcut Parameter",
-                "in": "body",
-                "name": "todo",
-                "required": true,
-                "schema": {
+            "required": [
+                "description",
+                "name",
+                "stock_quantity",
+                "exp_date",
+                "mfg_date",
+                "price"
+            
+            ]
+        },
+        "Product": {
+            "allOf": [
+                {
                     "$ref": "#/definitions/BasicProduct"
+                },
+                {
+                    "$ref": "#/definitions/ProductId"
+                }
+            ]
+        },
+        "ProductWithExtraFields": {
+            "allOf": [
+                {
+                    "$ref": "#/definitions/Product"
+                },
+                {
+                    "type": "object",
+                    "properties": {
+                        "createdOn": {
+                            "type": "string",
+                            "format": "datetime"
+                        },
+                        "ProductId": {
+                            "type": "string"
+                        }
+                    },
+                    "required": [
+                        "createdOn",
+                        "ProductId"
+                    ]
+                }
+            ]
+        },
+
+         "OrderId": {
+            "type": "object",
+            "properties": {
+                "id": {
+                    "type": "integer"
                 }
             }
         },
-        "responses": {
-            "SuccessResponse": {
-                "description": "success response"
-            }
-        },
-        "paths": {
-            "/products/": {
-                "get": {
-                    "summary": "Get all products",
-                    "description": "Returns a list containing all products.",
-                    "operationId": "get_products",
-                    "responses": {
-                        "200": {
-                            "description": "A list of products",
-                            "schema": {
-                                "type": "array",
-                                "items": {
-                                    "$ref": "#/definitions/Product"
-                                }
-                            }
-                        }
+        "BasicOrder": {
+            "type": "object",
+            "properties": {
+                "customers":{
+                  "type":"object",
+                  "properties":{
+                   "$ref":"#/definitions/Customer or User"
+                  }
+                },
+                "products": {
+                    "type": "objects",
+                    "properties":{
+                      "$ref":"#/definitions/Product"
                     }
+                },
+                "payment": {
+                    "type": "object",
+                    "properties":{
+                     "$ref":"#/definitions/payment"
+                    }
+                },
+                "status": {
+                    "type": "string"
+                },
+                "order_datetime": {
+                    "type": "string",
+                    "format":"datetime"
+                },
+                "exp_delivery_date": {
+                    "type": "string",
+                    "format":"datetime"
                 }
             },
-            "/product/create/":{
-                "post": {
-                    "summary": "create a Product",
-                    "description": "Create a product",
-                    "operationId": "create_product",
-                    "parameters": [
-                        {
-                            "$ref": "#/parameters/BasicProduct"
+            "required": [
+                "customers",
+                "products",
+                "payment",
+                "status",
+                "order_datetime",
+                "exp_delivery_date"
+            
+            ]
+        },
+        "Order": {
+            "allOf": [
+                {
+                    "$ref": "#/definitions/BasicOrder"
+                },
+                {
+                    "$ref": "#/definitions/OrderId"
+                }
+            ]
+        },
+        "OrderWithExtraFields": {
+            "allOf": [
+                {
+                    "$ref": "#/definitions/Order"
+                },
+                {
+                    "type": "object",
+                    "properties": {
+                        "createdOn": {
+                            "type": "string",
+                            "format": "datetime"
+                        },
+                        "OrderId": {
+                            "type": "integer"
+
                         }
-                    ],
-                    "responses": {
-                        "200": {
-                            "description": "create a Product",
-                            "schema": {
-                                "$ref": "#/definitions/ProductId"
+                    },
+                    "required": [
+                        "createdOn",
+                        "ProductId"
+                    ]
+                }
+            ]
+        },
+
+        "PaymentId": {
+            "type": "object",
+            "properties": {
+                "id": {
+                    "type": "integer"
+                }
+            }
+        },
+        "BasicPayment": {
+            "type": "object",
+            "properties": {
+                "amount":{
+                  "type":"number",
+                  "format":"float"
+                },
+                "method": {
+                    "type": "string"
+                },
+                "created_at": {
+                    "type": "string",
+                    "format":"datetime"
+                }
+                
+            },
+            "required": [
+                "amount",
+                "method",
+                "created_at"
+            
+            ]
+        },
+        "Payment": {
+            "allOf": [
+                {
+                    "$ref": "#/definitions/BasicPayment"
+                },
+                {
+                    "$ref": "#/definitions/PaymentId"
+                }
+            ]
+        },
+        "PaymentWithExtraFields": {
+            "allOf": [
+                {
+                    "$ref": "#/definitions/Payment"
+                },
+                {
+                    "type": "object",
+                    "properties": {
+                        "createdOn": {
+                            "type": "string",
+                            "format": "datetime"
+                        },
+                        "PaymentId": {
+                            "type": "string"
+                        }
+                    },
+                    "required": [
+                        "createdOn",
+                        "ProductId"
+                    ]
+                }
+            ]
+        }
+
+    },   
+ "parameters": {
+        "ProductId": {
+            "description": "Product id",
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "type": "integer"
+        },
+        "BasicProduct": {
+            "description": "Prodcut Parameter",
+            "in": "body",
+            "name": "todo",
+            "required": true,
+            "schema": {
+                "$ref": "#/definitions/BasicProduct"
+            }
+        },
+        "CreateNewProductParameter": {
+            "name": "person",
+            "in": "body",
+            "description": "The product to create.",
+            "schema": {
+                "$ref": "#/definitions/Product"
+            }
+        },
+        "OrderId": {
+            "description": "Order id",
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "type": "integer"
+        },
+        "BasicOrder": {
+            "description": "Order Parameter",
+            "in": "body",
+            "name": "order",
+            "required": true,
+            "schema": {
+                "$ref": "#/definitions/BasicOrder"
+            }
+        },
+        "CreateNewOrderParameter": {
+            "name": "person",
+            "in": "body",
+            "description": "The product to create.",
+            "schema": {
+                "$ref": "#/definitions/Order"
+            }
+        },
+        "PaymentId": {
+            "description": "payment id",
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "type": "integer"
+        },
+        "BasicPayment": {
+            "description": "Payment Parameter",
+            "in": "body",
+            "name": "order",
+            "required": true,
+            "schema": {
+                "$ref": "#/definitions/BasicPayment"
+            }
+        },
+
+        "CreateNewPaymentParameter": {
+            "name": "paymet",
+            "in": "body",
+            "description": "The payment to create.",
+            "schema": {
+                "$ref": "#/definitions/Payment"
+            }
+        }
+
+    },
+    "responses": {
+        "SuccessResponse": {
+            "description": "success response"
+        },
+        "CreateNewProductResponse": {
+            "description": "Success Response",
+            "schema": {
+                "$ref": "#/definitions/ProductWithExtraFields"
+            }
+        },
+        "CreateNewOrderResponse": {
+            "description": "Success Response",
+            "schema": {
+                "$ref": "#/definitions/OrderWithExtraFields"
+            }
+        },
+
+        "CreateNewPaymentResponse": {
+            "description": "Success Response",
+            "schema": {
+                "$ref": "#/definitions/PaymentWithExtraFields"
+            }
+        }
+
+    },
+    "paths": {
+        "/products/": {
+            "get": {
+                "summary": "Get all products",
+                "description": "Returns a list containing all products.",
+                "operationId": "get_products",
+                "responses": {
+                    "200": {
+                        "description": "A list of products",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/Product"
                             }
                         }
                     }
+                }
+            }
+        },
+        "/product/create/": {
+            "post": {
+                "operationId": "create_person",
+                "summary": "Create New Product",
+                "description": "Creates a new product and return the product object. This api is not idempotent.",
+                "parameters": [
+                    {
+                        "$ref": "#/parameters/CreateNewProductParameter"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "$ref": "#/responses/CreateNewProductResponse"
+                    }
+                }
+            }
+        },
+        "/product/update/{id}":{
+            "put":{
+                "parameters": [
+                {
+                    "$ref": "#/parameters/ProductId"
+                }
+            ],
+            "summary": "Updates a Product",
+            "description": "Updates a Product.",
+            "operationId": "update_product",
+            "responses": {
+                "200": {
+                    "description":"A product updated Successfully.....!"
                 }
             }
         }
+        },
+        "/product/delete/{id}":{
+            "delete":{
+                "summary": "Deletes a Product",
+                "description": "Deletes a Product.",
+                "operationId": "delete_product",
+                "parameters":[
+                {
+                "name": "id",
+                            "in": "path",
+                            "required": true,
+                            "description": "The person's username",
+                            "type": "string"
+                }
+                ],
+                "responses":{
+                    "200":[
+                        {
+                        "$ref":"#/definitions/ProductId"
+                        },
+                        {
+                        "$ref":"#/responses/SuccessResponse"
+                    }
+                ]
+                }
+            },
+        "/orders/":{
+            "get": {
+                "summary": "Get all orders",
+                "description": "Returns a list containing all orders.",
+                "operationId": "get_orders",
+                "responses": {
+                    "200": {
+                        "description": "A list of orders",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/Order"
+                            }
+                        }
+                    }
+                }
+            }        
+            
+            }
+
+        }
     }
-    
+}
+

@@ -12,10 +12,11 @@ def run():
         category="Cloth",
         stock_quantity=10
     )
+    
+    order = Order.objects.create(customer=customer,status="Pending")
 
-    order = Order.objects.create(customer=customer, status="Pending")
     OrderItem.objects.create(order=order, product=product5, quantity=1)
 
     Payment.objects.create(order=order, amount=999.99, method="PayPal")
-
+    
     Feedback.objects.create(product=product5, customer=customer, rating=4.3, review="Excellent!")
