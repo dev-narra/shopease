@@ -116,160 +116,8 @@
                     ]
                 }
             ]
-        },
-
-         "OrderId": {
-            "type": "object",
-            "properties": {
-                "id": {
-                    "type": "integer"
-                }
-            }
-        },
-        "BasicOrder": {
-            "type": "object",
-            "properties": {
-                "customers":{
-                  "type":"object",
-                  "properties":{
-                   "$ref":"#/definitions/Customer or User"
-                  }
-                },
-                "products": {
-                    "type": "objects",
-                    "properties":{
-                      "$ref":"#/definitions/Product"
-                    }
-                },
-                "payment": {
-                    "type": "object",
-                    "properties":{
-                     "$ref":"#/definitions/payment"
-                    }
-                },
-                "status": {
-                    "type": "string"
-                },
-                "order_datetime": {
-                    "type": "string",
-                    "format":"datetime"
-                },
-                "exp_delivery_date": {
-                    "type": "string",
-                    "format":"datetime"
-                }
-            },
-            "required": [
-                "customers",
-                "products",
-                "payment",
-                "status",
-                "order_datetime",
-                "exp_delivery_date"
-            
-            ]
-        },
-        "Order": {
-            "allOf": [
-                {
-                    "$ref": "#/definitions/BasicOrder"
-                },
-                {
-                    "$ref": "#/definitions/OrderId"
-                }
-            ]
-        },
-        "OrderWithExtraFields": {
-            "allOf": [
-                {
-                    "$ref": "#/definitions/Order"
-                },
-                {
-                    "type": "object",
-                    "properties": {
-                        "createdOn": {
-                            "type": "string",
-                            "format": "datetime"
-                        },
-                        "OrderId": {
-                            "type": "integer"
-
-                        }
-                    },
-                    "required": [
-                        "createdOn",
-                        "ProductId"
-                    ]
-                }
-            ]
-        },
-
-        "PaymentId": {
-            "type": "object",
-            "properties": {
-                "id": {
-                    "type": "integer"
-                }
-            }
-        },
-        "BasicPayment": {
-            "type": "object",
-            "properties": {
-                "amount":{
-                  "type":"number",
-                  "format":"float"
-                },
-                "method": {
-                    "type": "string"
-                },
-                "created_at": {
-                    "type": "string",
-                    "format":"datetime"
-                }
-                
-            },
-            "required": [
-                "amount",
-                "method",
-                "created_at"
-            
-            ]
-        },
-        "Payment": {
-            "allOf": [
-                {
-                    "$ref": "#/definitions/BasicPayment"
-                },
-                {
-                    "$ref": "#/definitions/PaymentId"
-                }
-            ]
-        },
-        "PaymentWithExtraFields": {
-            "allOf": [
-                {
-                    "$ref": "#/definitions/Payment"
-                },
-                {
-                    "type": "object",
-                    "properties": {
-                        "createdOn": {
-                            "type": "string",
-                            "format": "datetime"
-                        },
-                        "PaymentId": {
-                            "type": "string"
-                        }
-                    },
-                    "required": [
-                        "createdOn",
-                        "ProductId"
-                    ]
-                }
-            ]
         }
-
-    },   
+    },
  "parameters": {
         "ProductId": {
             "description": "Product id",
@@ -294,57 +142,8 @@
             "schema": {
                 "$ref": "#/definitions/Product"
             }
-        },
-        "OrderId": {
-            "description": "Order id",
-            "in": "path",
-            "name": "id",
-            "required": true,
-            "type": "integer"
-        },
-        "BasicOrder": {
-            "description": "Order Parameter",
-            "in": "body",
-            "name": "order",
-            "required": true,
-            "schema": {
-                "$ref": "#/definitions/BasicOrder"
-            }
-        },
-        "CreateNewOrderParameter": {
-            "name": "person",
-            "in": "body",
-            "description": "The product to create.",
-            "schema": {
-                "$ref": "#/definitions/Order"
-            }
-        },
-        "PaymentId": {
-            "description": "payment id",
-            "in": "path",
-            "name": "id",
-            "required": true,
-            "type": "integer"
-        },
-        "BasicPayment": {
-            "description": "Payment Parameter",
-            "in": "body",
-            "name": "order",
-            "required": true,
-            "schema": {
-                "$ref": "#/definitions/BasicPayment"
-            }
-        },
-
-        "CreateNewPaymentParameter": {
-            "name": "paymet",
-            "in": "body",
-            "description": "The payment to create.",
-            "schema": {
-                "$ref": "#/definitions/Payment"
-            }
         }
-
+   
     },
     "responses": {
         "SuccessResponse": {
@@ -354,19 +153,6 @@
             "description": "Success Response",
             "schema": {
                 "$ref": "#/definitions/ProductWithExtraFields"
-            }
-        },
-        "CreateNewOrderResponse": {
-            "description": "Success Response",
-            "schema": {
-                "$ref": "#/definitions/OrderWithExtraFields"
-            }
-        },
-
-        "CreateNewPaymentResponse": {
-            "description": "Success Response",
-            "schema": {
-                "$ref": "#/definitions/PaymentWithExtraFields"
             }
         }
 
@@ -424,52 +210,27 @@
             }
         }
         },
-        "/product/delete/{id}":{
-            "delete":{
-                "summary": "Deletes a Product",
-                "description": "Deletes a Product.",
-                "operationId": "delete_product",
-                "parameters":[
-                {
-                "name": "id",
-                            "in": "path",
-                            "required": true,
-                            "description": "The person's username",
-                            "type": "string"
-                }
-                ],
-                "responses":{
-                    "200":[
-                        {
-                        "$ref":"#/definitions/ProductId"
-                        },
-                        {
-                        "$ref":"#/responses/SuccessResponse"
-                    }
-                ]
-                }
-            },
-        "/orders/":{
-            "get": {
-                "summary": "Get all orders",
-                "description": "Returns a list containing all orders.",
-                "operationId": "get_orders",
-                "responses": {
-                    "200": {
-                        "description": "A list of orders",
-                        "schema": {
-                            "type": "array",
-                            "items": {
-                                "$ref": "#/definitions/Order"
-                            }
-                        }
-                    }
-                }
-            }        
-            
-            }
-
+        "/product/delete/{id}": {
+    "delete": {
+      "summary": "Delete a product",
+      "description": "Deletes a product by its ID.",
+    "operationId": "delete_product",
+      "parameters": [
+        {
+          "name": "id",
+          "in": "path",
+          "required": true,
+          "type": "string",
+          "description": "The ID of the product to delete"
         }
+      ],
+      "responses": {
+        "200": {
+          "description": "Product deleted successfully"
+        }
+      }
     }
-}
+  }
+    }
+  }
 

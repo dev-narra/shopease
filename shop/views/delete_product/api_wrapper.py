@@ -6,6 +6,7 @@ from .validator_class import ValidatorClass
 @validate_decorator(validator_class=ValidatorClass)
 def api_wrapper(*args, **kwargs):
     # ---------MOCK IMPLEMENTATION---------
+    print(**kwargs)
 
     try:
         from shop.views.delete_product.request_response_mocks \

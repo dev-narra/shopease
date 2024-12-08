@@ -6,7 +6,7 @@ from shop.build.view_environments.product_update__id_.update_product.UpdateProdu
 
 options = {
     'METHOD': 'PUT',
-    'REQUEST_WRAPPING_REQUIRED': True,
+    'REQUEST_WRAPPING_REQUIRED': False,
     'REQUEST_ENCRYPTION_REQUIRED': False,
     'REQUEST_IS_PARTIAL': False,
     'PARSER_CLASSES': [
@@ -18,7 +18,7 @@ options = {
     'REQUEST_QUERY_PARAMS_SERIALIZER': None,
     'REQUEST_HEADERS_SERIALIZER': None,
     'REQUEST_PATH_PARAMS_SERIALIZER': UpdateProductRequestPathParamSerializer,
-    'DEFAULT_REQUEST_PATH_PARAMS': {"id": 906},
+    'DEFAULT_REQUEST_PATH_PARAMS': {"id": 477},
     'REQUEST_SERIALIZER': None,
     'REQUEST_SERIALIZER_MANY_ITEMS': False,
     'RESPONSE': {

@@ -6,7 +6,7 @@ from shop.build.view_environments.product_delete__id_.delete_product.DeleteProdu
 
 options = {
     'METHOD': 'DELETE',
-    'REQUEST_WRAPPING_REQUIRED': True,
+    'REQUEST_WRAPPING_REQUIRED': False,
     'REQUEST_ENCRYPTION_REQUIRED': False,
     'REQUEST_IS_PARTIAL': False,
     'PARSER_CLASSES': [

@@ -19,7 +19,7 @@ class DeleteProductRequestPathParamType(object):
 
 
 class DeleteProductRequestPathParamSerializer(serializers.Serializer):
-    id = serializers.CharField(help_text="The person's username")
+    id = serializers.CharField(help_text="The ID of the product to delete")
 
     def create(self, validated_data):
         return DeleteProductRequestPathParamType(**validated_data)
