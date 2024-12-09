@@ -1,12 +1,10 @@
 from django.db import models
-from .product import Product
-from .user import User
-
-
+from .products import Product
+from .customer import Customer
 
 class Feedback(models.Model):
     product = models.ForeignKey(Product, on_delete=models.CASCADE, related_name='feedback')
-    customer = models.ForeignKey(User, on_delete=models.CASCADE, limit_choices_to={'is_customer': True})
+    customer = models.ForeignKey(Customer, on_delete=models.CASCADE, limit_choices_to={'is_customer': True})
     rating = models.FloatField()
     review = models.TextField(blank=True, null=True)
     created_at = models.DateTimeField(auto_now_add=True)

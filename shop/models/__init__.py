@@ -1,17 +1,19 @@
 from .user import User
-from .order import Order
-from .product import Product
-from .order_item import OrderItem
+# from .order import Order
+from .products import Product
+# from .order_item import OrderItem
 from .payment import Payment
 from .feedback import Feedback
+from .customer import Customer
 
 __all__ = [
-  'User',
+  'User'
   'Product',
-  'Order',
-  'OrderItem',
+  # 'Order',
+  # 'OrderItem',
   'Payment',
-  "Feedback"
+  "Feedback",
+  "Customer"
 ]
 
 # class DummyModel(AbstractDateTimeModel):

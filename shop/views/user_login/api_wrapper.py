@@ -20,7 +20,7 @@ def api_wrapper(*args, **kwargs):
             user = User.objects.get(email=user_email)
         except ObjectDoesNotExist:
             return JsonResponse({'error': f'User with email {user_email} does not exist'}, status=404)
-        user = user.user_id
+        user = user.id
         service_interface = ServiceInterface()
         auth_tokens = service_interface.create_auth_tokens_for_user(user)
         data = {

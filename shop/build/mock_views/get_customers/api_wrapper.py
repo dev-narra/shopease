@@ -2,13 +2,13 @@ from dsu.dsu_gen.openapi.decorator.interface_decorator import \
     validate_decorator
 from .validator_class import ValidatorClass
 from django.http import HttpResponse,JsonResponse
-from shop.models import User
+from shop.models import Customer
 
 @validate_decorator(validator_class=ValidatorClass)
 def api_wrapper(*args, **kwargs):
     # ---------MOCK IMPLEMENTATION---------
 
-    response=User.objects.filter(is_customer==True).select_related('is_customer')
+    response=User.objects.all()
     return JsonResponse(response)
 
    

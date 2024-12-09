@@ -6,6 +6,30 @@ from .validator_class import ValidatorClass
 @validate_decorator(validator_class=ValidatorClass)
 def api_wrapper(*args, **kwargs):
     # ---------MOCK IMPLEMENTATION---------
+    user = kwargs['user']  
+    request_data = kwargs['request_data']  
+    name = request_data['name']
+    email = request_data['email']
+    phone = request_data['phone']
+    address = request_data['address']
+
+
+    customer = create_customer(
+        user_id=user.id,
+        name=name,
+        email=email,
+        phone=phone,
+        address=address
+    )
+
+    # Prepare the response data
+    data = json.dumps({
+        'customer_id': customer.id,
+        'message': 'Customer created successfully'
+    })
+    response = HttpResponse(data, status=201, content_type='application/json')
+
+
 
     try:
         from shop.views.create_customer.request_response_mocks \
