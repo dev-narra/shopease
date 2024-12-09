@@ -1,11 +1,43 @@
 from dsu.dsu_gen.openapi.decorator.interface_decorator import \
     validate_decorator
 from .validator_class import ValidatorClass
+from shop.models import Product
 
 
 @validate_decorator(validator_class=ValidatorClass)
 def api_wrapper(*args, **kwargs):
     # ---------MOCK IMPLEMENTATION---------
+    request_data = kwargs.get('request_data', {})
+    name=request_data.get('name')
+    description=request_data.get('description')
+    price=request_data.get('price')
+    mfg_date=request_data.get('mfg_date')
+    exp_date=request_data.get('exp_date')
+    category=request_data.get('category')
+    stock_quantity=request_data.get('stcok_quantity')
+
+    product=Product.objects.create(
+        name=name,
+        description=description,
+        price=price,
+        mfg_date=mfg_date,
+        exp_date=exp_date,
+        category=category,
+        stcok_quantity=stock_quantity
+    )
+
+    response_data = {
+            "id": product.id,
+            "name": product.name,
+            "description": product.description,
+            "price": product.price,
+            "mfg_date": product.mfg_date,
+            "exp_date": product.exp_date,
+            "category": product.category,
+            "stock_quantity": product.stock_quantity,
+        }
+    return JsonResponse(response_data, status=201)
+
 
     try:
         from shop.views.create_product.request_response_mocks \

@@ -1,31 +1,10 @@
 from django.db import models
-from django.contrib.auth.models import AbstractUser,PermissionsMixin,Group
+import uuid
 
-
-# User model
-class User(AbstractUser,PermissionsMixin):
+class User(models.Model):
+    user_id = models.UUIDField(default=uuid.uuid1, editable=False, unique=True)
     email = models.EmailField(unique=True)
     username=models.CharField(max_length=100)
+    password=models.CharField(max_length=10)
     is_admin = models.BooleanField(default=False)
     is_customer = models.BooleanField(default=True)
-
-    user_permissions = models.ManyToManyField(
-        'auth.Permission',
-        verbose_name='user permissions',
-        blank=True,
-        related_name='custom_user_set'  
-    )
-
-    groups = models.ManyToManyField(
-        Group,
-        related_name="custom_user_groups",  
-        blank=True,
-    )
-
-
-    USERNAME_FIELD = 'email'
-    REQUIRED_FIELDS = ['username']
-
-    def __str__(self):
-        return self.email
-

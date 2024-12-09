@@ -7,13 +7,14 @@ from dsu.dsu_gen.openapi.fields.collection_format_field import CollectionFormatF
 
 
 class BasicProductType(object):
-    def __init__(self, description, name, stock_quantity, exp_date, mfg_date, price,  **kwargs):
+    def __init__(self, description, name, stock_quantity, exp_date, mfg_date, price, category=None,  **kwargs):
         self.description = description
         self.name = name
         self.stock_quantity = stock_quantity
         self.exp_date = exp_date
         self.mfg_date = mfg_date
         self.price = price
+        self.category = category
 
     def __str__(self):
         from dsu.dsu_gen.openapi.utils.get_unicode_str import get_unicode_str
@@ -29,6 +30,7 @@ class BasicProductSerializer(serializers.Serializer):
     price = serializers.FloatField()
     mfg_date = serializers.CharField()
     exp_date = serializers.CharField()
+    category = serializers.CharField(required=False, allow_blank=True, allow_null=True)
     stock_quantity = serializers.FloatField()
 
     def create(self, validated_data):

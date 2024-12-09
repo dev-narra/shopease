@@ -42,6 +42,59 @@
                 "res_status"
             ]
         },
+
+"LoginRequest": {
+  "type": "object",
+  "properties": {
+    "email": {
+      "type": "string",
+      "format": "email",
+      "description": "The email address used for login.",
+      "example": "user@example.com"
+    },
+    "password": {
+      "type": "string",
+      "format": "password",
+      "description": "The password for the user's account.",
+      "example": "securePassword123"
+    }
+  },
+  "required": ["email", "password"]
+},
+
+"LoginResponse": {
+  "type": "object",
+  "properties": {
+    "token": {
+      "type": "string",
+      "description": "The generated secure token for authentication.",
+      "example": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjEsImVtYWlsIjoidXNlckBleGFtcGxlLmNvbSIsImlhdCI6MTYzMTIxOTAyMn0.XYZ123abc"
+    },
+    "user": {
+      "type": "object",
+      "description": "Details of the authenticated user.",
+      "properties": {
+        "id": {
+          "type": "integer",
+          "description": "The unique ID of the user.",
+          "example": 1
+        },
+        "email": {
+          "type": "string",
+          "format": "email",
+          "description": "The email address of the user.",
+          "example": "user@example.com"
+        },
+        "role": {
+          "type": "string",
+          "description": "The role of the user (Admin or Customer).",
+          "example": "Admin"
+        }
+      }
+    }
+  }
+},
+
         "ProductId": {
             "type": "object",
             "properties": {
@@ -68,6 +121,9 @@
                 },
                 "exp_date": {
                     "type": "string"
+                },
+                "category":{
+                     "type":"string"
                 },
                 "stock_quantity": {
                     "type": "number",
@@ -116,9 +172,281 @@
                     ]
                 }
             ]
+        },
+        "Customer": {
+        "type": "object",
+        "properties": {
+          "id": { "type": "string" },
+          "name": { "type": "string" },
+          "email": { "type": "string" },
+          "phone": { "type": "string" },
+          "address": { "type": "string" }
         }
+      },
+      "CustomerList": {
+        "type": "object",
+        "properties": {
+          "customers": {
+            "type": "array",
+            "items": { "$ref": "#/definitions/Customer" }
+          },
+          "total": { "type": "integer" },
+          "page": { "type": "integer" },
+          "size": { "type": "integer" }
+        }
+      },
+      "CustomerWithExtraFields": {
+        "allOf": [
+            {
+                "$ref": "#/definitions/Customer"
+            },
+            {
+                "type": "object",
+                "properties": {
+                    "createdOn": {
+                        "type": "string",
+                        "format": "datetime"
+                    },
+                    "ProductId": {
+                        "type": "string"
+                    }
+                },
+                "required": [
+                    "createdOn",
+                    "ProductId"
+                ]
+            }
+        ]
+    },
+      "Payment": {
+        "type": "object",
+        "properties": {
+          "id": { "type": "string" },
+          "order_id": { "type": "string" },
+          "amount": { "type": "number", "format": "float"},
+          "method": { "type": "string", "enum": ["Card", "NetBanking", "UPI", "COD"] },
+          "status": { "type": "string", "enum": ["Success", "Pending", "Failed"] },
+          "transaction_date": { "type": "string", "format": "date-time" }
+        }
+      },
+      "PaymentList": {
+        "type": "object",
+        "properties": {
+          "payments": {
+            "type": "array",
+            "items": { "$ref": "#/definitions/Payment" }
+          },
+          "total": { "type": "integer" },
+          "page": { "type": "integer" },
+          "size": { "type": "integer" }
+        }
+      },
+
+"CreatePaymentRequest": {
+  "type": "object",
+  "properties": {
+    "orderId": {
+      "type": "integer",
+      "description": "The unique ID of the order for which the payment is being made."
+    },
+    "amount": {
+      "type": "number",
+      "format": "float",
+      "description": "The payment amount for the order."
+    },
+    "paymentMethod": {
+      "type": "string",
+      "enum": ["Credit Card", "Debit Card", "PayPal", "Bank Transfer"],
+      "description": "The method of payment."
+    },
+    "paymentDate": {
+      "type": "string",
+      "format": "date-time",
+      "description": "The date and time when the payment was made."
+    }
+  },
+  "required": ["orderId", "amount", "paymentMethod"]
+},
+
+      "RefundPaymentRequest": {
+    "type": "object",
+    "properties": {
+      "refundAmount": {
+        "type": "number",
+        "format": "float",
+        "example": 100.00
+      },
+      "reason": {
+        "type": "string",
+        "example": "Product returned"
+      }
+    },
+    "required": ["refundAmount"]
+  },
+  "RefundedPayment": {
+    "type": "object",
+    "properties": {
+      "paymentId": {
+        "type": "integer",
+        "example": 123
+      },
+      "orderId": {
+        "type": "integer",
+        "example": 456
+      },
+      "customerId": {
+        "type": "integer",
+        "example": 789
+      },
+      "refundAmount": {
+        "type": "number",
+        "format": "float",
+        "example": 100.00
+      },
+      "status": {
+        "type": "string",
+        "example": "Refunded"
+      },
+      "refundDate": {
+        "type": "string",
+        "format": "date-time",
+        "example": "2024-12-01T12:34:56Z"
+      }
+    }
+  },
+       "UpdatePaymentRequest": {
+    "type": "object",
+    "properties": {
+      "amount": {
+        "type": "number",
+        "format": "float",
+        "example": 250.75
+      },
+      "method": {
+        "type": "string",
+        "example": "Debit Card"
+      }
+    },
+    "required": ["amount", "method"]
+  },
+      "Order": {
+        "type": "object",
+        "properties": {
+          "id": { "type": "string" },
+          "products": {
+            "type": "array",
+            "items": { "$ref": "#/definitions/Product" }
+          },
+          "customer": { "$ref": "#/definitions/Customer" },
+          "payment": { "$ref": "#/definitions/Payment" },
+          "status": { "type": "string", "enum": ["Pending", "Shipped", "Delivered", "Cancelled"] },
+          "expected_delivery_date": { "type": "string", "format": "date" },
+          "order_datetime": { "type": "string", "format": "date-time" }
+        }
+      },
+      "OrderList": {
+        "type": "object",
+        "properties": {
+          "orders": {
+            "type": "array",
+            "items": { "$ref": "#/definitions/Order" }
+          },
+          "total": { "type": "integer" },
+          "page": { "type": "integer" },
+          "size": { "type": "integer" }
+        }
+      },
+      "FeedbackList": {
+    "type": "object",
+    "properties": {
+      "total": {
+        "type": "integer",
+        "example": 100
+      },
+      "limit": {
+        "type": "integer",
+        "example": 10
+      },
+      "offset": {
+        "type": "integer",
+        "example": 0
+      },
+      "feedback": {
+        "type": "array",
+        "items": {
+          "$ref": "#/definitions/Feedback"
+        }
+      }
+    }
+  },
+  "Feedback": {
+    "type": "object",
+    "properties": {
+      "rating": {
+        "type": "number",
+        "format": "float",
+        "minimum": 1,
+        "maximum": 5,
+        "example": 4.5
+      },
+      "review": {
+        "type": "string",
+        "example": "This product is great! Highly recommended."
+      }
+    },
+    "required": ["rating"]
+  },
+  "UpdateFeedbackRequest": {
+    "type": "object",
+    "properties": {
+      "rating": {
+        "type": "number",
+        "description": "The new rating for the product, a number between 1 and 5.",
+        "example": 4.5,
+        "minimum": 1,
+        "maximum": 5
+      },
+      "review": {
+        "type": "string",
+        "description": "The new review text for the product.",
+        "example": "Great product! Highly recommend it."
+      }
+    },
+    "required": ["rating", "review"],
+    "additionalProperties": false
+  },
+  "AddFeedbackRequest": {
+  "type": "object",
+  "properties": {
+    "rating": {
+      "type": "number",
+      "format": "float",
+      "description": "The rating for the product, ranging from 1 to 5.",
+      "minimum": 1,
+      "maximum": 5
+    },
+    "review": {
+      "type": "string",
+      "description": "The written review for the product.",
+      "example": "Excellent product! Highly recommended."
+    }
+  },
+  "required": ["rating"]
+}
+
+
+
     },
  "parameters": {
+         "LoginRequestParameter": {
+        "name":"login",
+    "in": "body",
+    "description": "User login credentials including email and password.",
+    "required": true,
+    "schema": {
+      "$ref": "#/definitions/LoginRequest"
+    }
+  },
         "ProductId": {
             "description": "Product id",
             "in": "path",
@@ -129,108 +457,1047 @@
         "BasicProduct": {
             "description": "Prodcut Parameter",
             "in": "body",
-            "name": "todo",
+            "name": "product",
             "required": true,
             "schema": {
                 "$ref": "#/definitions/BasicProduct"
             }
         },
         "CreateNewProductParameter": {
-            "name": "person",
+            "name": "product",
             "in": "body",
             "description": "The product to create.",
             "schema": {
                 "$ref": "#/definitions/Product"
             }
-        }
+        },
+        "CreateNewCustomerParameter": {
+            "name": "customer",
+            "in": "body",
+            "description": "The customer to create.",
+            "schema": {
+                "$ref": "#/definitions/Customer"
+            }
+        },
+        "CreateNewOrderParameter": {
+          "name":"order",
+    "in": "body",
+    "description": "The order details including the selected products and their quantities.",
+    "required": true,
+    "schema": {
+      "$ref": "#/definitions/Order"
+    }
+  },
+  "CreateNewPaymentParameter": {
+    "name":"payment",
+    "in": "body",
+    "description": "The payment details including the order ID, amount, and payment method.",
+    "required": true,
+    "schema": {
+      "$ref": "#/definitions/CreatePaymentRequest"
+    }
+  },
+  "AddFeedbackParameter": {
+    "name":"feedback",
+    "in": "body",
+    "description": "The feedback details including the rating and review.",
+    "required": true,
+    "schema": {
+      "$ref": "#/definitions/AddFeedbackRequest"
+    }
+  }
    
     },
     "responses": {
         "SuccessResponse": {
             "description": "success response"
         },
+        "LoginSuccessResponse": {
+    "description": "User authenticated successfully. Returns user details and secure token.",
+    "schema": {
+      "$ref": "#/definitions/LoginResponse"
+    }
+  },
         "CreateNewProductResponse": {
             "description": "Success Response",
             "schema": {
                 "$ref": "#/definitions/ProductWithExtraFields"
             }
-        }
+        },
+        "CreateNewCustomerResponse": {
+            "description": "Success Response",
+            "schema": {
+                "$ref": "#/definitions/CustomerWithExtraFields"
+            }
+        },
+        "CreateNewOrderResponse": {
+    "description": "Order created successfully.",
+    "schema": {
+      "$ref": "#/definitions/Order"
+    }
+  },
+  "CreateNewPaymentResponse": {
+    "description": "Payment recorded successfully.",
+    "schema": {
+      "$ref": "#/definitions/Payment"
+    }
+  },
+  "AddFeedbackResponse": {
+    "description": "Feedback added successfully.",
+    "schema": {
+      "$ref": "#/definitions/Feedback"
+    }
+  }
 
     },
     "paths": {
-        "/products/": {
-            "get": {
-                "summary": "Get all products",
-                "description": "Returns a list containing all products.",
-                "operationId": "get_products",
-                "responses": {
-                    "200": {
-                        "description": "A list of products",
-                        "schema": {
-                            "type": "array",
-                            "items": {
-                                "$ref": "#/definitions/Product"
-                            }
-                        }
-                    }
-                }
+      "/auth/login/": {
+  "post": {
+    "operationId": "user_login",
+    "summary": "Login and Token Generation",
+    "description": "Authenticate users (Admin or Customer) using their email and password, and generate secure tokens.",
+    "parameters": [
+      {
+        "$ref": "#/parameters/LoginRequestParameter"
+      }
+    ],
+    "responses": {
+      "200": {
+        "$ref": "#/responses/LoginSuccessResponse"
+      },
+      "401": {
+        "description": "Authentication failed.",
+        "schema": {
+          "type": "object",
+          "properties": {
+            "error": {
+              "type": "string",
+              "example": "Invalid email or password."
             }
-        },
-        "/product/create/": {
-            "post": {
-                "operationId": "create_person",
-                "summary": "Create New Product",
-                "description": "Creates a new product and return the product object. This api is not idempotent.",
-                "parameters": [
-                    {
-                        "$ref": "#/parameters/CreateNewProductParameter"
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "$ref": "#/responses/CreateNewProductResponse"
-                    }
-                }
-            }
-        },
-        "/product/update/{id}":{
-            "put":{
-                "parameters": [
-                {
-                    "$ref": "#/parameters/ProductId"
-                }
-            ],
-            "summary": "Updates a Product",
-            "description": "Updates a Product.",
-            "operationId": "update_product",
-            "responses": {
-                "200": {
-                    "description":"A product updated Successfully.....!"
-                }
-            }
+          }
         }
-        },
-        "/product/delete/{id}": {
-    "delete": {
-      "summary": "Delete a product",
-      "description": "Deletes a product by its ID.",
-    "operationId": "delete_product",
-      "parameters": [
-        {
-          "name": "id",
-          "in": "path",
-          "required": true,
-          "type": "string",
-          "description": "The ID of the product to delete"
-        }
-      ],
-      "responses": {
-        "200": {
-          "description": "Product deleted successfully"
+      },
+      "400": {
+        "description": "Invalid input data.",
+        "schema": {
+          "type": "object",
+          "properties": {
+            "error": {
+              "type": "string",
+              "example": "Email and password are required."
+            }
+          }
         }
       }
     }
   }
+},
+"/products/": {
+    "get": {
+      "summary": "List all products",
+      "description": "Retrieve a paginated list of all available products.",
+      "operationId": "get_products",
+      "parameters": [
+        {
+          "name": "limit",
+          "in": "query",
+          "description": "The number of results per page for paginated results.",
+          "required": false,
+          "type": "integer",
+          "minimum": 1
+        },
+        {
+          "name": "offset",
+          "in": "query",
+          "description": "The starting point of the page of results to retrieve (e.g., offset = page_number * limit).",
+          "required": false,
+          "type": "integer",
+          "minimum": 0
+        }
+      ],
+      "responses": {
+        "200": {
+          "description": "A paginated list of products.",
+          "schema": {
+            "$ref": "#/definitions/Product"
+          }
+        }
+      }
+    }
+            }, 
+        "/products/search/": {
+    "get": {
+      "summary": "Search products",
+      "description": "Search for products using name or category as query parameters.",
+      "operationId": "search_products",
+      "parameters": [
+        {
+          "name": "name",
+          "in": "query",
+          "description": "The name of the product to search for.",
+          "required": false,
+          "type": "string"
+        },
+        {
+          "name": "category",
+          "in": "query",
+          "description": "The category of the product to search for.",
+          "required": false,
+          "type": "string"
+        }
+      ],
+      "responses": {
+        "200": {
+          "description": "A list of products matching the search criteria.",
+          "schema": {
+            "$ref": "#/definitions/Product"
+          }
+        }
+      }
+    }
+  }, 
+          "/product/create/": {
+              "post": {
+                  "operationId": "create_product",
+                  "summary": "Create New Product",
+                  "description": "Creates a new product and return the product object. This api is not idempotent.",
+                  "parameters": [
+                      {
+                          "$ref": "#/parameters/CreateNewProductParameter"
+                      }
+                  ],
+                  "responses": {
+                      "200": {
+                          "$ref": "#/responses/CreateNewProductResponse"
+                      }
+                  }
+              }
+          },
+          "/product/update/{id}/":{
+              "put":{
+                  "parameters": [
+                  {
+                      "$ref": "#/parameters/ProductId"
+                  }
+              ],
+              "summary": "Updates a Product",
+              "description": "Updates a Product.",
+              "operationId": "update_product",
+              "responses": {
+                  "200": {
+                      "description":"A product updated Successfully.....!"
+                  }
+              }
+          }
+          },
+          "/product/delete/{id}/": {
+      "delete": {
+        "summary": "Delete a product",
+        "description": "Deletes a product by its ID.",
+      "operationId": "delete_product",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "string",
+            "description": "The ID of the product to delete"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Product deleted successfully"
+          }
+        }
+      }
+           },
+          "/products/low/stock/": {
+        "get": {
+          "summary": "Get low-stock alerts",
+          "description": "Retrieve a list of products with stock below a defined threshold.",
+          "operationId":"get_product_low_stock",
+          "responses": {
+            "200": {
+              "description": "A list of low-stock products.",
+              "schema": {
+              "type": "array",
+              "items": {
+                  "$ref": "#/definitions/Product"
+                      }
+           }
+            }
+          }
+        }
+    },
+    "/customers/": {
+        "get": {
+          "summary": "List all customers",
+          "description": "Retrieve a paginated list of all available customers.",
+          "operationId": "get_customers",
+          "parameters": [
+            {
+              "name": "limit",
+              "in": "query",
+              "description": "The number of results per page for paginated results.",
+              "required": false,
+              "type": "integer",
+              "minimum": 1
+            },
+            {
+              "name": "offset",
+              "in": "query",
+              "description": "The starting point of the page of results to retrieve (e.g., offset = page_number * limit).",
+              "required": false,
+              "type": "integer",
+              "minimum": 0
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "A paginated list of customers.",
+              "schema": {
+                "$ref": "#/definitions/Customer"
+              }
+            }
+          }
+        }
+                },
+                "/customer/create/": {
+                  "post": {
+                      "operationId": "create_customer",
+                      "summary": "Create New customer",
+                      "description": "Creates a new product and return the customer object. This api is not idempotent.",
+                      "parameters": [
+                          {
+                              "$ref": "#/parameters/CreateNewCustomerParameter"
+                          }
+                      ],
+                      "responses": {
+                          "200": {
+                              "$ref": "#/responses/CreateNewCustomerResponse"
+                          }
+                      }
+                  }
+              },
+               "/customers/update/{id}/": {
+            "put": {
+              "operationId": "update_customer",
+              "summary": "Update customer details",
+              "description": "Modify customer information such as address or phone number.",
+              "parameters": [
+                { "name": "id", "in": "path", "required": true, "type":"string"  }
+              ],
+              "responses": {
+                "200": { "description": "Customer successfully updated." }
+              }
+            }
+               },
+               "/customers/delete/{id}/":{
+                "delete": {
+              "operationId": "delete_customer",
+              "summary": "Delete a customer",
+              "description": "Remove a customer from the system.",
+              "parameters": [
+                { "name": "id", "in": "path", "required": true,"type": "string" }
+              ],
+              "responses": {
+                "204": { "description": "Customer successfully deleted." }
+              }
+            }
+               },
+               "/customers/search/": {
+        "get": {
+          "summary": "Search customers",
+          "description": "Search for customers using name or email as query parameters.",
+          "operationId": "search_customers",
+          "parameters": [
+            {
+              "name": "name",
+              "in": "query",
+              "description": "The name of the customer to search for.",
+              "required": false,
+              "type": "string"
+            },
+            {
+              "name": "email",
+              "in": "query",
+              "description": "The email of the customer to search for.",
+              "required": false,
+              "type": "string"
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "A list of customers matching the search criteria.",
+              "schema": {
+                "$ref": "#/definitions/CustomerList"
+              }
+            }
+          }
+        }
+      },
+      "/orders/": {
+  "get": {
+    "summary": "List all orders",
+    "description": "Retrieve a paginated list of all orders placed by customers.",
+    "operationId": "list_orders",
+    "parameters": [
+      {
+        "name": "page",
+        "in": "query",
+        "description": "The page number to retrieve.",
+        "required": false,
+        "type": "integer",
+        "minimum": 1
+      },
+      {
+        "name": "size",
+        "in": "query",
+        "description": "The number of orders per page.",
+        "required": false,
+        "type": "integer",
+        "minimum": 1
+      }
+    ],
+    "responses": {
+      "200": {
+        "description": "A paginated list of orders.",
+        "schema": {
+          "$ref": "#/definitions/OrderList"
+        }
+      }
     }
   }
+},
+"/orders/search/": {
+  "get": {
+    "summary": "Search orders by customer or status",
+    "description": "Search for orders using customer name or order status as query parameters.",
+    "operationId": "search_orders",
+    "parameters": [
+      {
+        "name": "customer",
+        "in": "query",
+        "description": "The name of the customer to search for orders.",
+        "required": false,
+        "type": "string"
+      },
+      {
+        "name": "status",
+        "in": "query",
+        "description": "The status of the order to search (e.g., Pending, Shipped, Delivered).",
+        "required": false,
+        "type": "string"
+      }
+    ],
+    "responses": {
+      "200": {
+        "description": "A list of orders matching the search criteria.",
+        "schema": {
+          "$ref": "#/definitions/OrderList"
+        }
+      }
+    }
+  }
+},
+"/order/create/": {
+  "post": {
+    "operationId": "create_order",
+    "summary": "Create New Order",
+    "description": "Creates a new order and returns the order object. This API is not idempotent.",
+    "parameters": [
+      {
+        "$ref": "#/parameters/CreateNewOrderParameter"
+      }
+    ],
+    "responses": {
+      "200": {
+        "$ref": "#/responses/CreateNewOrderResponse"
+      }
+    }
+  }
+},
+"/orders/{orderId}/status/": {
+  "put": {
+    "summary": "Update order status",
+    "description": "Change the status of an order (e.g., Pending, Shipped, Delivered).",
+    "operationId": "update_order_status",
+    "parameters": [
+      {
+        "name": "orderId",
+        "in": "path",
+        "description": "The ID of the order to update.",
+        "required": true,
+        "type": "integer"
+      },
+      {
+        "name": "status",
+        "in": "body",
+        "description": "The new status for the order.",
+        "required": true,
+        "schema": {
+          "type": "object",
+          "properties": {
+            "status": {
+              "type": "string",
+              "enum": ["Pending", "Shipped", "Delivered", "Canceled"],
+              "description": "The new status of the order."
+            }
+          },
+          "required": ["status"]
+        }
+      }
+    ],
+    "responses": {
+      "200": {
+        "description": "Order status successfully updated.",
+        "schema": {
+          "type": "object",
+          "properties": {
+            "message": {
+              "type": "string",
+              "example": "Order status updated successfully."
+            },
+            "orderId": {
+              "type": "integer",
+              "example": 123
+            },
+            "newStatus": {
+              "type": "string",
+              "example": "Shipped"
+            }
+          }
+        }
+      },
+      "400": {
+        "description": "Invalid input or status update not allowed.",
+        "schema": {
+          "type": "object",
+          "properties": {
+            "error": {
+              "type": "string",
+              "example": "Invalid status value."
+            }
+          }
+        }
+      },
+      "404": {
+        "description": "Order not found.",
+        "schema": {
+          "type": "object",
+          "properties": {
+            "error": {
+              "type": "string",
+              "example": "Order not found."
+            }
+          }
+        }
+      }
+    }
+  }
+},
+"/orders/{orderId}/cancel/": {
+  "put": {
+    "summary": "Cancel an order",
+    "description": "Mark an order as canceled and update inventory if necessary.",
+    "operationId": "cancel_order",
+    "parameters": [
+      {
+        "name": "orderId",
+        "in": "path",
+        "description": "The ID of the order to cancel.",
+        "required": true,
+        "type": "integer"
+      },
+      {
+        "name": "reason",
+        "in": "body",
+        "description": "Optional reason for order cancellation.",
+        "required": false,
+        "schema": {
+          "type": "object",
+          "properties": {
+            "reason": {
+              "type": "string",
+              "example": "Customer request."
+            }
+          }
+        }
+      }
+    ],
+    "responses": {
+      "200": {
+        "description": "Order successfully canceled.",
+        "schema": {
+          "type": "object",
+          "properties": {
+            "message": {
+              "type": "string",
+              "example": "Order canceled successfully."
+            },
+            "orderId": {
+              "type": "integer",
+              "example": 123
+            },
+            "status": {
+              "type": "string",
+              "example": "Canceled"
+            },
+            "inventoryUpdated": {
+              "type": "boolean",
+              "example": true
+            }
+          }
+        }
+      },
+      "400": {
+        "description": "Invalid request or order cannot be canceled.",
+        "schema": {
+          "type": "object",
+          "properties": {
+            "error": {
+              "type": "string",
+              "example": "Order is already shipped or delivered and cannot be canceled."
+            }
+          }
+        }
+      },
+      "404": {
+        "description": "Order not found.",
+        "schema": {
+          "type": "object",
+          "properties": {
+            "error": {
+              "type": "string",
+              "example": "Order not found."
+            }
+          }
+        }
+      }
+    }
+  }
+},
+"/payments/": {
+  "get": {
+    "summary": "List all payments",
+    "description": "Retrieve a paginated list of all payments made by customers.",
+    "operationId": "get_payments",
+    "parameters": [
+      {
+        "name": "page",
+        "in": "query",
+        "description": "The page number to retrieve for paginated results.",
+        "required": false,
+        "type": "integer",
+        "minimum": 1,
+        "default": 1
+      },
+      {
+        "name": "size",
+        "in": "query",
+        "description": "The number of results per page for paginated results.",
+        "required": false,
+        "type": "integer",
+        "minimum": 1,
+        "default": 10
+      }
+    ],
+    "responses": {
+      "200": {
+        "description": "A paginated list of payments.",
+        "schema": {
+          "type": "object",
+          "properties": {
+            "page": {
+              "type": "integer",
+              "example": 1
+            },
+            "size": {
+              "type": "integer",
+              "example": 10
+            },
+            "totalPages": {
+              "type": "integer",
+              "example": 5
+            },
+            "totalPayments": {
+              "type": "integer",
+              "example": 50
+            },
+            "payments": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/Payment"
+              }
+            }
+          }
+        }
+      },
+      "400": {
+        "description": "Invalid pagination parameters.",
+        "schema": {
+          "type": "object",
+          "properties": {
+            "error": {
+              "type": "string",
+              "example": "Page number must be greater than zero."
+            }
+          }
+        }
+      }
+    }
+  }
+},
+"/payments/search/": {
+  "get": {
+    "summary": "Search payments",
+    "description": "Search for payments using order ID or customer name as query parameters.",
+    "operationId": "search_payments",
+    "parameters": [
+      {
+        "name": "orderId",
+        "in": "query",
+        "description": "The ID of the order to filter payments.",
+        "required": false,
+        "type": "integer"
+      },
+      {
+        "name": "customerName",
+        "in": "query",
+        "description": "The name of the customer to filter payments.",
+        "required": false,
+        "type": "string"
+      }
+    ],
+    "responses": {
+      "200": {
+        "description": "A list of payments matching the search criteria.",
+        "schema": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/Payment"
+          }
+        }
+      },
+      "400": {
+        "description": "Invalid query parameters.",
+        "schema": {
+          "type": "object",
+          "properties": {
+            "error": {
+              "type": "string",
+              "example": "Either orderId or customerName must be provided."
+            }
+          }
+        }
+      }
+    }
+  }
+},
+"/payment/create/": {
+  "post": {
+    "operationId": "create_payment",
+    "summary": "Record New Payment",
+    "description": "Adds a payment record for a specific order and returns the payment object. This API is not idempotent.",
+    "parameters": [
+      {
+        "$ref": "#/parameters/CreateNewPaymentParameter"
+      }
+    ],
+    "responses": {
+      "200": {
+        "$ref": "#/responses/CreateNewPaymentResponse"
+      },
+      "400": {
+        "description": "Invalid input data.",
+        "schema": {
+          "type": "object",
+          "properties": {
+            "error": {
+              "type": "string",
+              "example": "Invalid payment amount provided."
+            }
+          }
+        }
+      }
+    }
+  }
+},
+"/payments/{paymentId}": {
+  "put": {
+    "summary": "Update payment details",
+    "description": "Modify payment details such as the amount or payment method.",
+    "operationId": "update_payment_details",
+    "parameters": [
+      {
+        "name": "paymentId",
+        "in": "path",
+        "description": "The ID of the payment to update.",
+        "required": true,
+        "type": "integer"
+      },
+      {
+        "name": "body",
+        "in": "body",
+        "description": "The updated payment details.",
+        "required": true,
+        "schema": {
+          "$ref": "#/definitions/UpdatePaymentRequest"
+        }
+      }
+    ],
+    "responses": {
+      "200": {
+        "description": "Payment details updated successfully.",
+        "schema": {
+          "$ref": "#/definitions/Payment"
+        }
+      },
+      "400": {
+        "description": "Invalid input data.",
+        "schema": {
+          "type": "object",
+          "properties": {
+            "error": {
+              "type": "string",
+              "example": "Invalid amount provided."
+            }
+          }
+        }
+      },
+      "404": {
+        "description": "Payment not found.",
+        "schema": {
+          "type": "object",
+          "properties": {
+            "error": {
+              "type": "string",
+              "example": "Payment with ID 123 not found."
+            }
+          }
+        }
+      }
+    }
+  }
+},
+"/feedback/products": {
+  "get": {
+    "summary": "List all feedback for products",
+    "description": "Retrieve a paginated list of feedback left by customers for products.",
+    "operationId": "get_feedback_for_products",
+    "parameters": [
+      {
+        "name": "page",
+        "in": "query",
+        "description": "The page number to retrieve for paginated results.",
+        "required": false,
+        "type": "integer",
+        "minimum": 1,
+        "default": 1
+      },
+      {
+        "name": "size",
+        "in": "query",
+        "description": "The number of results per page for paginated results.",
+        "required": false,
+        "type": "integer",
+        "minimum": 1,
+        "default": 10
+      }
+    ],
+    "responses": {
+      "200": {
+        "description": "A paginated list of feedback for products.",
+        "schema": {
+          "type": "object",
+          "properties": {
+            "page": {
+              "type": "integer",
+              "example": 1
+            },
+            "size": {
+              "type": "integer",
+              "example": 10
+            },
+            "totalPages": {
+              "type": "integer",
+              "example": 5
+            },
+            "totalFeedback": {
+              "type": "integer",
+              "example": 50
+            },
+            "feedback": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/Feedback"
+              }
+            }
+          }
+        }
+      },
+      "400": {
+        "description": "Invalid pagination parameters.",
+        "schema": {
+          "type": "object",
+          "properties": {
+            "error": {
+              "type": "string",
+              "example": "Page number must be greater than zero."
+            }
+          }
+        }
+      }
+    }
+  }
+},
+"/product/{productId}/feedback/": {
+  "post": {
+    "operationId": "add_product_feedback",
+    "summary": "Add Feedback for a Product",
+    "description": "Submit a review and rating for a specific product.",
+    "parameters": [
+      {
+        "name": "productId",
+        "in": "path",
+        "description": "The unique ID of the product for which feedback is being submitted.",
+        "required": true,
+        "type": "integer"
+      },
+      {
+        "$ref": "#/parameters/AddFeedbackParameter"
+      }
+    ],
+    "responses": {
+      "200": {
+        "$ref": "#/responses/AddFeedbackResponse"
+      },
+      "400": {
+        "description": "Invalid input data.",
+        "schema": {
+          "type": "object",
+          "properties": {
+            "error": {
+              "type": "string",
+              "example": "Rating must be between 1 and 5."
+            }
+          }
+        }
+      },
+      "404": {
+        "description": "Product not found.",
+        "schema": {
+          "type": "object",
+          "properties": {
+            "error": {
+              "type": "string",
+              "example": "Product with ID 123 not found."
+            }
+          }
+        }
+      }
+    }
+  }
+},
+"/feedback/{feedbackId}/": {
+  "put": {
+    "summary": "Update feedback",
+    "description": "Edit an existing review or rating for a product.",
+    "operationId": "update_feedback",
+    "parameters": [
+      {
+        "name": "feedbackId",
+        "in": "path",
+        "description": "The ID of the feedback to update.",
+        "required": true,
+        "type": "integer"
+      },
+      {
+        "name": "body",
+        "in": "body",
+        "description": "The updated feedback details.",
+        "required": true,
+        "schema": {
+          "$ref": "#/definitions/UpdateFeedbackRequest"
+        }
+      }
+    ],
+    "responses": {
+      "200": {
+        "description": "Feedback updated successfully.",
+        "schema": {
+          "$ref": "#/definitions/Feedback"
+        }
+      },
+      "400": {
+        "description": "Invalid input data.",
+        "schema": {
+          "type": "object",
+          "properties": {
+            "error": {
+              "type": "string",
+              "example": "Invalid rating or review text."
+            }
+          }
+        }
+      },
+      "404": {
+        "description": "Feedback not found.",
+        "schema": {
+          "type": "object",
+          "properties": {
+            "error": {
+              "type": "string",
+              "example": "Feedback with ID 123 not found."
+            }
+          }
+        }
+      }
+    }
+  }
+},
+"/feedback/delete/{feedbackId}/": {
+  "delete": {
+    "summary": "Delete feedback",
+    "description": "Remove a customer's feedback from the system.",
+    "operationId": "delete_feedback",
+    "parameters": [
+      {
+        "name": "feedbackId",
+        "in": "path",
+        "description": "The ID of the feedback to delete.",
+        "required": true,
+        "type": "integer"
+      }
+    ],
+    "responses": {
+      "200": {
+        "description": "Feedback deleted successfully.",
+        "schema": {
+          "type": "object",
+          "properties": {
+            "message": {
+              "type": "string",
+              "example": "Feedback deleted successfully."
+            }
+          }
+        }
+      },
+      "404": {
+        "description": "Feedback not found.",
+        "schema": {
+          "type": "object",
+          "properties": {
+            "error": {
+              "type": "string",
+              "example": "Feedback with ID 101 not found."
+            }
+          }
+        }
+      }
+    }
+  }
+}
 
+}
+}

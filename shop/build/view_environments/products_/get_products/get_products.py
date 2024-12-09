@@ -1,7 +1,8 @@
 from dsu.runtime.security.request_response import request_response
 from dsu.dsu_gen.openapi.constants.config import PARSER_MAPPING
 from dsu.dsu_gen.openapi.constants.config import RENDERER_MAPPING
-from shop.build.view_environments.products_.get_products.responses.Status_200.Status_200.Status_200Serializer import Status_200Serializer
+from shop.build.view_environments.products_.get_products.GetProductsRequestQueryParamSerializer import GetProductsRequestQueryParamSerializer
+from shop.build.serializers.definitions.Product.ProductSerializer import ProductSerializer
 
 
 options = {
@@ -15,7 +16,7 @@ options = {
     'RENDERER_CLASSES': [
         RENDERER_MAPPING["application/json"]
     ],
-    'REQUEST_QUERY_PARAMS_SERIALIZER': None,
+    'REQUEST_QUERY_PARAMS_SERIALIZER': GetProductsRequestQueryParamSerializer,
     'REQUEST_HEADERS_SERIALIZER': None,
     'REQUEST_PATH_PARAMS_SERIALIZER': None,
     'DEFAULT_REQUEST_PATH_PARAMS': {},
@@ -24,7 +25,7 @@ options = {
     'RESPONSE': {
         
         '200': {
-           'RESPONSE_SERIALIZER': Status_200Serializer,
+           'RESPONSE_SERIALIZER': ProductSerializer,
            'RESPONSE_SERIALIZER_MANY_ITEMS':  False,
            'HEADERS_SERIALIZER': None,
         }

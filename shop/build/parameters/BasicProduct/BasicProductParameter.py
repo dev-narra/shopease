@@ -1,9 +1,9 @@
-class TodoParameter(object):
+class ProductParameter(object):
     @staticmethod
     def get_param_name():
         param_names = {
             "parameter_name": "BasicProduct",
-            "parameter_field_name": "todo"
+            "parameter_field_name": "product"
         }
         return param_names
 

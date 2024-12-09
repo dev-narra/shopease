@@ -1,9 +1,9 @@
-class PersonParameter(object):
+class ProductParameter(object):
     @staticmethod
     def get_param_name():
         param_names = {
             "parameter_name": "CreateNewProductParameter",
-            "parameter_field_name": "person"
+            "parameter_field_name": "product"
         }
         return param_names
 
