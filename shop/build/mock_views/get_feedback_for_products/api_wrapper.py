@@ -6,7 +6,6 @@ from .validator_class import ValidatorClass
 @validate_decorator(validator_class=ValidatorClass)
 def api_wrapper(*args, **kwargs):
     # ---------MOCK IMPLEMENTATION---------
-    
 
     try:
         from shop.views.get_feedback_for_products.request_response_mocks \
@@ -20,7 +19,7 @@ def api_wrapper(*args, **kwargs):
         "query_params": {'page': 1, 'size': 10},
         "header_params": {},
         "body": body,
-        "securities": []
+        "securities": [{'oauth': ['read']}]
     }
 
     from dsu.dsu_gen.openapi.utils.mock_response import mock_response

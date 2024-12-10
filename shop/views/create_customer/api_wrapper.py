@@ -1,11 +1,36 @@
 from dsu.dsu_gen.openapi.decorator.interface_decorator import \
     validate_decorator
 from .validator_class import ValidatorClass
+from shop.models import Customer
+from django.http import JsonResponse
 
 
 @validate_decorator(validator_class=ValidatorClass)
 def api_wrapper(*args, **kwargs):
     # ---------MOCK IMPLEMENTATION---------
+    request_data = kwargs.get('request_data', {})
+    name=request_data.get('name')
+    email=request_data.get('email')
+    phone=request_data.get('phone')
+    address=request_data.get('address')
+
+    customer=Customer.objects.create(
+        name=name,
+        email=email,
+        phone=phone,
+        address=address
+    )
+
+    response_data={
+        "id":customer.id,
+        "name":customer.name,
+        "email":customer.email,
+        "phone":customer.phone,
+        "address":customer.address
+    }
+
+    return JsonResponse(response_data,status=201)
+
 
     try:
         from shop.views.create_customer.request_response_mocks \

@@ -7,11 +7,9 @@ from dsu.dsu_gen.openapi.fields.collection_format_field import CollectionFormatF
 
 
 class CreatePaymentRequestType(object):
-    def __init__(self, orderId, amount, paymentMethod, paymentDate=None,  **kwargs):
-        self.orderId = orderId
+    def __init__(self, amount, method,  **kwargs):
         self.amount = amount
-        self.paymentMethod = paymentMethod
-        self.paymentDate = paymentDate
+        self.method = method
 
     def __str__(self):
         from dsu.dsu_gen.openapi.utils.get_unicode_str import get_unicode_str
@@ -22,10 +20,8 @@ class CreatePaymentRequestType(object):
 
 
 class CreatePaymentRequestSerializer(serializers.Serializer):
-    orderId = serializers.IntegerField(help_text="The unique ID of the order for which the payment is being made.")
     amount = serializers.FloatField(help_text="The payment amount for the order.")
-    paymentMethod = serializers.ChoiceField(choices=(('Credit Card', 'Credit Card'), ('Debit Card', 'Debit Card'), ('PayPal', 'PayPal'), ('Bank Transfer', 'Bank Transfer')), help_text="The method of payment.")
-    paymentDate = serializers.DateTimeField(required=False, allow_null=True, help_text="The date and time when the payment was made.", format='%Y-%m-%d %H:%M:%S')
+    method = serializers.ChoiceField(choices=(('Credit Card', 'Credit Card'), ('Debit Card', 'Debit Card'), ('PayPal', 'PayPal'), ('Bank Transfer', 'Bank Transfer')), help_text="The method of payment.")
 
     def create(self, validated_data):
         return CreatePaymentRequestType(**validated_data)

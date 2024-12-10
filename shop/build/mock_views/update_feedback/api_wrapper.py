@@ -15,11 +15,11 @@ def api_wrapper(*args, **kwargs):
         body = {}
 
     test_case = {
-        "path_params": {'feedbackId': 50},
+        "path_params": {'feedbackId': 374},
         "query_params": {},
         "header_params": {},
         "body": body,
-        "securities": []
+        "securities": [{'oauth': ['update']}]
     }
 
     from dsu.dsu_gen.openapi.utils.mock_response import mock_response

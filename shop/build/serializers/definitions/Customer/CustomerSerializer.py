@@ -23,7 +23,7 @@ class CustomerType(object):
 
 
 class CustomerSerializer(serializers.Serializer):
-    id = serializers.CharField(required=False, allow_blank=True, allow_null=True)
+    id = serializers.IntegerField(required=False, allow_null=True)
     name = serializers.CharField(required=False, allow_blank=True, allow_null=True)
     email = serializers.CharField(required=False, allow_blank=True, allow_null=True)
     phone = serializers.CharField(required=False, allow_blank=True, allow_null=True)

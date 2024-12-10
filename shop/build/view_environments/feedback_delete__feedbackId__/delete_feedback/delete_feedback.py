@@ -20,7 +20,7 @@ options = {
     'REQUEST_QUERY_PARAMS_SERIALIZER': None,
     'REQUEST_HEADERS_SERIALIZER': None,
     'REQUEST_PATH_PARAMS_SERIALIZER': DeleteFeedbackRequestPathParamSerializer,
-    'DEFAULT_REQUEST_PATH_PARAMS': {"feedbackId": 113},
+    'DEFAULT_REQUEST_PATH_PARAMS': {"feedbackId": 611},
     'REQUEST_SERIALIZER': None,
     'REQUEST_SERIALIZER_MANY_ITEMS': False,
     'RESPONSE': {
@@ -41,6 +41,10 @@ options = {
     },
     "SECURITY": {
 
+        "oauth" : [
+            "delete"
+            
+        ]
     },
     'LOG_CONFIG': {'request_log_selector': 'ENABLE_COMPLETE_LOG', 'response_log_selector': 'ENABLE_COMPLETE_LOG'}
 }

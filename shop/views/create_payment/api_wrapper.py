@@ -1,11 +1,34 @@
 from dsu.dsu_gen.openapi.decorator.interface_decorator import \
     validate_decorator
 from .validator_class import ValidatorClass
+from shop.models import Payment
+from django.http import JsonResponse
 
 
 @validate_decorator(validator_class=ValidatorClass)
 def api_wrapper(*args, **kwargs):
     # ---------MOCK IMPLEMENTATION---------
+    request_data = kwargs.get('request_data', {})
+    amount=request_data.get('amount')
+    method=request_data.get('method')
+    transaction_date=request_data.get('transaction_date')
+
+    payment=Payment.objects.create(
+        amount=amount,
+        method=method,
+        transaction_date=transaction_date
+    )
+
+    response_data={
+        "id":payment.id,
+        "amount":payment.amount,
+        "method":payment.method,
+        "status":payment.status,
+        "transaction_date":payment.transaction_date
+    }
+   
+    return JsonResponse(response_data,status=201)
+
 
     try:
         from shop.views.create_payment.request_response_mocks \

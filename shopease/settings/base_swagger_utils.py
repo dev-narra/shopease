@@ -24,8 +24,22 @@ from django_swagger_utils.drf_server.utils.general.import_app_settings import \
 THIRD_PARTY_APPS = []
 APPS = [
     "shop",
-    'django_extensions'
+    'django_extensions',
 ]
+
+REST_FRAMEWORK = {
+    'DEFAULT_AUTHENTICATION_CLASSES': (
+        'oauth2_provider.contrib.rest_framework.OAuth2Authentication',
+    ),
+    'DEFAULT_PERMISSION_CLASSES': (
+        'rest_framework.permissions.IsAuthenticated',
+    )
+}
+
+OAUTH2_PROVIDER = {
+    # this is the list of available scopes
+    'SCOPES': {'read': 'Read scope', 'write': 'Write scope'}
+}
 
 INSTALLED_APPS += THIRD_PARTY_APPS
 INSTALLED_APPS += APPS

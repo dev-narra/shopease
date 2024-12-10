@@ -1,11 +1,20 @@
 from dsu.dsu_gen.openapi.decorator.interface_decorator import \
     validate_decorator
 from .validator_class import ValidatorClass
+from shop.models import Payment
 
 
 @validate_decorator(validator_class=ValidatorClass)
 def api_wrapper(*args, **kwargs):
     # ---------MOCK IMPLEMENTATION---------
+    limit=kwargs['query_params']['limit']
+    offset=kwargs['query_params']['offset']
+    payments=Payment.objects.all()[offset:offset+limit]
+    payments_array=[]
+    for payment in payments:
+        data={'amount':payment.amount,'method':payment.method,'transaction_date'=payment.transaction_date}
+        payments_array.append(data)
+    return JsonResponse(payments_array,safe=False,status=200)
 
     try:
         from shop.views.get_payments.request_response_mocks \

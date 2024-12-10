@@ -7,7 +7,7 @@ from dsu.dsu_gen.openapi.fields.collection_format_field import CollectionFormatF
 
 
 class GetProductsRequestQueryParamType(object):
-    def __init__(self, limit=None, offset=None,  **kwargs):
+    def __init__(self, limit, offset,  **kwargs):
         self.limit = limit
         self.offset = offset
 
@@ -20,8 +20,8 @@ class GetProductsRequestQueryParamType(object):
 
 
 class GetProductsRequestQueryParamSerializer(serializers.Serializer):
-    limit = serializers.IntegerField(required=False, allow_null=True, help_text="The number of results per page for paginated results.", min_value=1, )
-    offset = serializers.IntegerField(required=False, allow_null=True, help_text="The starting point of the page of results to retrieve (e.g., offset = page_number * limit).", min_value=0, )
+    limit = serializers.IntegerField(help_text="The number of results per page for paginated results.", min_value=1, )
+    offset = serializers.IntegerField(help_text="The starting point of the page of results to retrieve (e.g., offset = page_number * limit).", min_value=0, )
 
     def create(self, validated_data):
         return GetProductsRequestQueryParamType(**validated_data)

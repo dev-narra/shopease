@@ -1,11 +1,58 @@
 from dsu.dsu_gen.openapi.decorator.interface_decorator import \
     validate_decorator
 from .validator_class import ValidatorClass
-
+from django.http import JsonResponse
+from shop.models import Product
 
 @validate_decorator(validator_class=ValidatorClass)
 def api_wrapper(*args, **kwargs):
-    # ---------MOCK IMPLEMENTATION---------
+    path_params = kwargs.get('path_params')
+    if not path_params:
+        return JsonResponse({'error': 'Path parameters are missing'}, status=400)
+
+    product_id = path_params.get('id')
+    if not product_id:
+        return JsonResponse({'error': 'Product ID is missing'}, status=400)
+
+    request_data = kwargs.get('request_data', {})
+    try:
+        name = request_data['name']
+        description = request_data['description']
+        price = float(request_data['price'])
+        mfg_date = request_data['mfg_date']
+        exp_date = request_data['exp_date']
+        category = request_data['category']
+        stock_quantity = float(request_data['stock_quantity'])
+    except KeyError as e:
+        return JsonResponse({'error': f'Missing required field: {str(e)}'}, status=400)
+
+    try:
+        product = Product.objects.get(id=product_id)
+        product.name = name
+        product.description = description
+        product.price = price
+        product.mfg_date = mfg_date
+        product.exp_date = exp_date
+        product.category = category
+        product.stock_quantity = stock_quantity
+        product.save()
+
+        response_data = {
+            'name': product.name,
+            'description': product.description,
+            'price': product.price,
+            'mfg_date': product.mfg_date,
+            'exp_date': product.exp_date,
+            'category': product.category,
+            'stock_quantity': product.stock_quantity
+        }
+        return JsonResponse(response_data, status=200)
+
+    except Product.DoesNotExist:
+        return JsonResponse({'error': 'Product not found'}, status=404)
+
+    except Exception as e:
+        return JsonResponse({'error': f'An unexpected error occurred: {str(e)}'}, status=500)
 
     try:
         from shop.views.update_product.request_response_mocks \

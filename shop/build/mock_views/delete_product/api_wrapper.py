@@ -19,7 +19,7 @@ def api_wrapper(*args, **kwargs):
         "query_params": {},
         "header_params": {},
         "body": body,
-        "securities": []
+        "securities": [{'oauth': ['delete']}]
     }
 
     from dsu.dsu_gen.openapi.utils.mock_response import mock_response

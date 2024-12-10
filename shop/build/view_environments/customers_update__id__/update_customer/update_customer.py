@@ -32,6 +32,10 @@ options = {
     },
     "SECURITY": {
 
+        "oauth" : [
+            "update"
+            
+        ]
     },
     'LOG_CONFIG': {'request_log_selector': 'ENABLE_COMPLETE_LOG', 'response_log_selector': 'ENABLE_COMPLETE_LOG'}
 }

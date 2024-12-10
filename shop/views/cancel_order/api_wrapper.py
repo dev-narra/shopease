@@ -1,11 +1,20 @@
 from dsu.dsu_gen.openapi.decorator.interface_decorator import \
     validate_decorator
 from .validator_class import ValidatorClass
+from shop.models import Order
 
 
 @validate_decorator(validator_class=ValidatorClass)
 def api_wrapper(*args, **kwargs):
     # ---------MOCK IMPLEMENTATION---------
+    order_id=kwargs['path_params']['id']
+    try:
+        order=Order.objects.create(id=order_id)
+        order.delete()
+
+        return JsonResponse({'Cancel the order'},status=200)
+    except Order.DoesNotExist
+        return JsonResponse({'error': 'Customer not found'}, status=404)
 
     try:
         from shop.views.cancel_order.request_response_mocks \

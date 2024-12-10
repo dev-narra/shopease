@@ -19,7 +19,7 @@ def api_wrapper(*args, **kwargs):
         "query_params": {'page': 1, 'size': 10},
         "header_params": {},
         "body": body,
-        "securities": []
+        "securities": [{'oauth': ['read']}]
     }
 
     from dsu.dsu_gen.openapi.utils.mock_response import mock_response

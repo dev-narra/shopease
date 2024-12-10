@@ -1,17 +1,12 @@
 from dsu.dsu_gen.openapi.decorator.interface_decorator import \
     validate_decorator
 from .validator_class import ValidatorClass
-from django.http import HttpResponse,JsonResponse
-from shop.models import Customer
+
 
 @validate_decorator(validator_class=ValidatorClass)
 def api_wrapper(*args, **kwargs):
     # ---------MOCK IMPLEMENTATION---------
 
-    response=User.objects.all()
-    return JsonResponse(response)
-
-   
     try:
         from shop.views.get_customers.request_response_mocks \
             import REQUEST_BODY_JSON
@@ -21,10 +16,10 @@ def api_wrapper(*args, **kwargs):
 
     test_case = {
         "path_params": {},
-        "query_params": {'limit': 632, 'offset': 832},
+        "query_params": {'limit': 988, 'offset': 391},
         "header_params": {},
         "body": body,
-        "securities": []
+        "securities": [{'oauth': ['read']}]
     }
 
     from dsu.dsu_gen.openapi.utils.mock_response import mock_response

@@ -2,7 +2,7 @@
 
 REQUEST_BODY_JSON = """
 {
-    "id": "string",
+    "id": 1,
     "name": "string",
     "email": "string",
     "phone": "string",
@@ -13,7 +13,7 @@ REQUEST_BODY_JSON = """
 
 RESPONSE_200_JSON = """
 {
-    "id": "string",
+    "id": 1,
     "name": "string",
     "email": "string",
     "phone": "string",

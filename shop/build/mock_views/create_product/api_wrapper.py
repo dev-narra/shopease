@@ -3,7 +3,6 @@ from dsu.dsu_gen.openapi.decorator.interface_decorator import \
 from .validator_class import ValidatorClass
 
 
-
 @validate_decorator(validator_class=ValidatorClass)
 def api_wrapper(*args, **kwargs):
     # ---------MOCK IMPLEMENTATION---------
@@ -20,7 +19,7 @@ def api_wrapper(*args, **kwargs):
         "query_params": {},
         "header_params": {},
         "body": body,
-        "securities": []
+        "securities": [{'oauth': ['write']}]
     }
 
     from dsu.dsu_gen.openapi.utils.mock_response import mock_response

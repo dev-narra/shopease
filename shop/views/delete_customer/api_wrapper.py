@@ -1,11 +1,22 @@
 from dsu.dsu_gen.openapi.decorator.interface_decorator import \
     validate_decorator
 from .validator_class import ValidatorClass
+from shop.models import Customer
+from django.http import JsonResponse
 
 
 @validate_decorator(validator_class=ValidatorClass)
 def api_wrapper(*args, **kwargs):
     # ---------MOCK IMPLEMENTATION---------
+    customer_id = kwargs["path_params"]['id']
+    try:
+        customer = Customer.objects.get(id=customer_id)
+        customer.delete()
+
+
+        return JsonResponse({Customer deleted successfully.....}, status=200)
+    except Customer.DoesNotExist:
+        return JsonResponse({'error': 'Customer not found'}, status=404)
 
     try:
         from shop.views.delete_customer.request_response_mocks \

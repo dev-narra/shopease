@@ -8,30 +8,22 @@ from django.forms.models import model_to_dict
 
 @validate_decorator(validator_class=ValidatorClass)
 def api_wrapper(*args, **kwargs):
-    request_data = kwargs.get('query_params', {})
+    from dsu.dsu_gen.openapi.decorator.interface_decorator import \
+    validate_decorator
+from .validator_class import ValidatorClass
+from django.http import JsonResponse
+from shop.models import Product
 
-    if not request_data:
-        request_data=kwargs.get('request_query_params', {})
-
-    limit = int(request_data.get('limit', 5))  
-    offset = int(request_data.get('offset', 0)) 
-
-    products = Product.objects.all().order_by('id')
-
-    paginator = Paginator(products, limit)  
-    page_number = (offset // limit) + 1 
-    paginated_products = paginator.get_page(page_number)
-
-    products_list = [model_to_dict(product) for product in paginated_products]
-
-    response_data = {
-        "count": paginator.count,
-        "next": f"?limit={limit}&offset={offset + limit}" if paginated_products.has_next() else None,
-        "previous": f"?limit={limit}&offset={max(offset - limit, 0)}" if paginated_products.has_previous() else None,
-        "results": products_list,
-    }
-
-    return JsonResponse(response_data, status=200)
+@validate_decorator(validator_class=ValidatorClass)
+def api_wrapper(*args, **kwargs):
+    limit=kwargs['query_params']['limit']
+    offset=kwargs['query_params']['offset']
+    products=Product.objects.all()[offset:offset+limit]
+    products_array=[]
+    for product in products:
+        data={'name':product.name,'description':product.description,'price':product.price,'mfg_date':product.mfg_date,'exp_date':product.exp_date,'category':product.category,'stock_quantity':product.stock_quantity}
+        products_array.append(data)
+    return JsonResponse(products_array,safe=False,status=200)
 
 
 

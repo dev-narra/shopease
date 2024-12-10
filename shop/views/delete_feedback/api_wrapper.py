@@ -1,11 +1,23 @@
 from dsu.dsu_gen.openapi.decorator.interface_decorator import \
     validate_decorator
 from .validator_class import ValidatorClass
+from shop.models import Feedback
+from django.http import JsonResponse
 
 
 @validate_decorator(validator_class=ValidatorClass)
 def api_wrapper(*args, **kwargs):
     # ---------MOCK IMPLEMENTATION---------
+    feedback_id=kwargs['path_params']['id']
+    try:
+        feedback=Feedback.objects.get(id=feedback_id)
+        feedback.delete()
+
+        return JsonResponse({'Feedback is deleted...'},status=200)
+    
+    except Feedback.DoesNotExist:
+        return JsonResponse({'error': 'Feedback not found'}, status=404)
+
 
     try:
         from shop.views.delete_feedback.request_response_mocks \

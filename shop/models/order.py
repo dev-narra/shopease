@@ -15,5 +15,5 @@ class Order(models.Model):
     products = models.ManyToManyField(Product, through='OrderItem')
     payment=models.OneToOneField(Payment,on_delete=models.CASCADE)
     status = models.CharField(max_length=20, choices=STATUS_CHOICES, default='Pending')
-    order_datetime = models.DateTimeField(auto_now_add=True)
-    exp_delivery_date = models.DateField(blank=True, null=True)
+    order_datetime = models.DateField(null=True, blank=True)
+    exp_delivery_date = models.DateField(null=True,blank=True)

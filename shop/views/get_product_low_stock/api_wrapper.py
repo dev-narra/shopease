@@ -1,11 +1,15 @@
 from dsu.dsu_gen.openapi.decorator.interface_decorator import \
     validate_decorator
 from .validator_class import ValidatorClass
+from shop.models import Product
 
 
 @validate_decorator(validator_class=ValidatorClass)
 def api_wrapper(*args, **kwargs):
     # ---------MOCK IMPLEMENTATION---------
+    products=Product.objects.filter(stock_quantity__lt=30)
+    return JsonResponse(products,status=200)
+
 
     try:
         from shop.views.get_product_low_stock.request_response_mocks \

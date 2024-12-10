@@ -1,11 +1,28 @@
 from dsu.dsu_gen.openapi.decorator.interface_decorator import \
     validate_decorator
 from .validator_class import ValidatorClass
-
+from shop.models import Order
+import json
+from django.http import JsonResponse
 
 @validate_decorator(validator_class=ValidatorClass)
 def api_wrapper(*args, **kwargs):
     # ---------MOCK IMPLEMENTATION---------
+    customer=kwargs['customer']
+    products=kwargs['products']
+    payment=kwargs['payment']
+    request_data=kwargs['request_data']
+    status=request_data.get('status')
+    exp_delivery_date=request_data.get('exp_delivery_date')
+    order_datetime=request_data.get('order_datetime')
+
+    order=Order.objects.create(
+        products=products,customer=customer,payment=payment,status=status,exp_delivery_date=exp_delivery_date,order_datetime=order_datetime
+    )
+
+    data = json.dumps({'order_id': order.id})
+    response = HttpResponse(data, status=201)
+    return response
 
     try:
         from shop.views.create_order.request_response_mocks \

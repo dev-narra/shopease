@@ -2,10 +2,8 @@
 
 REQUEST_BODY_JSON = """
 {
-    "orderId": 1,
     "amount": 1.1,
-    "paymentMethod": "Credit Card",
-    "paymentDate": "2099-12-31 00:00:00"
+    "method": "Credit Card"
 }
 """
 

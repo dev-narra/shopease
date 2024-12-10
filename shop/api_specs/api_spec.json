@@ -18,6 +18,20 @@
     ],
 
     "security": [],
+    "securityDefinitions": {
+      "oauth": {
+          "tokenUrl": "http://auth.ibtspl.com/oauth2/",
+          "flow": "password",
+          "scopes": {
+              "read": "read users",
+              "write": "create users",
+              "update": "update users",
+              "delete": "delete users",
+              "superuser": "super user permission" 
+          },
+          "type": "oauth2"
+      }
+  },
     "definitions": {
         "DefaultHttpExceptionFields": {
             "type": "object",
@@ -245,27 +259,18 @@
 "CreatePaymentRequest": {
   "type": "object",
   "properties": {
-    "orderId": {
-      "type": "integer",
-      "description": "The unique ID of the order for which the payment is being made."
-    },
     "amount": {
       "type": "number",
       "format": "float",
       "description": "The payment amount for the order."
     },
-    "paymentMethod": {
+    "method": {
       "type": "string",
       "enum": ["Credit Card", "Debit Card", "PayPal", "Bank Transfer"],
       "description": "The method of payment."
-    },
-    "paymentDate": {
-      "type": "string",
-      "format": "date-time",
-      "description": "The date and time when the payment was made."
     }
   },
-  "required": ["orderId", "amount", "paymentMethod"]
+  "required": [ "amount", "method"]
 },
 
       "RefundPaymentRequest": {
@@ -597,12 +602,17 @@
       "summary": "List all products",
       "description": "Retrieve a paginated list of all available products.",
       "operationId": "get_products",
+      "security": [
+                    {
+                        "oauth": ["read"]
+                    }
+                ],
       "parameters": [
         {
           "name": "limit",
           "in": "query",
           "description": "The number of results per page for paginated results.",
-          "required": false,
+          "required": true,
           "type": "integer",
           "minimum": 1
         },
@@ -610,7 +620,7 @@
           "name": "offset",
           "in": "query",
           "description": "The starting point of the page of results to retrieve (e.g., offset = page_number * limit).",
-          "required": false,
+          "required": true,
           "type": "integer",
           "minimum": 0
         }
@@ -630,6 +640,11 @@
       "summary": "Search products",
       "description": "Search for products using name or category as query parameters.",
       "operationId": "search_products",
+      "security": [
+                    {
+                        "oauth": ["read"]
+                    }
+                ],
       "parameters": [
         {
           "name": "name",
@@ -661,6 +676,11 @@
                   "operationId": "create_product",
                   "summary": "Create New Product",
                   "description": "Creates a new product and return the product object. This api is not idempotent.",
+                  "security": [
+                    {
+                        "oauth": ["write"]
+                    }
+                ],
                   "parameters": [
                       {
                           "$ref": "#/parameters/CreateNewProductParameter"
@@ -683,6 +703,11 @@
               "summary": "Updates a Product",
               "description": "Updates a Product.",
               "operationId": "update_product",
+              "security": [
+                    {
+                        "oauth": ["update"]
+                    }
+                ],
               "responses": {
                   "200": {
                       "description":"A product updated Successfully.....!"
@@ -695,6 +720,11 @@
         "summary": "Delete a product",
         "description": "Deletes a product by its ID.",
       "operationId": "delete_product",
+      "security": [
+                    {
+                        "oauth": ["delete"]
+                    }
+                ],
         "parameters": [
           {
             "name": "id",
@@ -716,6 +746,11 @@
           "summary": "Get low-stock alerts",
           "description": "Retrieve a list of products with stock below a defined threshold.",
           "operationId":"get_product_low_stock",
+          "security": [
+                    {
+                        "oauth": ["read"]
+                    }
+                ],
           "responses": {
             "200": {
               "description": "A list of low-stock products.",
@@ -734,6 +769,11 @@
           "summary": "List all customers",
           "description": "Retrieve a paginated list of all available customers.",
           "operationId": "get_customers",
+          "security": [
+                    {
+                        "oauth": ["read"]
+                    }
+                ],
           "parameters": [
             {
               "name": "limit",
@@ -767,6 +807,11 @@
                       "operationId": "create_customer",
                       "summary": "Create New customer",
                       "description": "Creates a new product and return the customer object. This api is not idempotent.",
+                      "security": [
+                    {
+                        "oauth": ["write"]
+                    }
+                ],
                       "parameters": [
                           {
                               "$ref": "#/parameters/CreateNewCustomerParameter"
@@ -784,6 +829,11 @@
               "operationId": "update_customer",
               "summary": "Update customer details",
               "description": "Modify customer information such as address or phone number.",
+              "security": [
+                    {
+                        "oauth": ["update"]
+                    }
+                ],
               "parameters": [
                 { "name": "id", "in": "path", "required": true, "type":"string"  }
               ],
@@ -797,6 +847,11 @@
               "operationId": "delete_customer",
               "summary": "Delete a customer",
               "description": "Remove a customer from the system.",
+              "security": [
+                    {
+                        "oauth": ["delete"]
+                    }
+                ],
               "parameters": [
                 { "name": "id", "in": "path", "required": true,"type": "string" }
               ],
@@ -810,6 +865,11 @@
           "summary": "Search customers",
           "description": "Search for customers using name or email as query parameters.",
           "operationId": "search_customers",
+          "security": [
+                    {
+                        "oauth": ["read"]
+                    }
+                ],
           "parameters": [
             {
               "name": "name",
@@ -841,6 +901,11 @@
     "summary": "List all orders",
     "description": "Retrieve a paginated list of all orders placed by customers.",
     "operationId": "list_orders",
+    "security": [
+                    {
+                        "oauth": ["read"]
+                    }
+                ],
     "parameters": [
       {
         "name": "page",
@@ -874,6 +939,11 @@
     "summary": "Search orders by customer or status",
     "description": "Search for orders using customer name or order status as query parameters.",
     "operationId": "search_orders",
+    "security": [
+                    {
+                        "oauth": ["read"]
+                    }
+                ],
     "parameters": [
       {
         "name": "customer",
@@ -905,6 +975,11 @@
     "operationId": "create_order",
     "summary": "Create New Order",
     "description": "Creates a new order and returns the order object. This API is not idempotent.",
+    "security": [
+                    {
+                        "oauth": ["write"]
+                    }
+                ],
     "parameters": [
       {
         "$ref": "#/parameters/CreateNewOrderParameter"
@@ -922,6 +997,11 @@
     "summary": "Update order status",
     "description": "Change the status of an order (e.g., Pending, Shipped, Delivered).",
     "operationId": "update_order_status",
+    "security": [
+                    {
+                        "oauth": ["update"]
+                    }
+                ],
     "parameters": [
       {
         "name": "orderId",
@@ -1001,6 +1081,11 @@
     "summary": "Cancel an order",
     "description": "Mark an order as canceled and update inventory if necessary.",
     "operationId": "cancel_order",
+    "security": [
+                    {
+                        "oauth": ["update"]
+                    }
+                ],
     "parameters": [
       {
         "name": "orderId",
@@ -1082,6 +1167,11 @@
     "summary": "List all payments",
     "description": "Retrieve a paginated list of all payments made by customers.",
     "operationId": "get_payments",
+    "security": [
+                    {
+                        "oauth": ["read"]
+                    }
+                ],
     "parameters": [
       {
         "name": "page",
@@ -1153,6 +1243,11 @@
     "summary": "Search payments",
     "description": "Search for payments using order ID or customer name as query parameters.",
     "operationId": "search_payments",
+    "security": [
+                    {
+                        "oauth": ["read"]
+                    }
+                ],
     "parameters": [
       {
         "name": "orderId",
@@ -1199,6 +1294,11 @@
     "operationId": "create_payment",
     "summary": "Record New Payment",
     "description": "Adds a payment record for a specific order and returns the payment object. This API is not idempotent.",
+    "security": [
+                    {
+                        "oauth": ["write"]
+                    }
+                ],
     "parameters": [
       {
         "$ref": "#/parameters/CreateNewPaymentParameter"
@@ -1228,6 +1328,11 @@
     "summary": "Update payment details",
     "description": "Modify payment details such as the amount or payment method.",
     "operationId": "update_payment_details",
+    "security": [
+                    {
+                        "oauth": ["update"]
+                    }
+                ],
     "parameters": [
       {
         "name": "paymentId",
@@ -1285,6 +1390,11 @@
     "summary": "List all feedback for products",
     "description": "Retrieve a paginated list of feedback left by customers for products.",
     "operationId": "get_feedback_for_products",
+    "security": [
+                    {
+                        "oauth": ["read"]
+                    }
+                ],
     "parameters": [
       {
         "name": "page",
@@ -1356,6 +1466,11 @@
     "operationId": "add_product_feedback",
     "summary": "Add Feedback for a Product",
     "description": "Submit a review and rating for a specific product.",
+    "security": [
+                    {
+                        "oauth": ["write"]
+                    }
+                ],
     "parameters": [
       {
         "name": "productId",
@@ -1404,6 +1519,11 @@
     "summary": "Update feedback",
     "description": "Edit an existing review or rating for a product.",
     "operationId": "update_feedback",
+    "security": [
+                    {
+                        "oauth": ["update"]
+                    }
+                ],
     "parameters": [
       {
         "name": "feedbackId",
@@ -1461,6 +1581,11 @@
     "summary": "Delete feedback",
     "description": "Remove a customer's feedback from the system.",
     "operationId": "delete_feedback",
+    "security": [
+                    {
+                        "oauth": ["delete"]
+                    }
+                ],
     "parameters": [
       {
         "name": "feedbackId",

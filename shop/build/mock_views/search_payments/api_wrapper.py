@@ -16,10 +16,10 @@ def api_wrapper(*args, **kwargs):
 
     test_case = {
         "path_params": {},
-        "query_params": {'orderId': 443, 'customerName': 'string'},
+        "query_params": {'orderId': 80, 'customerName': 'string'},
         "header_params": {},
         "body": body,
-        "securities": []
+        "securities": [{'oauth': ['read']}]
     }
 
     from dsu.dsu_gen.openapi.utils.mock_response import mock_response

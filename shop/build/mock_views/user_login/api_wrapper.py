@@ -3,11 +3,9 @@ from dsu.dsu_gen.openapi.decorator.interface_decorator import \
 from .validator_class import ValidatorClass
 
 
-
 @validate_decorator(validator_class=ValidatorClass)
 def api_wrapper(*args, **kwargs):
     # ---------MOCK IMPLEMENTATION---------
-
 
     try:
         from shop.views.user_login.request_response_mocks \

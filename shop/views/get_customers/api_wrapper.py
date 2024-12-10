@@ -1,11 +1,20 @@
 from dsu.dsu_gen.openapi.decorator.interface_decorator import \
     validate_decorator
 from .validator_class import ValidatorClass
+from shop.models import Customer
 
 
 @validate_decorator(validator_class=ValidatorClass)
 def api_wrapper(*args, **kwargs):
     # ---------MOCK IMPLEMENTATION---------
+    limit=kwargs['query_params']['limit']
+    offset=kwargs['query_params']['offset']
+    customers=Customer.objects.all()[offset:offset+limit]
+    customers_array=[]
+    for customer in customers:
+        data={'name':customer.name,'email':customer.email,"phone":customer.phone,'address':customer.address}
+        customers_array.append(data)
+    return JsonResponse(customers_array,safe=False,status=200)
 
     try:
         from shop.views.get_customers.request_response_mocks \

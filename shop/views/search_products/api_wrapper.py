@@ -8,14 +8,8 @@ from django.db.models import Q
 
 @validate_decorator(validator_class=ValidatorClass)
 def api_wrapper(*args, **kwargs):
-    request = kwargs.get('request')  
-    if not request:
-        return JsonResponse({"error": "Request object is missing."}, status=400)
-    
-    query_params = request.GET
-    
-    name_query = query_params.get('name', '').strip()
-    category_query = query_params.get('category', '').strip()
+    name_query=kwargs['query_params']['name']
+    category_query=kwargs['query_params']['category']
 
     if name_query or category_query:
         products = Product.objects.filter(

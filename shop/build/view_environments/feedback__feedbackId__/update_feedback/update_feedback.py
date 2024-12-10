@@ -22,7 +22,7 @@ options = {
     'REQUEST_QUERY_PARAMS_SERIALIZER': None,
     'REQUEST_HEADERS_SERIALIZER': None,
     'REQUEST_PATH_PARAMS_SERIALIZER': UpdateFeedbackRequestPathParamSerializer,
-    'DEFAULT_REQUEST_PATH_PARAMS': {"feedbackId": 920},
+    'DEFAULT_REQUEST_PATH_PARAMS': {"feedbackId": 681},
     'REQUEST_SERIALIZER': UpdateFeedbackRequestSerializer,
     'REQUEST_SERIALIZER_MANY_ITEMS': False,
     'RESPONSE': {
@@ -50,6 +50,10 @@ options = {
     },
     "SECURITY": {
 
+        "oauth" : [
+            "update"
+            
+        ]
     },
     'LOG_CONFIG': {'request_log_selector': 'ENABLE_COMPLETE_LOG', 'response_log_selector': 'ENABLE_COMPLETE_LOG'}
 }

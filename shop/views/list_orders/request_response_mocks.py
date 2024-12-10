@@ -19,7 +19,7 @@ RESPONSE_200_JSON = """
                 }
             ],
             "customer": {
-                "id": "string",
+                "id": 1,
                 "name": "string",
                 "email": "string",
                 "phone": "string",

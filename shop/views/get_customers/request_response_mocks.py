@@ -3,7 +3,7 @@
 
 RESPONSE_200_JSON = """
 {
-    "id": "string",
+    "id": 1,
     "name": "string",
     "email": "string",
     "phone": "string",
