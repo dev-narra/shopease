@@ -1,20 +1,38 @@
 from dsu.dsu_gen.openapi.decorator.interface_decorator import \
     validate_decorator
 from .validator_class import ValidatorClass
+from .validator_class import ValidatorClass
 from shop.models import Product
-
+from django.http import JsonResponse
+from django.db.models import Q
 
 @validate_decorator(validator_class=ValidatorClass)
 def api_wrapper(*args, **kwargs):
-    # ---------MOCK IMPLEMENTATION---------
+    request = kwargs.get('request')  
+    if not request:
+        return JsonResponse({"error": "Request object is missing."}, status=400)
     
-    name_query=kwargs["query_params"]['name']
-    category_query=kwargs["query_params"]['category']
-    products = Product.objects.filter(
-        models.Q(name__icontains=name_query) | models.Q(category__icontains=category_query)
-    ) if query else Product.objects.all()
+    query_params = request.GET
+    
+    name_query = query_params.get('name', '').strip()
+    category_query = query_params.get('category', '').strip()
 
-    return JsonResponse(products)
+    if name_query or category_query:
+        products = Product.objects.filter(
+            Q(name__icontains=name_query) | Q(category__icontains=category_query)
+        )
+    else:
+        products = Product.objects.all()
+
+    products_list = list(products.values()) 
+
+    response_data = {
+        "count": products.count(),
+        "results": products_list,
+    }
+
+    return JsonResponse(response_data, status=200)
+
     
     try:
         from shop.views.search_products.request_response_mocks \

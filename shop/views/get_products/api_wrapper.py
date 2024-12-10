@@ -1,12 +1,39 @@
 from dsu.dsu_gen.openapi.decorator.interface_decorator import \
     validate_decorator
 from .validator_class import ValidatorClass
-
+from shop.models import Product
+from django.http import JsonResponse
+from django.core.paginator import Paginator
+from django.forms.models import model_to_dict
 
 @validate_decorator(validator_class=ValidatorClass)
 def api_wrapper(*args, **kwargs):
-    # ---------MOCK IMPLEMENTATION---------
-    print(**kwargs)
+    request_data = kwargs.get('query_params', {})
+
+    if not request_data:
+        request_data=kwargs.get('request_query_params', {})
+
+    limit = int(request_data.get('limit', 5))  
+    offset = int(request_data.get('offset', 0)) 
+
+    products = Product.objects.all().order_by('id')
+
+    paginator = Paginator(products, limit)  
+    page_number = (offset // limit) + 1 
+    paginated_products = paginator.get_page(page_number)
+
+    products_list = [model_to_dict(product) for product in paginated_products]
+
+    response_data = {
+        "count": paginator.count,
+        "next": f"?limit={limit}&offset={offset + limit}" if paginated_products.has_next() else None,
+        "previous": f"?limit={limit}&offset={max(offset - limit, 0)}" if paginated_products.has_previous() else None,
+        "results": products_list,
+    }
+
+    return JsonResponse(response_data, status=200)
+
+
 
     try:
         from shop.views.get_products.request_response_mocks \

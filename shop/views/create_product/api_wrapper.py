@@ -2,6 +2,7 @@ from dsu.dsu_gen.openapi.decorator.interface_decorator import \
     validate_decorator
 from .validator_class import ValidatorClass
 from shop.models import Product
+from django.http import JsonResponse
 
 
 @validate_decorator(validator_class=ValidatorClass)
@@ -14,7 +15,7 @@ def api_wrapper(*args, **kwargs):
     mfg_date=request_data.get('mfg_date')
     exp_date=request_data.get('exp_date')
     category=request_data.get('category')
-    stock_quantity=request_data.get('stcok_quantity')
+    stock_quantity=request_data.get('stock_quantity')
 
     product=Product.objects.create(
         name=name,
@@ -23,7 +24,7 @@ def api_wrapper(*args, **kwargs):
         mfg_date=mfg_date,
         exp_date=exp_date,
         category=category,
-        stcok_quantity=stock_quantity
+        stock_quantity=stock_quantity
     )
 
     response_data = {
