@@ -1,11 +1,13 @@
 from shop.storages.storages_implementation import StorageImplementation
 from shop.presenters.presenters_implementation import PresenterImplementation
+from shop.interactors.search_products_interactor import SearchProductIntreactor
 from dsu.dsu_gen.openapi.decorator.interface_decorator import \
     validate_decorator
 from .validator_class import ValidatorClass
 from shop.models import Product
 import json
-from django.db.models import Q
+from django.http import HttpResponse
+
 
 """
 -get query_params
@@ -30,7 +32,7 @@ def api_wrapper(*args, **kwargs):
     presenter=PresenterImplementation()
 
     interactor=SearchProductIntreactor(storage=storage)
-    products=interactor.search_products(name=name,category=name)
+    products=interactor.search_products(name=name,category=name,presenter=presenter)
 
     response_data=json.dumps(products)
     return HttpResponse(response_data,status=201)

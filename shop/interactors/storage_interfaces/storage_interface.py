@@ -66,6 +66,20 @@ class StorageInterface:
     @abstractmethod
     def validate_stock_quantity(self,stock_quantity:str):
         pass
+    
+    @abstractmethod
+    def validate_product_name(self,name:str):
+        pass
+    
+    @abstractmethod
+    def validate_product_name_exists(self,name:str):
+        pass
+    
+
+    @abstractmethod
+    def create_product(self):
+        pass
+
 
     @abstractmethod
     def validate_customer(self,email:str):
@@ -119,4 +133,8 @@ class StorageInterface:
 
     @abstractmethod
     def validate_offset_value(self,offset:int):
+        pass
+
+    @abstractmethod
+    def search_customers(self,name:str,email:str):
         pass

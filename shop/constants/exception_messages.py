@@ -47,3 +47,43 @@ INAVLID_OFFSET_VALUE=(
     "Invalid offset value, try with other value ",
     "INAVLID_OFFSET_VALUE"
 )
+
+INVALID_DESCRIPTION=(
+    "Invalid description, try with other",
+    "INVALID_DESCRIPTION"
+)
+
+INVALID_PRICE=(
+    "Invalid price, try with other",
+    "INVALID_PRICE"
+)
+
+INVALID_MFG_DATE=(
+    "Inavlid mfg_date , try with other",
+    "INVALID_MFG_DATE"
+)
+
+INVALID_EXP_DATE=(
+    "Invalid exp_date, try with other",
+    "INVALID_EXP_DATE"
+)
+
+INVALID_CATEGORY=(
+    "Inavlid category, try with other",
+    "INVALID_CATEGORY"
+)
+
+INVALID_STOCK_QUANTITY=(
+    "Inavlid stock_quantity, try with other",
+    "INVALID_STOCK_QUANTITY"
+)
+
+INVALID_PRODUCT_NAME=(
+     "Inavlid product name, try with other",
+     "INVALID_PRODUCT_NAME"
+)
+
+PRODUCT_NAME_ALREADY_EXISTS=(
+    "product name already exists, try with other",
+    "PRODUCT_NAME_ALREADY_EXISTS"
+)

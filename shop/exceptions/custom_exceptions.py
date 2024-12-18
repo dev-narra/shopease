@@ -28,3 +28,26 @@ class InvalidLimitValue(Exception):
 class InvalidOffsetValue(Exception):
     pass
 
+class InvalidDescription(Exception):
+    pass
+
+class InvalidPrice(Exception):
+    pass
+
+class InvalidMfgDate(Exception):
+    pass
+
+class InvalidExpDate(Exception):
+    pass
+
+class InvalidCategory(Exception):
+    pass
+
+class InvalidStockQuantity(Exception):
+    pass
+
+class InvalidProductName(Exception):
+    pass
+
+class ProductNameAlreadyExists(Exception):
+    pass

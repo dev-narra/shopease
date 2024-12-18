@@ -8,6 +8,10 @@ class PresenterInterface:
     @abstractmethod
     def get_response_for_user_login(self):
         pass
+    
+    @abstractmethod
+    def get_response_for_create_product(self):
+        pass
 
     @abstractmethod
     def get_response_for_get_products(self):
@@ -17,8 +21,41 @@ class PresenterInterface:
     def get_response_for_create_customer(self):
         pass
     
+
     @abstractmethod
     def get_response_for_search_products(self):
+        pass
+
+    @abstractmethod
+    def raise_exception_for_invalid_description(self):
+        pass
+
+    @abstractmethod
+    def raise_exception_for_invalid_price(self):
+        pass
+
+    @abstractmethod
+    def raise_exception_for_invalid_product_name(self):
+        pass
+    
+    @abstractmethod
+    def raise_exception_for_invalid_product_name_exists(self):
+        pass
+    
+    @abstractmethod
+    def raise_exception_for_invalid_exp_date(self):
+        pass
+
+    @abstractmethod
+    def raise_exception_for_invalid_mfg_date(self):
+        pass
+    
+    @abstractmethod
+    def raise_exception_for_invalid_category(self):
+        pass
+
+    @abstractmethod
+    def raise_exception_for_invalid_stock_quantity(self):
         pass
 
     @abstractmethod
@@ -65,3 +102,8 @@ class PresenterInterface:
     @abstractmethod
     def raise_exception_for_invalid_offset_value(self):
         pass
+
+    @abstractmethod
+    def get_response_for_search_customers(self):
+        pass
+    

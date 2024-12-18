@@ -3,6 +3,7 @@ from ib_users.interfaces.service_interface import ServiceInterface
 from shop.exceptions.custom_exceptions import InvalidCustomePhone,InvalidCustomerAddress,InvalidCustomerEmail,InvalidCustomerName,InvalidEmail,CustomerAlreadyExist,InvalidLimitValue
 from shop.models import User,Product,Customer
 from typing import List
+from django.db.models import Q
 
 
 
@@ -18,7 +19,53 @@ class StorageImplementation(StorageInterface):
           service_interface = ServiceInterface()
           auth_tokens = service_interface.create_auth_tokens_for_user(user)
           return auth_tokens
-      
+       
+       def validate_product_name(self,name:str):
+         is_product_name_exist=name is not None
+         if not is_product_name_exist:
+            raise InvalidProductName
+
+       def validate_product_name_exists(self,name:str):
+         is_product_name_exist=Product.objects.filter(name=name).exists()
+         if is_product_name_exist:
+            raise ProductNameAlreadyExists
+
+       def validate_description(self,description:str):
+         is_valid_description=description is not None
+         if not is_valid_description:
+            raise InvalidDescription
+       
+       def validate_price(self,price:float):
+         is_valid_price=price is not None
+         if not is_valid_price:
+            raise InvalidPrice
+
+       def validate_mfg_date(self,mfg_date:str):
+         is_valid_mfg_date=mfg_date is not None
+         if not is_valid_mfg_date:
+            raise InvalidMfgDate
+
+       def validate_exp_date(self,exp_date:str):
+         is_valid_exp_date=exp_date is not None
+         if not is_valid_exp_date:
+            raise InvalidExpDate
+
+       def validate_category(self,category:str):
+         is_valid_category=category is not None
+         if not is_valid_category:
+            raise InvalidCategory
+       
+       def validate_stock_quantity(self,stock_quantity:int):
+         is_valid_stock_quantity=stock_quantity is not None
+         if not is_valid_stock_quantity:
+            raise InvalidStockQuantity
+       
+       def create_product(self,name:str,description:str,price:float,mfg_date:str,exp_date:str,category:str,stock_quantity:int)->ProductDto:
+          product=Product.objects.create(name=name,description=description,price=price,mfg_date=mfg_date,exp_date=exp_date,category=category,stock_quantity=stock_quantity)
+          product_id=product.id
+          return product_id
+
+
        def get_products(self,limit:int,offset:int)->list[ProductDto]:
           products=Product.objects.all()[offset:offset+limit]
           return products
@@ -96,4 +143,10 @@ class StorageImplementation(StorageInterface):
            if not valid_offset_value:
                raise InvalidOffsetValue
          
+       def search_customers(self,name:str,email:str)->list[CustomerDto]:
+            if name or email:
+               customers = Customer.objects.filter(
+                  Q(name__icontains=name) | Q(email__icontains=email)
+               )
+               return customers
             

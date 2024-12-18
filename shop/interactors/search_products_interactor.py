@@ -7,5 +7,8 @@ class SearchProductIntreactor:
         self.storage=storage
 
     def search_products(self,name:str,category:str,presenter:PresenterInterface):
+
+        
+
         products=self.storage.search_products(name=name,category=name)
         return presenter.get_response_for_search_products(products)
