@@ -17,6 +17,13 @@ class ProductDto:
     category:str
     stock_quantity:int
 
+@dataclass()
+class CustomerDto:
+    id:int
+    name:str
+    email:str
+    phone:str
+    address:str
 
 class StorageInterface:
 
@@ -93,5 +100,11 @@ class StorageInterface:
     def search_products(self,name:str,category:str)->List[ProductDto]:
         pass
 
-        
+    @abstractmethod
+    def validate_customer_id(self,id:int):
+        pass
+
+    @abstractmethod   
+    def update_customer(self,id:int,name:str,email:str,phone:str,address:str)->str:
+        pass
     

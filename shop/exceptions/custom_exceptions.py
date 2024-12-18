@@ -18,3 +18,6 @@ class CustomerAlreadyExist(Exception):
 
 class InvalidCustomerInputData(Exception):
     pass
+
+class InvalidCustomerId(Exception):
+    pass

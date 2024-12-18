@@ -1,4 +1,4 @@
-from shop.interactors.storage_interfaces.storage_interface import StorageInterface,AuthTokenDto,ProductDto
+from shop.interactors.storage_interfaces.storage_interface import StorageInterface,AuthTokenDto,ProductDto,CustomerDto
 from ib_users.interfaces.service_interface import ServiceInterface
 from shop.exceptions.custom_exceptions import InvalidCustomePhone,InvalidCustomerAddress,InvalidCustomerEmail,InvalidCustomerName,InvalidEmail,CustomerAlreadyExist
 from shop.models import User,Product,Customer
@@ -53,6 +53,12 @@ class StorageImplementation(StorageInterface):
          if is_invalid_customer_address:
             raise InvalidCustomerAddress
 
+       def validate_customer_id(self,id:int):
+         is_valid_customer_id=Customer.objects.filter(id=id).exists()
+         invalid_customer_id=not is_valid_customer_id
+         if invalid_customer_id:
+            raise InvalidCustomerId
+
        def create_customer(self,name:str,email:str,phone:str,address:str)->int:
           customer=Customer.objects.create(name=name,email=email,phone=phone,address=address)
           customer_id=customer.id
@@ -65,3 +71,17 @@ class StorageImplementation(StorageInterface):
             )
             return products
       
+       def update_customer(self,id:int,name:str,email:str,phone:str,address:str):
+         customer=Customer.objects.get(id=id)
+         customer.id=id
+         customer.name=name
+         customer.email=email
+         customer.phone=phone,
+         customer.address=address
+         customer.save()
+         
+         return customer
+         
+
+
+         

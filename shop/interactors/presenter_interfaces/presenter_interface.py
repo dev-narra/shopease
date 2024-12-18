@@ -44,3 +44,12 @@ class PresenterInterface:
     @abstractmethod
     def raise_exception_for_customer_input_data(self):
         pass
+
+    @abstractmethod
+    def get_response_for_update_customer(self):
+        pass
+
+    @abstractmethod
+    def raise_exception_for_invalid_customer_id(self):
+        pass
+        

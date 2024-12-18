@@ -32,3 +32,8 @@ INVALID_CUSTOMER_INPUT_DATA=(
     "Invalid customer input data, try with other inputs",
     "INVALID_CUSTOMER_INPUT_DATA"
 )
+
+INVALID_CUSTOMER_ID=(
+    "Invalid customer_id , try with another id",
+    "INVALID_CUSTOMER_ID"
+)

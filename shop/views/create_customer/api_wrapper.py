@@ -9,18 +9,6 @@ import json
 from django.http import HttpResponse
 
 """
-- get request_data
-   -name
-   -email
-   -phone
-   -address
--storage Imple
-   -create_customer
--presenter Imple
-   -get_response_for_create_customer
--interactor 
-  - CreateCustomerInteractor
-
 
 Create Customer:
     Input: name, email, phonenumber, address

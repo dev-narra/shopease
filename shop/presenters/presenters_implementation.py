@@ -1,6 +1,6 @@
 from shop.interactors.presenter_interfaces.presenter_interface import PresenterInterface
-from shop.interactors.storage_interfaces.storage_interface import AuthTokenDto,ProductDto
-from shop.constants.exception_messages import INVALID_EMAIL,INVALID_CUSTOMER_EMAIL,INVALID_CUSTOMER_PHONE,INVALID_CUSTOMER_ADDRESS,INVALID_CUSTOMER_NAME,CUSTOMER_ALREADY_EXISTS
+from shop.interactors.storage_interfaces.storage_interface import AuthTokenDto,ProductDto,CustomerDto
+from shop.constants.exception_messages import INVALID_EMAIL,INVALID_CUSTOMER_EMAIL,INVALID_CUSTOMER_PHONE,INVALID_CUSTOMER_ADDRESS,INVALID_CUSTOMER_NAME,CUSTOMER_ALREADY_EXISTS,INVALID_CUSTOMER_ID
 
 from django_swagger_utils.drf_server.exceptions import NotFound
 from typing import List
@@ -65,5 +65,9 @@ class PresenterImplementation(PresenterInterface):
     def raise_exception_for_customer_alredy_exists(self):
         NotFound(*CUSTOMER_ALREADY_EXISTS)
 
-    def raise_exception_for_customer_input_data(self):
-        NotFound()
+
+    def get_response_for_update_customer(self,customer:CustomerDto):
+        return customer
+
+    def raise_exception_for_invalid_customer_id(self):
+        NotFound(*INVALID_CUSTOMER_ID)
