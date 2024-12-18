@@ -87,3 +87,8 @@ PRODUCT_NAME_ALREADY_EXISTS=(
     "product name already exists, try with other",
     "PRODUCT_NAME_ALREADY_EXISTS"
 )
+
+INVALID_PRODUCT_ID=(
+    "Product id is not valid, try with other",
+    "INVALID_PRODUCT_ID"
+)

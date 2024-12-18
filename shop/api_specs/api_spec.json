@@ -754,7 +754,16 @@
         ],
         "responses": {
           "200": {
-            "description": "Product deleted successfully"
+            "description": "Product deleted successfully",
+            "schema": {
+                "type":"object",
+                "properties": {
+            "message": {
+                "type": "string"
+            }
+        }
+              
+              }
           }
         }
       }

@@ -150,3 +150,12 @@ class StorageImplementation(StorageInterface):
                )
                return customers
             
+       def delete_product(self,id:int)->str:
+           product=Product.objects.get(id=id)
+           product.delete()
+           
+       def validate_product_id(self,id:int):
+         is_valid_product_id=Product.objects.filter(id=id).exists()
+         invalid_product_id=not is_valid_product_id
+         if invalid_product_id:
+            raise InvalidProductId

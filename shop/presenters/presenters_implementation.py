@@ -1,6 +1,6 @@
 from shop.interactors.presenter_interfaces.presenter_interface import PresenterInterface
 from shop.interactors.storage_interfaces.storage_interface import AuthTokenDto,ProductDto,CustomerDto
-from shop.constants.exception_messages import INVALID_EMAIL,INVALID_CUSTOMER_EMAIL,INVALID_CUSTOMER_PHONE,INVALID_CUSTOMER_ADDRESS,INVALID_CUSTOMER_NAME,CUSTOMER_ALREADY_EXISTS,INVALID_CUSTOMER_ID,INAVLID_LIMIT_VALUE,INAVLID_OFFSET_VALUE,INVALID_DESCRIPTION,INVALID_PRICE,INVALID_MFG_DATE,INVALID_EXP_DATE,INVALID_CATEGORY,INVALID_STOCK_QUANTITY,INVALID_PRODUCT_NAME,PRODUCT_NAME_ALREADY_EXISTS
+from shop.constants.exception_messages import INVALID_EMAIL,INVALID_CUSTOMER_EMAIL,INVALID_CUSTOMER_PHONE,INVALID_CUSTOMER_ADDRESS,INVALID_CUSTOMER_NAME,CUSTOMER_ALREADY_EXISTS,INVALID_CUSTOMER_ID,INAVLID_LIMIT_VALUE,INAVLID_OFFSET_VALUE,INVALID_DESCRIPTION,INVALID_PRICE,INVALID_MFG_DATE,INVALID_EXP_DATE,INVALID_CATEGORY,INVALID_STOCK_QUANTITY,INVALID_PRODUCT_NAME,PRODUCT_NAME_ALREADY_EXISTS,INVALID_PRODUCT_ID
 
 from django_swagger_utils.drf_server.exceptions import NotFound
 from typing import List
@@ -139,3 +139,11 @@ class PresenterImplementation(PresenterInterface):
             for customer in customers
         ]
         return customers_array
+
+    def get_response_for_delete_product(self)->str:
+        return {
+            "message":"Product is deleted............."
+        }
+    
+    def raise_exception_for_invalid_product_id(self):
+        raise NotFound(*INVALID_PRODUCT_ID)

@@ -51,3 +51,6 @@ class InvalidProductName(Exception):
 
 class ProductNameAlreadyExists(Exception):
     pass
+
+class InvalidProductId(Exception):
+    pass

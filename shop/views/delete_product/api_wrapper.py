@@ -1,59 +1,43 @@
+from shop.storages.storages_implementation import StorageImplementation
+from shop.presenters.presenters_implementation import PresenterImplementation
+from shop.interactors.delete_product_interactor import DeleteProductInteractor
+
 from dsu.dsu_gen.openapi.decorator.interface_decorator import \
     validate_decorator
 from .validator_class import ValidatorClass
 from shop.models import Product
-from django.http import JsonResponse
+from django.http import HttpResponse
+import json
+
+
+
+"""
+-validate the input
+  -product_id
+
+   if product_id in products:
+        delete the product
+   else
+      raise InvalidProductId
+
+
+
+"""
 
 
 @validate_decorator(validator_class=ValidatorClass)
 def api_wrapper(*args, **kwargs):
-    # ---------MOCK IMPLEMENTATION---------
     product_id = kwargs["path_params"]['id']
-    try:
-        product = Product.objects.get(id=product_id)
-        product.delete()
+    
+    storage=StorageImplementation()
+    presenter=PresenterImplementation()
+    interactor=DeleteProductInteractor(storage=storage)
+    
+    product_id=interactor.delete_product(id=id,presenter=presenter)
+    response_data=json.dumps(product_id)
 
-        return JsonResponse({"message": "Product is deleted."}, status=200)
-    except Product.DoesNotExist:
-        return JsonResponse({'error': 'Product not found'}, status=404)
+    return HttpResponse(response_data,status=200)
+    
 
     
-    try:
-        from shop.views.delete_product.request_response_mocks \
-            import REQUEST_BODY_JSON
-        body = REQUEST_BODY_JSON
-    except ImportError:
-        body = {}
-
-    test_case = {
-        "path_params": {'id': 'string'},
-        "query_params": {},
-        "header_params": {},
-        "body": body,
-        "securities": []
-    }
-
-    from dsu.dsu_gen.openapi.utils.mock_response import mock_response
-
-    try:
-        response = ''
-        status_code = 200
-        if '200' in ['200']:
-            from shop.views.delete_product.request_response_mocks \
-                import RESPONSE_200_JSON
-            response = RESPONSE_200_JSON
-            status_code = 200
-        elif '201' in ['200']:
-            from shop.views.delete_product.request_response_mocks \
-                import RESPONSE_201_JSON
-            response = RESPONSE_201_JSON
-            status_code = 201
-    except ImportError:
-        response = ''
-        status_code = 200
-    response_tuple = mock_response(
-        app_name="shop", test_case=test_case,
-        operation_name="delete_product",
-        kwargs=kwargs, default_response_body=response,
-        group_name="", status_code=status_code)
-    return response_tuple
+    

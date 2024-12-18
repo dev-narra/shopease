@@ -15,7 +15,7 @@ def api_wrapper(*args, **kwargs):
         body = {}
 
     test_case = {
-        "path_params": {'paymentId': 326},
+        "path_params": {'paymentId': 25},
         "query_params": {},
         "header_params": {},
         "body": body,

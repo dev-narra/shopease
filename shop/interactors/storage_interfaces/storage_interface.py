@@ -138,3 +138,11 @@ class StorageInterface:
     @abstractmethod
     def search_customers(self,name:str,email:str):
         pass
+    
+    @abstractmethod
+    def delete_product(self,id:int)->int:
+        pass
+    
+    @abstractmethod
+    def validate_product_id(self):
+        pass

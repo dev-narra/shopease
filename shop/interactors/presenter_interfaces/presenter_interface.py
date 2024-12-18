@@ -107,3 +107,10 @@ class PresenterInterface:
     def get_response_for_search_customers(self):
         pass
     
+    @abstractmethod
+    def get_response_for_delete_product(self):
+        pass
+    
+    @abstractmethod
+    def raise_exception_for_invalid_product_id(self):
+        pass
