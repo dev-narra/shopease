@@ -1,4 +1,4 @@
-class Status204Response(object):
+class Status200Response(object):
 
     @staticmethod
     def get_response():

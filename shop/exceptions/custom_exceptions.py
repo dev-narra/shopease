@@ -21,3 +21,10 @@ class InvalidCustomerInputData(Exception):
 
 class InvalidCustomerId(Exception):
     pass
+
+class InvalidLimitValue(Exception):
+    pass
+
+class InvalidOffsetValue(Exception):
+    pass
+

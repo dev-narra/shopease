@@ -1,6 +1,6 @@
 from shop.interactors.storage_interfaces.storage_interface import StorageInterface,AuthTokenDto,ProductDto,CustomerDto
 from ib_users.interfaces.service_interface import ServiceInterface
-from shop.exceptions.custom_exceptions import InvalidCustomePhone,InvalidCustomerAddress,InvalidCustomerEmail,InvalidCustomerName,InvalidEmail,CustomerAlreadyExist
+from shop.exceptions.custom_exceptions import InvalidCustomePhone,InvalidCustomerAddress,InvalidCustomerEmail,InvalidCustomerName,InvalidEmail,CustomerAlreadyExist,InvalidLimitValue
 from shop.models import User,Product,Customer
 from typing import List
 
@@ -19,7 +19,7 @@ class StorageImplementation(StorageInterface):
           auth_tokens = service_interface.create_auth_tokens_for_user(user)
           return auth_tokens
       
-       def get_products(self,limit:int,offset:int)->List[ProductDto]:
+       def get_products(self,limit:int,offset:int)->list[ProductDto]:
           products=Product.objects.all()[offset:offset+limit]
           return products
 
@@ -64,14 +64,14 @@ class StorageImplementation(StorageInterface):
           customer_id=customer.id
           return customer_id
 
-       def search_products(self,name:str,category:str)->List[ProductDto]:
+       def search_products(self,name:str,category:str)->list[ProductDto]:
          if name or category:
             products = Product.objects.filter(
                 Q(name__icontains=name) | Q(category__icontains=category)
             )
             return products
       
-       def update_customer(self,id:int,name:str,email:str,phone:str,address:str):
+       def update_customer(self,id:int,name:str,email:str,phone:str,address:str)->CustomerDto:
          customer=Customer.objects.get(id=id)
          customer.id=id
          customer.name=name
@@ -82,6 +82,18 @@ class StorageImplementation(StorageInterface):
          
          return customer
          
+       def get_customers(self,limit:int,offset:int)->list[CustomerDto]:
+         customers=Customer.objects.all()[offset:offset+limit]
+         return customers
 
+       def validate_limit_value(self,limit:int):
+           valid_limit_value=limit is not None and limit >=1
+           if not valid_limit_value:
+               raise InvalidLimitValue
 
+       def validate_offset_value(self,offset:int):
+           valid_offset_value=offset is not None
+           if not valid_offset_value:
+               raise InvalidOffsetValue
          
+            

@@ -23,7 +23,7 @@ options = {
     'REQUEST_SERIALIZER_MANY_ITEMS': False,
     'RESPONSE': {
         
-        '204': {
+        '200': {
            'RESPONSE_SERIALIZER': None,
            'RESPONSE_SERIALIZER_MANY_ITEMS':  False,
            'HEADERS_SERIALIZER': None,

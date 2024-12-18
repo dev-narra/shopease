@@ -1,57 +1,39 @@
+from shop.storages.storages_implementation import StorageImplementation
+from shop.presenters.presenters_implementation import PresenterImplementation
+from shop.interactors.get_customers_interactor import GetCustomersInteractor
+
+
 from dsu.dsu_gen.openapi.decorator.interface_decorator import \
     validate_decorator
 from .validator_class import ValidatorClass
 from shop.models import Customer
+import json
+from django.http import HttpResponse
+
+"""
+  - get the limit and offset
+      - validate limit
+      - validate offset
+  - storage impl
+     - get_customer
+
+  - presenter implement 
+      - get_response_for_gets_the_customers
+
+
+
+"""
+
 
 
 @validate_decorator(validator_class=ValidatorClass)
 def api_wrapper(*args, **kwargs):
-    # ---------MOCK IMPLEMENTATION---------
     limit=kwargs['query_params']['limit']
     offset=kwargs['query_params']['offset']
-    customers=Customer.objects.all()[offset:offset+limit]
-    customers_array=[]
-    for customer in customers:
-        data={'name':customer.name,'email':customer.email,"phone":customer.phone,'address':customer.address}
-        customers_array.append(data)
-    return JsonResponse(customers_array,safe=False,status=200)
-
-    try:
-        from shop.views.get_customers.request_response_mocks \
-            import REQUEST_BODY_JSON
-        body = REQUEST_BODY_JSON
-    except ImportError:
-        body = {}
-
-    test_case = {
-        "path_params": {},
-        "query_params": {'limit': 53, 'offset': 212},
-        "header_params": {},
-        "body": body,
-        "securities": []
-    }
-
-    from dsu.dsu_gen.openapi.utils.mock_response import mock_response
-
-    try:
-        response = ''
-        status_code = 200
-        if '200' in ['200']:
-            from shop.views.get_customers.request_response_mocks \
-                import RESPONSE_200_JSON
-            response = RESPONSE_200_JSON
-            status_code = 200
-        elif '201' in ['200']:
-            from shop.views.get_customers.request_response_mocks \
-                import RESPONSE_201_JSON
-            response = RESPONSE_201_JSON
-            status_code = 201
-    except ImportError:
-        response = ''
-        status_code = 200
-    response_tuple = mock_response(
-        app_name="shop", test_case=test_case,
-        operation_name="get_customers",
-        kwargs=kwargs, default_response_body=response,
-        group_name="", status_code=status_code)
-    return response_tuple
+    
+    storage=StorageImplementation()
+    presenter=PresenterImplementation()
+    interactor=GetCustomersInteractor(storage=storage)
+    customers=interactor.get_customers(limit=limit,offset=offset,presenter=presenter)
+    response_data=json.dumps(customers)
+    return HttpResponse(response_data,status=200)

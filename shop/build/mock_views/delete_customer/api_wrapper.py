@@ -27,12 +27,12 @@ def api_wrapper(*args, **kwargs):
     try:
         response = ''
         status_code = 200
-        if '200' in ['204']:
+        if '200' in ['200']:
             from shop.views.delete_customer.request_response_mocks \
                 import RESPONSE_200_JSON
             response = RESPONSE_200_JSON
             status_code = 200
-        elif '201' in ['204']:
+        elif '201' in ['200']:
             from shop.views.delete_customer.request_response_mocks \
                 import RESPONSE_201_JSON
             response = RESPONSE_201_JSON

@@ -36,7 +36,7 @@ class StorageInterface:
         pass
    
     @abstractmethod
-    def get_products(self,limit:int,offset:int)->List[ProductDto]:
+    def get_products(self,limit:int,offset:int)->list[ProductDto]:
         pass
     
     @abstractmethod
@@ -105,6 +105,18 @@ class StorageInterface:
         pass
 
     @abstractmethod   
-    def update_customer(self,id:int,name:str,email:str,phone:str,address:str)->str:
+    def update_customer(self,id:int,name:str,email:str,phone:str,address:str)->CustomerDto:
         pass
     
+
+    @abstractmethod
+    def get_customers(self,limit:int,offset:int)->list[CustomerDto]:
+        pass
+
+    @abstractmethod
+    def validate_limit_value(self,limit:int):
+        pass
+
+    @abstractmethod
+    def validate_offset_value(self,offset:int):
+        pass

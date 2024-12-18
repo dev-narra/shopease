@@ -37,3 +37,13 @@ INVALID_CUSTOMER_ID=(
     "Invalid customer_id , try with another id",
     "INVALID_CUSTOMER_ID"
 )
+
+INAVLID_LIMIT_VALUE=(
+    "Invalid Limit value, try with other value must greater than 1",
+    "INAVLID_LIMIT_VALUE"
+)
+
+INAVLID_OFFSET_VALUE=(
+    "Invalid offset value, try with other value ",
+    "INAVLID_OFFSET_VALUE"
+)

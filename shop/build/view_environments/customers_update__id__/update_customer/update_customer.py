@@ -2,6 +2,8 @@ from dsu.runtime.security.request_response import request_response
 from dsu.dsu_gen.openapi.constants.config import PARSER_MAPPING
 from dsu.dsu_gen.openapi.constants.config import RENDERER_MAPPING
 from shop.build.view_environments.customers_update__id__.update_customer.UpdateCustomerRequestPathParamSerializer import UpdateCustomerRequestPathParamSerializer
+from shop.build.serializers.definitions.Customer.CustomerSerializer import CustomerSerializer
+from shop.build.serializers.definitions.Customer.CustomerSerializer import CustomerSerializer
 
 
 options = {
@@ -19,12 +21,12 @@ options = {
     'REQUEST_HEADERS_SERIALIZER': None,
     'REQUEST_PATH_PARAMS_SERIALIZER': UpdateCustomerRequestPathParamSerializer,
     'DEFAULT_REQUEST_PATH_PARAMS': {"id": "string"},
-    'REQUEST_SERIALIZER': None,
+    'REQUEST_SERIALIZER': CustomerSerializer,
     'REQUEST_SERIALIZER_MANY_ITEMS': False,
     'RESPONSE': {
         
         '200': {
-           'RESPONSE_SERIALIZER': None,
+           'RESPONSE_SERIALIZER': CustomerSerializer,
            'RESPONSE_SERIALIZER_MANY_ITEMS':  False,
            'HEADERS_SERIALIZER': None,
         }

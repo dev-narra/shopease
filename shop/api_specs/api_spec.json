@@ -814,7 +814,11 @@
             "200": {
               "description": "A paginated list of customers.",
               "schema": {
-                "$ref": "#/definitions/Customer"
+                "type":"array",
+                "items":{
+                  "$ref": "#/definitions/Customer"
+                }
+                
               }
             }
           }
@@ -852,11 +856,29 @@
                         "oauth": ["update"]
                     }
                 ],
-              "parameters": [
-                { "name": "id", "in": "path", "required": true, "type":"string"  }
-              ],
+             "parameters": [
+  {
+    "name": "id",
+    "in": "path",
+    "required": true,
+    "type": "string"
+  },
+  {
+    "name": "body",
+    "in": "body",
+    "required": true,
+    "schema": {
+      "$ref": "#/definitions/Customer"
+    }
+  }
+],
               "responses": {
-                "200": { "description": "Customer successfully updated." }
+                "200": { 
+                  "description": "Customer successfully updated.",
+                  "schema": {
+      "$ref": "#/definitions/Customer"
+    }
+                 }
               }
             }
                },
@@ -874,7 +896,9 @@
                 { "name": "id", "in": "path", "required": true,"type": "string" }
               ],
               "responses": {
-                "204": { "description": "Customer successfully deleted." }
+                "200":{
+                  "description":"Customer successfully deleted."
+                }
               }
             }
                },
@@ -907,8 +931,12 @@
           "responses": {
             "200": {
               "description": "A list of customers matching the search criteria.",
-              "schema": {
-                "$ref": "#/definitions/CustomerList"
+              "schema": 
+              {
+                "type":"array",
+                "items":{
+                  "$ref":"#/definitions/Customer"
+                }
               }
             }
           }

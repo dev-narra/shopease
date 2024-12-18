@@ -1,5 +1,6 @@
 from shop.storages.storages_implementation import StorageImplementation
 from shop.presenters.presenters_implementation import PresenterImplementation
+from shop.interactors.update_customer_interactor import UpdateCustomerInteractor
 from dsu.dsu_gen.openapi.decorator.interface_decorator import \
     validate_decorator
 from .validator_class import ValidatorClass
@@ -12,14 +13,15 @@ import json
 -input data: 
         customer_id,name,email,phone,address
 -validate the input_data:
-
+        -validate_name
+        -validate_email
+        -validate_phone
+        -validate_address
+        -validate_customer_id
         if customer_id exist in db:
             perform update
         else
             raise InvalidCustomerId
-
- 
-
 
 
 """
@@ -39,8 +41,8 @@ def api_wrapper(*args, **kwargs):
 
     storage=StorageImplementation()
     presenter=PresenterImplementation()
-    interactor=UpdateProductInteractor(storage=storage)
-    customer=interactor.update_customer(id=id,name=name,email=email,phone=phone,address=address)
+    interactor=UpdateCustomerInteractor(storage=storage)
+    customer=interactor.update_customer(id=id,name=name,email=email,phone=phone,address=address,presenter=presenter)
     response_data=json.dumps(customer)
 
     return HttpResponse(response_data,status=201)

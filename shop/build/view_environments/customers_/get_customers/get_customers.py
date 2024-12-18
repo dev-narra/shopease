@@ -2,7 +2,7 @@ from dsu.runtime.security.request_response import request_response
 from dsu.dsu_gen.openapi.constants.config import PARSER_MAPPING
 from dsu.dsu_gen.openapi.constants.config import RENDERER_MAPPING
 from shop.build.view_environments.customers_.get_customers.GetCustomersRequestQueryParamSerializer import GetCustomersRequestQueryParamSerializer
-from shop.build.serializers.definitions.Customer.CustomerSerializer import CustomerSerializer
+from shop.build.view_environments.customers_.get_customers.responses.Status_200.Status_200.Status_200Serializer import Status_200Serializer
 
 
 options = {
@@ -25,7 +25,7 @@ options = {
     'RESPONSE': {
         
         '200': {
-           'RESPONSE_SERIALIZER': CustomerSerializer,
+           'RESPONSE_SERIALIZER': Status_200Serializer,
            'RESPONSE_SERIALIZER_MANY_ITEMS':  False,
            'HEADERS_SERIALIZER': None,
         }
