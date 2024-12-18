@@ -532,8 +532,14 @@
         "CreateNewCustomerResponse": {
             "description": "Success Response",
             "schema": {
-                "$ref": "#/definitions/CustomerWithExtraFields"
+                "type":"object",
+                "properties": {
+            "customer_id": {
+                "type": "integer"
             }
+        }
+              
+              }
         },
         "CreateNewOrderResponse": {
     "description": "Order created successfully.",
@@ -629,7 +635,10 @@
         "200": {
           "description": "A paginated list of products.",
           "schema": {
-            "$ref": "#/definitions/Product"
+            "type":"array",
+            "items":{
+              "$ref": "#/definitions/Product"
+            }
           }
         }
       }

@@ -2,7 +2,7 @@ from dsu.runtime.security.request_response import request_response
 from dsu.dsu_gen.openapi.constants.config import PARSER_MAPPING
 from dsu.dsu_gen.openapi.constants.config import RENDERER_MAPPING
 from shop.build.view_environments.products_.get_products.GetProductsRequestQueryParamSerializer import GetProductsRequestQueryParamSerializer
-from shop.build.serializers.definitions.Product.ProductSerializer import ProductSerializer
+from shop.build.view_environments.products_.get_products.responses.Status_200.Status_200.Status_200Serializer import Status_200Serializer
 
 
 options = {
@@ -25,7 +25,7 @@ options = {
     'RESPONSE': {
         
         '200': {
-           'RESPONSE_SERIALIZER': ProductSerializer,
+           'RESPONSE_SERIALIZER': Status_200Serializer,
            'RESPONSE_SERIALIZER_MANY_ITEMS':  False,
            'HEADERS_SERIALIZER': None,
         }

@@ -9,6 +9,19 @@ from ib_users.interfaces.service_interface import ServiceInterface
 from django.http import HttpResponse
 import json
 
+"""
+-read email
+  -validate the email(exists in users)
+-storageimpl
+    -user_login(email)
+-presenterimpl
+    -get_response_for_user_login()
+-interactor
+    -UserLoginInteractor
+
+"""
+
+
 
 @validate_decorator(validator_class=ValidatorClass)
 def api_wrapper(*args, **kwargs):

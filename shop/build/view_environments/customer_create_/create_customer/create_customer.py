@@ -2,7 +2,7 @@ from dsu.runtime.security.request_response import request_response
 from dsu.dsu_gen.openapi.constants.config import PARSER_MAPPING
 from dsu.dsu_gen.openapi.constants.config import RENDERER_MAPPING
 from shop.build.serializers.definitions.Customer.CustomerSerializer import CustomerSerializer
-from shop.build.serializers.definitions.CustomerWithExtraFields.CustomerWithExtraFieldsSerializer import CustomerWithExtraFieldsSerializer
+from shop.build.responses.CreateNewCustomerResponse.CreateNewCustomerResponse.CreateNewCustomerResponseSerializer import CreateNewCustomerResponseSerializer
 
 
 options = {
@@ -25,7 +25,7 @@ options = {
     'RESPONSE': {
         
         '200': {
-           'RESPONSE_SERIALIZER': CustomerWithExtraFieldsSerializer,
+           'RESPONSE_SERIALIZER': CreateNewCustomerResponseSerializer,
            'RESPONSE_SERIALIZER_MANY_ITEMS':  False,
            'HEADERS_SERIALIZER': None,
         }

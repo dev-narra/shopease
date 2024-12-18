@@ -22,7 +22,7 @@ options = {
     'REQUEST_QUERY_PARAMS_SERIALIZER': None,
     'REQUEST_HEADERS_SERIALIZER': None,
     'REQUEST_PATH_PARAMS_SERIALIZER': UpdatePaymentDetailsRequestPathParamSerializer,
-    'DEFAULT_REQUEST_PATH_PARAMS': {"paymentId": 648},
+    'DEFAULT_REQUEST_PATH_PARAMS': {"paymentId": 544},
     'REQUEST_SERIALIZER': UpdatePaymentRequestSerializer,
     'REQUEST_SERIALIZER_MANY_ITEMS': False,
     'RESPONSE': {
