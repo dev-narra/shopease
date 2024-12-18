@@ -526,8 +526,14 @@
         "CreateNewProductResponse": {
             "description": "Success Response",
             "schema": {
-                "$ref": "#/definitions/ProductWithExtraFields"
+                "type":"object",
+                "properties": {
+            "product_id": {
+                "type": "integer"
             }
+        }
+              
+              }
         },
         "CreateNewCustomerResponse": {
             "description": "Success Response",
@@ -674,7 +680,10 @@
         "200": {
           "description": "A list of products matching the search criteria.",
           "schema": {
-            "$ref": "#/definitions/Product"
+            "type":"array",
+            "items":{
+              "$ref": "#/definitions/Product"
+            }
           }
         }
       }
