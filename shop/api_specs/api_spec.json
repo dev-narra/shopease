@@ -235,12 +235,10 @@
       "Payment": {
         "type": "object",
         "properties": {
-          "id": { "type": "string" },
-          "order_id": { "type": "string" },
+          "id": { "type": "integer" },
           "amount": { "type": "number", "format": "float"},
           "method": { "type": "string", "enum": ["Card", "NetBanking", "UPI", "COD"] },
-          "status": { "type": "string", "enum": ["Success", "Pending", "Failed"] },
-          "transaction_date": { "type": "string", "format": "date-time" }
+          "transaction_date": { "type": "string"}
         }
       },
       "PaymentList": {
@@ -330,9 +328,12 @@
       "method": {
         "type": "string",
         "example": "Debit Card"
+      },
+      "transaction_date":{
+        "type":"string"
       }
     },
-    "required": ["amount", "method"]
+    "required": ["amount", "method","transaction_date"]
   },
       "Order": {
         "type": "object",
@@ -556,8 +557,14 @@
   "CreateNewPaymentResponse": {
     "description": "Payment recorded successfully.",
     "schema": {
-      "$ref": "#/definitions/Payment"
-    }
+                "type":"object",
+                "properties": {
+            "customer_id": {
+                "type": "integer"
+            }
+        }
+              
+              }
   },
   "AddFeedbackResponse": {
     "description": "Feedback added successfully.",
@@ -713,11 +720,6 @@
           },
           "/product/update/{id}/":{
               "put":{
-                  "parameters": [
-                  {
-                      "$ref": "#/parameters/ProductId"
-                  }
-              ],
               "summary": "Updates a Product",
               "description": "Updates a Product.",
               "operationId": "update_product",
@@ -726,10 +728,29 @@
                         "oauth": ["update"]
                     }
                 ],
+              "parameters": [
+  {
+    "name": "id",
+    "in": "path",
+    "required": true,
+    "type": "integer"
+  },
+  {
+    "name": "body",
+    "in": "body",
+    "required": true,
+    "schema": {
+      "$ref": "#/definitions/Product"
+    }
+  }
+],
               "responses": {
-                  "200": {
-                      "description":"A product updated Successfully.....!"
-                  }
+                "200": { 
+                  "description": "Product successfully updated.",
+                  "schema": {
+      "$ref": "#/definitions/Product"
+    }
+                 }
               }
           }
           },
@@ -1229,54 +1250,31 @@
                 ],
     "parameters": [
       {
-        "name": "page",
+        "name": "limit",
         "in": "query",
         "description": "The page number to retrieve for paginated results.",
-        "required": false,
+        "required": true,
         "type": "integer",
-        "minimum": 1,
-        "default": 1
+        "minimum": 1
       },
       {
-        "name": "size",
+        "name": "offset",
         "in": "query",
         "description": "The number of results per page for paginated results.",
-        "required": false,
+        "required": true,
         "type": "integer",
-        "minimum": 1,
-        "default": 10
+        "minimum": 0
       }
     ],
     "responses": {
       "200": {
         "description": "A paginated list of payments.",
         "schema": {
-          "type": "object",
-          "properties": {
-            "page": {
-              "type": "integer",
-              "example": 1
-            },
-            "size": {
-              "type": "integer",
-              "example": 10
-            },
-            "totalPages": {
-              "type": "integer",
-              "example": 5
-            },
-            "totalPayments": {
-              "type": "integer",
-              "example": 50
-            },
-            "payments": {
-              "type": "array",
-              "items": {
-                "$ref": "#/definitions/Payment"
-              }
+            "type":"array",
+            "items":{
+              "$ref": "#/definitions/Payment"
             }
           }
-        }
       },
       "400": {
         "description": "Invalid pagination parameters.",
@@ -1378,7 +1376,7 @@
     }
   }
 },
-"/payments/{paymentId}": {
+"/payments/{id}": {
   "put": {
     "summary": "Update payment details",
     "description": "Modify payment details such as the amount or payment method.",
@@ -1390,7 +1388,7 @@
                 ],
     "parameters": [
       {
-        "name": "paymentId",
+        "name": "id",
         "in": "path",
         "description": "The ID of the payment to update.",
         "required": true,

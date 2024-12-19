@@ -6,9 +6,9 @@ from dsu.dsu_gen.openapi.utils.type_file_utils import get_type_list_object
 from dsu.dsu_gen.openapi.fields.collection_format_field import CollectionFormatField
 
 
-class UpdatePaymentDetailsRequestPathParamType(object):
-    def __init__(self, paymentId,  **kwargs):
-        self.paymentId = paymentId
+class CreateNewPaymentResponseType(object):
+    def __init__(self, customer_id=None,  **kwargs):
+        self.customer_id = customer_id
 
     def __str__(self):
         from dsu.dsu_gen.openapi.utils.get_unicode_str import get_unicode_str
@@ -18,8 +18,8 @@ class UpdatePaymentDetailsRequestPathParamType(object):
         return getattr(self, item)
 
 
-class UpdatePaymentDetailsRequestPathParamSerializer(serializers.Serializer):
-    paymentId = serializers.IntegerField(help_text="The ID of the payment to update.")
+class CreateNewPaymentResponseSerializer(serializers.Serializer):
+    customer_id = serializers.IntegerField(required=False, allow_null=True)
 
     def create(self, validated_data):
-        return UpdatePaymentDetailsRequestPathParamType(**validated_data)
+        return CreateNewPaymentResponseType(**validated_data)

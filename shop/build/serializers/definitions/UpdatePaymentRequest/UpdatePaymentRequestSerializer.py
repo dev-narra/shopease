@@ -7,9 +7,10 @@ from dsu.dsu_gen.openapi.fields.collection_format_field import CollectionFormatF
 
 
 class UpdatePaymentRequestType(object):
-    def __init__(self, amount, method,  **kwargs):
+    def __init__(self, amount, method, transaction_date,  **kwargs):
         self.amount = amount
         self.method = method
+        self.transaction_date = transaction_date
 
     def __str__(self):
         from dsu.dsu_gen.openapi.utils.get_unicode_str import get_unicode_str
@@ -22,6 +23,7 @@ class UpdatePaymentRequestType(object):
 class UpdatePaymentRequestSerializer(serializers.Serializer):
     amount = serializers.FloatField()
     method = serializers.CharField()
+    transaction_date = serializers.CharField()
 
     def create(self, validated_data):
         return UpdatePaymentRequestType(**validated_data)

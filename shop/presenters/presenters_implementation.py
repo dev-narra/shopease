@@ -1,6 +1,6 @@
 from shop.interactors.presenter_interfaces.presenter_interface import PresenterInterface
-from shop.interactors.storage_interfaces.storage_interface import AuthTokenDto,ProductDto,CustomerDto
-from shop.constants.exception_messages import INVALID_EMAIL,INVALID_CUSTOMER_EMAIL,INVALID_CUSTOMER_PHONE,INVALID_CUSTOMER_ADDRESS,INVALID_CUSTOMER_NAME,CUSTOMER_ALREADY_EXISTS,INVALID_CUSTOMER_ID,INAVLID_LIMIT_VALUE,INAVLID_OFFSET_VALUE,INVALID_DESCRIPTION,INVALID_PRICE,INVALID_MFG_DATE,INVALID_EXP_DATE,INVALID_CATEGORY,INVALID_STOCK_QUANTITY,INVALID_PRODUCT_NAME,PRODUCT_NAME_ALREADY_EXISTS,INVALID_PRODUCT_ID
+from shop.interactors.storage_interfaces.storage_interface import AuthTokenDto,ProductDto,CustomerDto,PaymentDto
+from shop.constants.exception_messages import INVALID_EMAIL,INVALID_CUSTOMER_EMAIL,INVALID_CUSTOMER_PHONE,INVALID_CUSTOMER_ADDRESS,INVALID_CUSTOMER_NAME,CUSTOMER_ALREADY_EXISTS,INVALID_CUSTOMER_ID,INAVLID_LIMIT_VALUE,INAVLID_OFFSET_VALUE,INVALID_DESCRIPTION,INVALID_PRICE,INVALID_MFG_DATE,INVALID_EXP_DATE,INVALID_CATEGORY,INVALID_STOCK_QUANTITY,INVALID_PRODUCT_NAME,PRODUCT_NAME_ALREADY_EXISTS,INVALID_PRODUCT_ID,INVALID_PAYMENT_AMOUNT,INVALID_PAYMENT_METHOD,INVALID_PAYMENT_TRANSACTION_DATE,INVALID_PAYMENT_ID
 
 from django_swagger_utils.drf_server.exceptions import NotFound
 from typing import List
@@ -147,3 +147,51 @@ class PresenterImplementation(PresenterInterface):
     
     def raise_exception_for_invalid_product_id(self):
         raise NotFound(*INVALID_PRODUCT_ID)
+
+    def get_response_for_create_payment(self,payment_id:int)->int:
+        return{
+            "payment_id":payment_id
+        }
+    
+    def raise_exception_for_invalid_payment_amount(self):
+        raise NotFound(*INVALID_PAYMENT_AMOUNT)
+
+    def raise_exception_for_invalid_payment_method(self):
+        raise NotFound(*INVALID_PAYMENT_METHOD)
+
+    def raise_exception_for_invalid_payment_transaction_date(self):
+        raise NotFound(*INVALID_PAYMENT_TRANSACTION_DATE)
+
+    def get_response_for_get_payments(self,payments:list[PaymentDto]):
+        payments_array=[
+            {
+               "id":payment.id,
+               "amount":payment.amount,
+               "method":payment.method,
+               "transaction_date":payment.transaction_date
+            }
+            for payment in payments
+        ]
+        return payments_array
+
+    def get_response_for_update_payment(self,payment:PaymentDto):
+        return{
+            "id":payment.id,
+            "amount":payment.amount,
+            "method":payment.method,
+            "transaction_date":payment.transaction_date
+        }
+
+    def raise_exception_for_invalid_payment_id(self,payment_id:int):
+        raise NotFound(*INVALID_PAYMENT_ID)
+
+    def get_response_for_update_product(self,product:ProductDto):
+        return{
+            "id":product.id,
+            "description": product.description,
+            "price": product.price,
+            "mfg_date":product.mfg_date,
+            "exp_date": product.exp_date,
+            "category": product.category,
+            "stock_quantity": product.stock_quantity,
+        }

@@ -25,6 +25,13 @@ class CustomerDto:
     phone:str
     address:str
 
+@dataclass()
+class PaymentDto:
+    id:int
+    amount:float
+    amount:str
+    transaction_date:str
+
 class StorageInterface:
 
     @abstractmethod
@@ -145,4 +152,36 @@ class StorageInterface:
     
     @abstractmethod
     def validate_product_id(self):
+        pass
+
+    @abstractmethod
+    def create_payment(self,amount:float,method:str,transaction_date:str)->PaymentDto:
+        pass
+
+    @abstractmethod
+    def validate_payment_amount(self,amount:float):
+        pass
+
+    @abstractmethod
+    def validate_payment_method(self,method:str):
+        pass
+
+    @abstractmethod
+    def validate_payment_transaction_date(self,transaction_date:str):
+        pass
+
+    @abstractmethod
+    def get_payments(self,limit:int,offset:int):
+        pass
+
+    @abstractmethod
+    def update_payment(self,amount:float,method:str,transaction_date:str)->PaymentDto:
+        pass
+
+    @abstractmethod
+    def validate_payment_id(self,payment_id:int):
+        pass
+    
+    @abstractmethod
+    def update_product(self,product_id:int,name:str,description:str,price:float,mfg_date:str,exp_date:str,category:str,stock_quantity:int)->ProductDto:
         pass

@@ -2,6 +2,8 @@ from dsu.runtime.security.request_response import request_response
 from dsu.dsu_gen.openapi.constants.config import PARSER_MAPPING
 from dsu.dsu_gen.openapi.constants.config import RENDERER_MAPPING
 from shop.build.view_environments.product_update__id__.update_product.UpdateProductRequestPathParamSerializer import UpdateProductRequestPathParamSerializer
+from shop.build.serializers.definitions.Product.ProductSerializer import ProductSerializer
+from shop.build.serializers.definitions.Product.ProductSerializer import ProductSerializer
 
 
 options = {
@@ -18,13 +20,13 @@ options = {
     'REQUEST_QUERY_PARAMS_SERIALIZER': None,
     'REQUEST_HEADERS_SERIALIZER': None,
     'REQUEST_PATH_PARAMS_SERIALIZER': UpdateProductRequestPathParamSerializer,
-    'DEFAULT_REQUEST_PATH_PARAMS': {"id": 212},
-    'REQUEST_SERIALIZER': None,
+    'DEFAULT_REQUEST_PATH_PARAMS': {"id": 599},
+    'REQUEST_SERIALIZER': ProductSerializer,
     'REQUEST_SERIALIZER_MANY_ITEMS': False,
     'RESPONSE': {
         
         '200': {
-           'RESPONSE_SERIALIZER': None,
+           'RESPONSE_SERIALIZER': ProductSerializer,
            'RESPONSE_SERIALIZER_MANY_ITEMS':  False,
            'HEADERS_SERIALIZER': None,
         }

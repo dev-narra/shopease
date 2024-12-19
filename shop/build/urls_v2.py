@@ -21,7 +21,7 @@ from shop.build.view_environments.orders__orderId__cancel_.router import orders_
 from shop.build.view_environments.payments_.router import payments_
 from shop.build.view_environments.payments_search_.router import payments_search_
 from shop.build.view_environments.payment_create_.router import payment_create_
-from shop.build.view_environments.payments__paymentId_.router import payments__paymentId_
+from shop.build.view_environments.payments__id_.router import payments__id_
 from shop.build.view_environments.feedback_products.router import feedback_products
 from shop.build.view_environments.product__productId__feedback_.router import product__productId__feedback_
 from shop.build.view_environments.feedback__feedbackId__.router import feedback__feedbackId__
@@ -51,7 +51,7 @@ api_paths = [
     re_path(r'^payments/$', payments_),
     re_path(r'^payments/search/$', payments_search_),
     re_path(r'^payment/create/$', payment_create_),
-    re_path(r'^payments/(?P<paymentId>\d+)/$', payments__paymentId_),
+    re_path(r'^payments/(?P<id>\d+)/$', payments__id_),
     re_path(r'^feedback/products/$', feedback_products),
     re_path(r'^product/(?P<productId>\d+)/feedback/$', product__productId__feedback_),
     re_path(r'^feedback/(?P<feedbackId>\d+)/$', feedback__feedbackId__),

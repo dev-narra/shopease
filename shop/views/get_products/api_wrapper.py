@@ -19,7 +19,7 @@ def api_wrapper(*args, **kwargs):
     presenter=PresenterImplementation()
     interactor=GetProductsInteractor(storage=storage)
 
-    products_list=interactor.get_products(limit=limit,offset=offset)
+    products_list=interactor.get_products(limit=limit,offset=offset,presenter=presenter)
     response_data=json.dumps(products_list)
 
     return HttpResponse(response_data,status=201)

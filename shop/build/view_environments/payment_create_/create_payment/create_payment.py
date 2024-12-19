@@ -2,7 +2,7 @@ from dsu.runtime.security.request_response import request_response
 from dsu.dsu_gen.openapi.constants.config import PARSER_MAPPING
 from dsu.dsu_gen.openapi.constants.config import RENDERER_MAPPING
 from shop.build.serializers.definitions.CreatePaymentRequest.CreatePaymentRequestSerializer import CreatePaymentRequestSerializer
-from shop.build.serializers.definitions.Payment.PaymentSerializer import PaymentSerializer
+from shop.build.responses.CreateNewPaymentResponse.CreateNewPaymentResponse.CreateNewPaymentResponseSerializer import CreateNewPaymentResponseSerializer
 from shop.build.view_environments.payment_create_.create_payment.responses.Status_400.Status_400.Status_400Serializer import Status_400Serializer
 
 
@@ -26,7 +26,7 @@ options = {
     'RESPONSE': {
         
         '200': {
-           'RESPONSE_SERIALIZER': PaymentSerializer,
+           'RESPONSE_SERIALIZER': CreateNewPaymentResponseSerializer,
            'RESPONSE_SERIALIZER_MANY_ITEMS':  False,
            'HEADERS_SERIALIZER': None,
         }

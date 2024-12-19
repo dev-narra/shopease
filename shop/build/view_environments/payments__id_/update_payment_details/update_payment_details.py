@@ -1,11 +1,11 @@
 from dsu.runtime.security.request_response import request_response
 from dsu.dsu_gen.openapi.constants.config import PARSER_MAPPING
 from dsu.dsu_gen.openapi.constants.config import RENDERER_MAPPING
-from shop.build.view_environments.payments__paymentId_.update_payment_details.UpdatePaymentDetailsRequestPathParamSerializer import UpdatePaymentDetailsRequestPathParamSerializer
+from shop.build.view_environments.payments__id_.update_payment_details.UpdatePaymentDetailsRequestPathParamSerializer import UpdatePaymentDetailsRequestPathParamSerializer
 from shop.build.serializers.definitions.UpdatePaymentRequest.UpdatePaymentRequestSerializer import UpdatePaymentRequestSerializer
 from shop.build.serializers.definitions.Payment.PaymentSerializer import PaymentSerializer
-from shop.build.view_environments.payments__paymentId_.update_payment_details.responses.Status_400.Status_400.Status_400Serializer import Status_400Serializer
-from shop.build.view_environments.payments__paymentId_.update_payment_details.responses.Status_404.Status_404.Status_404Serializer import Status_404Serializer
+from shop.build.view_environments.payments__id_.update_payment_details.responses.Status_400.Status_400.Status_400Serializer import Status_400Serializer
+from shop.build.view_environments.payments__id_.update_payment_details.responses.Status_404.Status_404.Status_404Serializer import Status_404Serializer
 
 
 options = {
@@ -22,7 +22,7 @@ options = {
     'REQUEST_QUERY_PARAMS_SERIALIZER': None,
     'REQUEST_HEADERS_SERIALIZER': None,
     'REQUEST_PATH_PARAMS_SERIALIZER': UpdatePaymentDetailsRequestPathParamSerializer,
-    'DEFAULT_REQUEST_PATH_PARAMS': {"paymentId": 95},
+    'DEFAULT_REQUEST_PATH_PARAMS': {"id": 227},
     'REQUEST_SERIALIZER': UpdatePaymentRequestSerializer,
     'REQUEST_SERIALIZER_MANY_ITEMS': False,
     'RESPONSE': {

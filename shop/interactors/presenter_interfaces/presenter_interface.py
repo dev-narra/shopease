@@ -114,3 +114,35 @@ class PresenterInterface:
     @abstractmethod
     def raise_exception_for_invalid_product_id(self):
         pass
+    
+    @abstractmethod
+    def get_response_for_create_payment(self):
+        pass
+
+    @abstractmethod
+    def raise_exception_for_invalid_payment_amount(self):
+        pass 
+
+    @abstractmethod
+    def raise_exception_for_invalid_payment_method(self):
+        pass 
+
+    @abstractmethod
+    def raise_exception_for_invalid_payment_transaction_date(self):
+        pass 
+
+    @abstractmethod
+    def get_response_for_get_payments(self):
+        pass
+
+    @abstractmethod
+    def get_response_for_update_payment(self):
+        pass
+    
+    @abstractmethod
+    def raise_exception_for_invalid_payment_id(self):
+        pass
+
+    @abstractmethod
+    def get_response_for_update_product(self):
+        pass

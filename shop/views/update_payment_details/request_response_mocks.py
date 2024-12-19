@@ -3,19 +3,18 @@
 REQUEST_BODY_JSON = """
 {
     "amount": 1.1,
-    "method": "string"
+    "method": "string",
+    "transaction_date": "string"
 }
 """
 
 
 RESPONSE_200_JSON = """
 {
-    "id": "string",
-    "order_id": "string",
+    "id": 1,
     "amount": 1.1,
     "method": "Card",
-    "status": "Success",
-    "transaction_date": "2099-12-31 00:00:00"
+    "transaction_date": "string"
 }
 """
 

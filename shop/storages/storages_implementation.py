@@ -1,7 +1,7 @@
-from shop.interactors.storage_interfaces.storage_interface import StorageInterface,AuthTokenDto,ProductDto,CustomerDto
+from shop.interactors.storage_interfaces.storage_interface import StorageInterface,AuthTokenDto,ProductDto,CustomerDto,PaymentDto
 from ib_users.interfaces.service_interface import ServiceInterface
 from shop.exceptions.custom_exceptions import InvalidCustomePhone,InvalidCustomerAddress,InvalidCustomerEmail,InvalidCustomerName,InvalidEmail,CustomerAlreadyExist,InvalidLimitValue
-from shop.models import User,Product,Customer
+from shop.models import User,Product,Customer,Payment
 from typing import List
 from django.db.models import Q
 
@@ -159,3 +159,56 @@ class StorageImplementation(StorageInterface):
          invalid_product_id=not is_valid_product_id
          if invalid_product_id:
             raise InvalidProductId
+
+       def create_payment(self,amount:float,method:str,transaction_date:str)->PaymentDto:
+         payment=Payment.objects.create(amount=amount,method=method,transaction_date=transaction_date)
+         payment_id:payment.id
+         return payment_id
+
+       def validate_payment_amount(self,amount:float):
+         is_valid_amount=amount is not None and amount>0
+         if not is_valid_amount:
+            raise InvalidPaymentAmount
+
+       
+       def validate_payment_method(self,method:str):
+         is_valid_method=method is not None
+         if not is_valid_method:
+            raise InvalidPaymentMethod
+
+       def validate_payment_transaction_date(self,transaction_date:str):
+         is_valid_transaction_date=transaction_date is not None
+         if not is_valid_transaction_date:
+            raise InvalidPaymentTransactionDate
+
+       def get_payments(self,limit:int,offset:int)->list[PaymentDto]:
+         payments=Payment.objects.all()[offset:offset+limit]
+         return payments
+
+       def update_payment(self,payment_id:int,amount:float,method:str,transaction_date:str)->PaymentDto:
+         payment=Payment.objects.get(id=payment_id)
+         payment.id=payment_id
+         payment.amount=amount
+         payment.method=method
+         payment.transaction_date=transaction_date
+         payment.save()
+
+         return payment
+      
+       def validate_payment_id(self,payment_id:int):
+         is_payment_id_exists=Payment.objects.filter(id=payment_id).exists()
+         if not is_payment_id_exists:
+            raise InvalidPaymentId
+      
+       def update_product(self,product_id:int,name:str,description:str,price:float,mfg_date:str,exp_date:str,category:str,stock_quantity:int)->ProductDto:
+            product=Product.objects.get(id=product_id)
+            product.name=name
+            product.description=description
+            product.price=price
+            product.mfg_date=mfg_date
+            product.exp_date=exp_date
+            product.category=category
+            product.stock_quantity=stock_quantity
+            product.save()
+
+            return product

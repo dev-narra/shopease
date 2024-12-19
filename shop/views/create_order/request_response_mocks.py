@@ -23,12 +23,10 @@ REQUEST_BODY_JSON = """
         "address": "string"
     },
     "payment": {
-        "id": "string",
-        "order_id": "string",
+        "id": 1,
         "amount": 1.1,
         "method": "Card",
-        "status": "Success",
-        "transaction_date": "2099-12-31 00:00:00"
+        "transaction_date": "string"
     },
     "status": "Pending",
     "expected_delivery_date": "2099-12-31",
@@ -60,12 +58,10 @@ RESPONSE_200_JSON = """
         "address": "string"
     },
     "payment": {
-        "id": "string",
-        "order_id": "string",
+        "id": 1,
         "amount": 1.1,
         "method": "Card",
-        "status": "Success",
-        "transaction_date": "2099-12-31 00:00:00"
+        "transaction_date": "string"
     },
     "status": "Pending",
     "expected_delivery_date": "2099-12-31",

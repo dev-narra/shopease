@@ -54,3 +54,15 @@ class ProductNameAlreadyExists(Exception):
 
 class InvalidProductId(Exception):
     pass
+
+class InvalidPaymentAmount(Exception):
+    pass
+
+class InvalidPaymentMethod(Exception):
+    pass
+
+class InvalidPaymentTransactionDate(Exception):
+    pass
+
+class InvalidPaymentId(Exception):
+    pass

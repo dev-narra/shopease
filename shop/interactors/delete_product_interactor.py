@@ -14,5 +14,5 @@ class DeleteProductInteractor:
         except InvalidProductId:
             presenter.raise_exception_for_invalid_product_id()
 
-        product_id=self.storage.delete_product(self,id=id)
+        self.storage.delete_product(self,id=id)
         return presenter.get_response_for_delete_product()

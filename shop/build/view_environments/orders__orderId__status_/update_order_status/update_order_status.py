@@ -22,7 +22,7 @@ options = {
     'REQUEST_QUERY_PARAMS_SERIALIZER': None,
     'REQUEST_HEADERS_SERIALIZER': None,
     'REQUEST_PATH_PARAMS_SERIALIZER': UpdateOrderStatusRequestPathParamSerializer,
-    'DEFAULT_REQUEST_PATH_PARAMS': {"orderId": 502},
+    'DEFAULT_REQUEST_PATH_PARAMS': {"orderId": 542},
     'REQUEST_SERIALIZER': statusSerializer,
     'REQUEST_SERIALIZER_MANY_ITEMS': False,
     'RESPONSE': {

@@ -92,3 +92,23 @@ INVALID_PRODUCT_ID=(
     "Product id is not valid, try with other",
     "INVALID_PRODUCT_ID"
 )
+
+INVALID_PAYMENT_AMOUNT=(
+    "Payment amount is invalid, try with other",
+    "INVALID_PAYMENT_AMOUNT"
+)
+
+INVALID_PAYMENT_METHOD=(
+    "Payment method is invalid, try with other method",
+    "INVALID_PAYMENT_METHOD"
+)
+
+INVALID_PAYMENT_TRANSACTION_DATE=(
+    "Payment transaction_date is invalid, try with other",
+    "INVALID_PAYMENT_TRANSACTION_DATE"
+)
+
+INVALID_PAYMENT_ID=(
+    "Invalid payment id, try with other",
+    "INVALID_PAYMENT_ID"
+)
