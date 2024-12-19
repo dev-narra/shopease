@@ -1,6 +1,6 @@
 from shop.interactors.storage_interfaces.storage_interface import StorageInterface,AuthTokenDto,ProductDto,CustomerDto,PaymentDto
 from ib_users.interfaces.service_interface import ServiceInterface
-from shop.exceptions.custom_exceptions import InvalidCustomePhone,InvalidCustomerAddress,InvalidCustomerEmail,InvalidCustomerName,InvalidEmail,CustomerAlreadyExist,InvalidLimitValue
+from shop.exceptions.custom_exceptions import InvalidCustomePhone,InvalidCustomerAddress,InvalidCustomerEmail,InvalidCustomerName,InvalidEmail,CustomerAlreadyExist,InvalidLimitValue,InvalidProductId,InvalidOffsetValue,InvalidProductName,InvalidDescription,InvalidCategory,InvalidPrice,InvalidExpDate,InvalidMfgDate,InvalidStockQuantity
 from shop.models import User,Product,Customer,Payment
 from typing import List
 from django.db.models import Q
@@ -212,3 +212,12 @@ class StorageImplementation(StorageInterface):
             product.save()
 
             return product
+
+       def validate_product_id(self,product_id:int):
+         is_valid_product_id=Product.objects.filter(id=product_id).exists()
+         if not is_valid_product_id:
+            raise InvalidProductId
+
+       def delete_customer(self,customer_id:int)->str:
+         customer=Customer.objects.get(id=customer_id)
+         customer.delete()

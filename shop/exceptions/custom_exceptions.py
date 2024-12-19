@@ -66,3 +66,6 @@ class InvalidPaymentTransactionDate(Exception):
 
 class InvalidPaymentId(Exception):
     pass
+
+class InvalidProductId(Exception):
+    pass

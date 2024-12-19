@@ -1,59 +1,32 @@
+from shop.storages.storages_implementation import StorageImplementation
+from shop.presenters.presenters_implementation import PresenterImplementation
+from shop.interactors.delete_customer_interactor import DeleteCustomerInteractor
+
 from dsu.dsu_gen.openapi.decorator.interface_decorator import \
     validate_decorator
 from .validator_class import ValidatorClass
 from shop.models import Customer
-from django.http import JsonResponse
+from django.http import HttpResponse
+import json
 
+"""
+-inputs:
+    customer_id
+    -validate customer_id 
+     if customer_id exists()
+       do deletion()
+     else
+       raise invalidCustomer
+
+"""
 
 @validate_decorator(validator_class=ValidatorClass)
 def api_wrapper(*args, **kwargs):
-    # ---------MOCK IMPLEMENTATION---------
     customer_id = kwargs["path_params"]['id']
-    try:
-        customer = Customer.objects.get(id=customer_id)
-        customer.delete()
-
-
-        return JsonResponse({Customer deleted successfully.....}, status=200)
-    except Customer.DoesNotExist:
-        return JsonResponse({'error': 'Customer not found'}, status=404)
-
-    try:
-        from shop.views.delete_customer.request_response_mocks \
-            import REQUEST_BODY_JSON
-        body = REQUEST_BODY_JSON
-    except ImportError:
-        body = {}
-
-    test_case = {
-        "path_params": {'id': 'string'},
-        "query_params": {},
-        "header_params": {},
-        "body": body,
-        "securities": []
-    }
-
-    from dsu.dsu_gen.openapi.utils.mock_response import mock_response
-
-    try:
-        response = ''
-        status_code = 200
-        if '200' in ['204']:
-            from shop.views.delete_customer.request_response_mocks \
-                import RESPONSE_200_JSON
-            response = RESPONSE_200_JSON
-            status_code = 200
-        elif '201' in ['204']:
-            from shop.views.delete_customer.request_response_mocks \
-                import RESPONSE_201_JSON
-            response = RESPONSE_201_JSON
-            status_code = 201
-    except ImportError:
-        response = ''
-        status_code = 200
-    response_tuple = mock_response(
-        app_name="shop", test_case=test_case,
-        operation_name="delete_customer",
-        kwargs=kwargs, default_response_body=response,
-        group_name="", status_code=status_code)
-    return response_tuple
+    
+    storage=StorageImplementation()
+    presenter=PresenterImplementation()
+    interactor=DeleteCustomerInteractor(storage=storage)
+    customer=interactor.delete_customer(customer_id=customer_id,presenter=presenter)
+    response_data=json.dumps(customer)
+    return HttpResponse(response_data,status=200)

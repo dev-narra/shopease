@@ -927,7 +927,16 @@
               ],
               "responses": {
                 "200":{
-                  "description":"Customer successfully deleted."
+                  "description":"Customer successfully deleted.",
+                  "schema": {
+                "type":"object",
+                "properties": {
+            "message": {
+                "type": "string"
+            }
+        }
+              
+              }
                 }
               }
             }

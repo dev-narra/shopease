@@ -5,8 +5,10 @@ from shop.interactors.update_product_interactor import UpdateProductInteractor
 from dsu.dsu_gen.openapi.decorator.interface_decorator import \
     validate_decorator
 from .validator_class import ValidatorClass
-from django.http import JsonResponse
+from django.http import HttpResponse
 from shop.models import Product
+import json
+
 
 """
 -inputs:
@@ -42,4 +44,7 @@ def api_wrapper(*args, **kwargs):
     storage=StorageImplementation()
     presenter=PresenterImplementation()
     interactor=UpdateProductInteractor(storage=storage)
+    product=interactor.update_product(product_id=product_id,name=name,description=description,price=price,mfg_date=mfg_date,exp_date=exp_date,category=category,stock_quantity=stock_quantity,presenter=presenter)
+    response_data=json.dumps(product)
+    return HttpResponse(response_data,status=200)
     

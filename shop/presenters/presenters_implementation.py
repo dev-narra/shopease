@@ -195,3 +195,8 @@ class PresenterImplementation(PresenterInterface):
             "category": product.category,
             "stock_quantity": product.stock_quantity,
         }
+
+    def get_response_for_delete_customer(self)->str:
+        return {
+            "message":"Customer is deleted............."
+        }

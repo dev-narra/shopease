@@ -16,7 +16,7 @@ def api_wrapper(*args, **kwargs):
 
     test_case = {
         "path_params": {},
-        "query_params": {'limit': 430, 'offset': 830},
+        "query_params": {'limit': 549, 'offset': 997},
         "header_params": {},
         "body": body,
         "securities": [{'oauth': ['read']}]

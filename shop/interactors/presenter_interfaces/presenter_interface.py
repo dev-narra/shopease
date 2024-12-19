@@ -146,3 +146,7 @@ class PresenterInterface:
     @abstractmethod
     def get_response_for_update_product(self):
         pass
+
+    @abstractmethod
+    def get_response_for_delete_customer(self):
+        pass

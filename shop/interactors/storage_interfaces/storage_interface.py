@@ -185,3 +185,11 @@ class StorageInterface:
     @abstractmethod
     def update_product(self,product_id:int,name:str,description:str,price:float,mfg_date:str,exp_date:str,category:str,stock_quantity:int)->ProductDto:
         pass
+
+    @abstractmethod
+    def validate_product_id(self,product_id:int):
+        pass
+
+    @abstractmethod
+    def delete_customer(self,customer_id:int):
+        pass

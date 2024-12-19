@@ -19,9 +19,6 @@ import json
         delete the product
    else
       raise InvalidProductId
-
-
-
 """
 
 

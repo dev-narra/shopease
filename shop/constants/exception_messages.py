@@ -112,3 +112,8 @@ INVALID_PAYMENT_ID=(
     "Invalid payment id, try with other",
     "INVALID_PAYMENT_ID"
 )
+
+INVALID_PRODUCT_ID=(
+    "Invalid product id, try with other",
+    "INVALID_PRODUCT_ID"
+)
