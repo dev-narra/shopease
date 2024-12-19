@@ -1,5 +1,6 @@
 from shop.storages.storages_implementation import StorageImplementation
 from shop.presenters.presenters_implementation import PresenterImplementation
+from shop.interactors.create_payment_interactor import CreatePaymentInteractor
 
 from dsu.dsu_gen.openapi.decorator.interface_decorator import \
     validate_decorator

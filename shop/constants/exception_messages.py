@@ -117,3 +117,28 @@ INVALID_PRODUCT_ID=(
     "Invalid product id, try with other",
     "INVALID_PRODUCT_ID"
 )
+
+INVALID_RATING=(
+    "Invalid rating, try with other",
+    "INVALID_RATING"
+)
+
+INVALID_REVIEW=(
+    "Invalid review, try with other",
+    "INVALID_REVIEW"
+)
+
+CUSTOMER_ID_DOES_NOT_EXISTS=(
+    "Invalid customer id, try with other",
+    "CUSTOMER_ID_DOES_NOT_EXISTS"
+)
+
+PRODUCT_ID_DOES_NOT_EXISTS=(
+    "Invalid product id, try with other",
+    "PRODUCT_ID_DOES_NOT_EXISTS"
+)
+
+FEEDBACK_ID_DOES_NOT_EXISTS=(
+    "Invalid feedback id, try with other",
+    "FEEDBACK_ID_DOES_NOT_EXISTS"
+)

@@ -1,7 +1,7 @@
-from shop.interactors.storage_interfaces.storage_interface import StorageInterface,AuthTokenDto,ProductDto,CustomerDto,PaymentDto
+from shop.interactors.storage_interfaces.storage_interface import StorageInterface,AuthTokenDto,ProductDto,CustomerDto,PaymentDto,FeedbackDto
 from ib_users.interfaces.service_interface import ServiceInterface
-from shop.exceptions.custom_exceptions import InvalidCustomePhone,InvalidCustomerAddress,InvalidCustomerEmail,InvalidCustomerName,InvalidEmail,CustomerAlreadyExist,InvalidLimitValue,InvalidProductId,InvalidOffsetValue,InvalidProductName,InvalidDescription,InvalidCategory,InvalidPrice,InvalidExpDate,InvalidMfgDate,InvalidStockQuantity
-from shop.models import User,Product,Customer,Payment
+from shop.exceptions.custom_exceptions import FeedbackIdDoesNotExists,InvalidCustomePhone,InvalidCustomerAddress,InvalidCustomerEmail,InvalidCustomerName,InvalidEmail,CustomerAlreadyExist,InvalidLimitValue,InvalidProductId,InvalidOffsetValue,InvalidProductName,InvalidDescription,InvalidCategory,InvalidPrice,InvalidExpDate,InvalidMfgDate,InvalidStockQuantity,CustomerIdDoesNotExists,ProductIdDoesNotExists,InvalidReview,InvalidRating
+from shop.models import User,Product,Customer,Payment,Feedback
 from typing import List
 from django.db.models import Q
 
@@ -101,7 +101,7 @@ class StorageImplementation(StorageInterface):
             raise InvalidCustomerAddress
 
        def validate_customer_id(self,id:int):
-         is_valid_customer_id=Customer.objects.filter(id=id).exists()
+         is_valid_customer_id=id is not None
          invalid_customer_id=not is_valid_customer_id
          if invalid_customer_id:
             raise InvalidCustomerId
@@ -155,7 +155,7 @@ class StorageImplementation(StorageInterface):
            product.delete()
            
        def validate_product_id(self,id:int):
-         is_valid_product_id=Product.objects.filter(id=id).exists()
+         is_valid_product_id=id is not None
          invalid_product_id=not is_valid_product_id
          if invalid_product_id:
             raise InvalidProductId
@@ -221,3 +221,42 @@ class StorageImplementation(StorageInterface):
        def delete_customer(self,customer_id:int)->str:
          customer=Customer.objects.get(id=customer_id)
          customer.delete()
+
+       def add_product_feedback(self,product_id:int,customer_id:int,rating:float,review:str)->FeedbackDto:
+           product=Product.objects.get(id=product_id)
+           customer=Customer.objects.get(id=customer_id)
+           feedback=Feedback.objects.create(product=product,customer=customer,rating=rating,review=review)
+           return feedback
+
+       def validate_rating(self,rating:float):
+          is_valid_rating=rating is not None and rating<=5.0
+          if not is_valid_rating:
+            raise InvalidRating
+       
+       def validate_review(self,review:str):
+         is_valid_review=review is not None
+         if not is_valid_review:
+          raise InvalidReview
+
+       def validate_customer_id_exists(self,customer_id:int):
+         is_valid_customer=Customer.objects.filter(id=customer_id).exists()
+         if not is_valid_customer:
+          raise CustomerIdDoesNotExists
+
+       def validate_product_id_exists(self,product_id:int):
+        is_valid_product=Product.objects.filter(id=product_id).exists()
+        if not is_valid_product:
+          raise ProductIdDoesNotExists
+
+       def validate_feedback_id_exists(self,feedback_id:int):
+        is_valid_feedback=Feedback.objects.filter(id=feedback_id).exists()
+        if not is_valid_feedback:
+          raise FeedbackIdDoesNotExists
+
+       def delete_feedback(self,feedback_id:int)->str:
+         feedback=Feedback.objects.get(id=feedback_id)
+         feedback.delete()
+
+       def get_feedbacks(self,limit:int,offset:int)->list[FeedbackDto]:
+         feedbacks=Feedback.objects.all()[offset:offset+limit]
+         return feedbacks

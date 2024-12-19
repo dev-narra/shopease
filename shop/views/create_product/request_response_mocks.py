@@ -9,7 +9,7 @@ REQUEST_BODY_JSON = """
     "exp_date": "string",
     "category": "string",
     "stock_quantity": 1.1,
-    "id": 1
+    "product_id": 1
 }
 """
 

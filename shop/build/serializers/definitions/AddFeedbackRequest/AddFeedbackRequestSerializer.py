@@ -7,8 +7,9 @@ from dsu.dsu_gen.openapi.fields.collection_format_field import CollectionFormatF
 
 
 class AddFeedbackRequestType(object):
-    def __init__(self, rating, review=None,  **kwargs):
+    def __init__(self, rating, customer_id=None, review=None,  **kwargs):
         self.rating = rating
+        self.customer_id = customer_id
         self.review = review
 
     def __str__(self):
@@ -20,6 +21,7 @@ class AddFeedbackRequestType(object):
 
 
 class AddFeedbackRequestSerializer(serializers.Serializer):
+    customer_id = serializers.IntegerField(required=False, allow_null=True)
     rating = serializers.FloatField(help_text="The rating for the product, ranging from 1 to 5.", max_value=5.000000, min_value=1.000000)
     review = serializers.CharField(required=False, allow_blank=True, allow_null=True, help_text="The written review for the product.")
 

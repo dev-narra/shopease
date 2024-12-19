@@ -2,7 +2,7 @@ from dsu.runtime.security.request_response import request_response
 from dsu.dsu_gen.openapi.constants.config import PARSER_MAPPING
 from dsu.dsu_gen.openapi.constants.config import RENDERER_MAPPING
 from shop.build.serializers.definitions.Order.OrderSerializer import OrderSerializer
-from shop.build.serializers.definitions.Order.OrderSerializer import OrderSerializer
+from shop.build.responses.CreateNewOrderResponse.CreateNewOrderResponse.CreateNewOrderResponseSerializer import CreateNewOrderResponseSerializer
 
 
 options = {
@@ -25,7 +25,7 @@ options = {
     'RESPONSE': {
         
         '200': {
-           'RESPONSE_SERIALIZER': OrderSerializer,
+           'RESPONSE_SERIALIZER': CreateNewOrderResponseSerializer,
            'RESPONSE_SERIALIZER_MANY_ITEMS':  False,
            'HEADERS_SERIALIZER': None,
         }

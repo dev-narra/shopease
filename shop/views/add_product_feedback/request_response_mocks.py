@@ -2,6 +2,7 @@
 
 REQUEST_BODY_JSON = """
 {
+    "customer_id": 1,
     "rating": 1.1,
     "review": "string"
 }

@@ -32,6 +32,21 @@ class PaymentDto:
     amount:str
     transaction_date:str
 
+@dataclass()
+class OrderDto:
+    products:List[ProductDto]
+    customer:CustomerDto
+    payment:PaymentDto
+    status:str
+    order_datetime:str
+    expected_delivery_date:str
+
+@dataclass
+class FeedbackDto:
+    customer_id:int
+    rating:float
+    review:float
+
 class StorageInterface:
 
     @abstractmethod
@@ -151,7 +166,7 @@ class StorageInterface:
         pass
     
     @abstractmethod
-    def validate_product_id(self):
+    def validate_product_id(self,product_id:int):
         pass
 
     @abstractmethod
@@ -192,4 +207,36 @@ class StorageInterface:
 
     @abstractmethod
     def delete_customer(self,customer_id:int):
+        pass
+
+    @abstractmethod
+    def add_product_feedback(self,product_id:int,customer_id:int,rating:float,review:str)->FeedbackDto:
+        pass
+
+    @abstractmethod
+    def validate_rating(self,rating:float):
+        pass
+
+    @abstractmethod
+    def validate_review(self,review:str):
+        pass
+    
+    @abstractmethod
+    def validate_customer_id_exists(self,customer_id:int):
+        pass
+    
+    @abstractmethod
+    def validate_product_id_exists(self,product_id:int):
+        pass
+
+    @abstractmethod
+    def validate_feedback_id_exists(self,feedback_id:int):
+        pass
+
+    @abstractmethod
+    def delete_feedback(self,feedback_id:int)->str:
+        pass
+
+    @abstractmethod
+    def get_feedbacks(self,limit:int,offset:int)->list[FeedbackDto]:
         pass

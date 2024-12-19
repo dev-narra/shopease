@@ -25,29 +25,29 @@ class OrderType(object):
 
 
 class OrderSerializer(serializers.Serializer):
-    id = serializers.CharField(required=False, allow_blank=True, allow_null=True)
-    from shop.build.serializers.definitions.Product.ProductSerializer import ProductSerializer
-    products = ProductSerializer(required=False, many=True)
-    from shop.build.serializers.definitions.Customer.CustomerSerializer import CustomerSerializer
-    customer = CustomerSerializer(required=False, allow_null=True)
-    from shop.build.serializers.definitions.Payment.PaymentSerializer import PaymentSerializer
-    payment = PaymentSerializer(required=False, allow_null=True)
+    id = serializers.IntegerField(required=False, allow_null=True)
+    from shop.build.serializers.definitions.ProductId.ProductIdSerializer import ProductIdSerializer
+    products = ProductIdSerializer(required=False, many=True)
+    from shop.build.serializers.definitions.CustomerId.CustomerIdSerializer import CustomerIdSerializer
+    customer = CustomerIdSerializer(required=False, allow_null=True)
+    from shop.build.serializers.definitions.PaymentId.PaymentIdSerializer import PaymentIdSerializer
+    payment = PaymentIdSerializer(required=False, allow_null=True)
     status = serializers.ChoiceField(choices=(('Pending', 'Pending'), ('Shipped', 'Shipped'), ('Delivered', 'Delivered'), ('Cancelled', 'Cancelled')), required=False, allow_blank=True, allow_null=True)
     expected_delivery_date = serializers.DateField(required=False, allow_null=True)
-    order_datetime = serializers.DateTimeField(required=False, allow_null=True, format='%Y-%m-%d %H:%M:%S')
+    order_datetime = serializers.DateField(required=False, allow_null=True)
 
     def create(self, validated_data):
-        from shop.build.serializers.definitions.Product.ProductSerializer import ProductSerializer
+        from shop.build.serializers.definitions.ProductId.ProductIdSerializer import ProductIdSerializer
         products_val = []
         products_list_val = validated_data.pop("products", [])
         for each_data in products_list_val:
-            each_obj, _ = deserialize(ProductSerializer, each_data, many=False, partial=True)
+            each_obj, _ = deserialize(ProductIdSerializer, each_data, many=False, partial=True)
             products_val.append(each_obj)
         
-        from shop.build.serializers.definitions.Customer.CustomerSerializer import CustomerSerializer
-        customer_val, _ = deserialize(CustomerSerializer, validated_data.pop("customer", None), many=False, partial=True)
+        from shop.build.serializers.definitions.CustomerId.CustomerIdSerializer import CustomerIdSerializer
+        customer_val, _ = deserialize(CustomerIdSerializer, validated_data.pop("customer", None), many=False, partial=True)
         
-        from shop.build.serializers.definitions.Payment.PaymentSerializer import PaymentSerializer
-        payment_val, _ = deserialize(PaymentSerializer, validated_data.pop("payment", None), many=False, partial=True)
+        from shop.build.serializers.definitions.PaymentId.PaymentIdSerializer import PaymentIdSerializer
+        payment_val, _ = deserialize(PaymentIdSerializer, validated_data.pop("payment", None), many=False, partial=True)
         
         return OrderType(products=products_val, customer=customer_val, payment=payment_val, **validated_data)

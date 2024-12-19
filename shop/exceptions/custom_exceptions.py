@@ -69,3 +69,18 @@ class InvalidPaymentId(Exception):
 
 class InvalidProductId(Exception):
     pass
+
+class InvalidRating(Exception):
+    pass
+
+class InvalidReview(Exception):
+    pass
+
+class ProductIdDoesNotExists(Exception):
+    pass
+
+class CustomerIdDoesNotExists(Exception):
+    pass
+
+class FeedbackIdDoesNotExists(Exception):
+    pass

@@ -6,9 +6,9 @@ from dsu.dsu_gen.openapi.utils.type_file_utils import get_type_list_object
 from dsu.dsu_gen.openapi.fields.collection_format_field import CollectionFormatField
 
 
-class ProductIdType(object):
-    def __init__(self, product_id=None,  **kwargs):
-        self.product_id = product_id
+class CreateNewOrderResponseType(object):
+    def __init__(self, order_id=None,  **kwargs):
+        self.order_id = order_id
 
     def __str__(self):
         from dsu.dsu_gen.openapi.utils.get_unicode_str import get_unicode_str
@@ -18,8 +18,8 @@ class ProductIdType(object):
         return getattr(self, item)
 
 
-class ProductIdSerializer(serializers.Serializer):
-    product_id = serializers.IntegerField(required=False, allow_null=True)
+class CreateNewOrderResponseSerializer(serializers.Serializer):
+    order_id = serializers.IntegerField(required=False, allow_null=True)
 
     def create(self, validated_data):
-        return ProductIdType(**validated_data)
+        return CreateNewOrderResponseType(**validated_data)

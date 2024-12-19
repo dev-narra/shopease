@@ -88,8 +88,7 @@ class PresenterInterface:
 
     @abstractmethod
     def raise_exception_for_invalid_customer_id(self):
-        pass
-        
+        pass        
     
     @abstractmethod
     def get_response_for_get_customers(self):
@@ -149,4 +148,35 @@ class PresenterInterface:
 
     @abstractmethod
     def get_response_for_delete_customer(self):
+        pass
+
+    @abstractmethod
+    def get_response_for_add_product_feedback(self):
+        pass
+    @abstractmethod
+    def raise_exception_for_invalid_rating(self):
+        pass
+
+    @abstractmethod
+    def raise_exception_for_invalid_review(self):
+        pass
+
+    @abstractmethod
+    def raise_exception_for_customer_id_does_not_exists(self):
+        pass
+
+    @abstractmethod
+    def raise_exception_for_product_id_does_not_exists(self):
+        pass
+
+    @abstractmethod
+    def raise_exception_for_feedback_id_does_not_exists(self):
+        pass
+
+    @abstractmethod
+    def get_response_for_delete_feedback(self):
+        pass
+
+    @abstractmethod
+    def get_response_for_gets_the_feedbacks(self):
         pass
