@@ -2,7 +2,6 @@ from dsu.runtime.security.request_response import request_response
 from dsu.dsu_gen.openapi.constants.config import PARSER_MAPPING
 from dsu.dsu_gen.openapi.constants.config import RENDERER_MAPPING
 from shop.build.view_environments.orders__orderId__cancel_.cancel_order.CancelOrderRequestPathParamSerializer import CancelOrderRequestPathParamSerializer
-from shop.build.view_environments.orders__orderId__cancel_.cancel_order.reason.reasonSerializer import reasonSerializer
 from shop.build.view_environments.orders__orderId__cancel_.cancel_order.responses.Status_200.Status_200.Status_200Serializer import Status_200Serializer
 from shop.build.view_environments.orders__orderId__cancel_.cancel_order.responses.Status_400.Status_400.Status_400Serializer import Status_400Serializer
 from shop.build.view_environments.orders__orderId__cancel_.cancel_order.responses.Status_404.Status_404.Status_404Serializer import Status_404Serializer
@@ -22,8 +21,8 @@ options = {
     'REQUEST_QUERY_PARAMS_SERIALIZER': None,
     'REQUEST_HEADERS_SERIALIZER': None,
     'REQUEST_PATH_PARAMS_SERIALIZER': CancelOrderRequestPathParamSerializer,
-    'DEFAULT_REQUEST_PATH_PARAMS': {"orderId": 122},
-    'REQUEST_SERIALIZER': reasonSerializer,
+    'DEFAULT_REQUEST_PATH_PARAMS': {"orderId": 685},
+    'REQUEST_SERIALIZER': None,
     'REQUEST_SERIALIZER_MANY_ITEMS': False,
     'RESPONSE': {
         

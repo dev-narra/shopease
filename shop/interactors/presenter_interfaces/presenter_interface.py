@@ -180,3 +180,23 @@ class PresenterInterface:
     @abstractmethod
     def get_response_for_gets_the_feedbacks(self):
         pass
+
+    @abstractmethod
+    def get_response_for_update_feedback(self):
+        pass
+
+    @abstractmethod
+    def raise_exception_for_invalid_feedback_id(self):
+        pass
+    
+    @abstractmethod
+    def raise_exception_for_invalid_order_id(self):
+        pass
+
+    @abstractmethod
+    def raise_exception_for_order_id_not_exists(self):
+        pass
+
+    @abstractmethod
+    def get_response_for_cancel_order(self):
+        pass

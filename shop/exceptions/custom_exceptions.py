@@ -84,3 +84,12 @@ class CustomerIdDoesNotExists(Exception):
 
 class FeedbackIdDoesNotExists(Exception):
     pass
+
+class InvalidFeedbackId(Exception):
+    pass
+
+class InvalidOrderId(Exception):
+    pass
+
+class OrderIdDoesNotExist(Exception):
+    pass

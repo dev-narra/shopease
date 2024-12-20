@@ -1,18 +1,11 @@
 
 
-REQUEST_BODY_JSON = """
-{
-    "reason": "string"
-}
-"""
-
 
 RESPONSE_200_JSON = """
 {
     "message": "string",
     "orderId": 1,
-    "status": "string",
-    "inventoryUpdated": true
+    "status": "string"
 }
 """
 

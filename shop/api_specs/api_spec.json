@@ -1203,21 +1203,6 @@
         "description": "The ID of the order to cancel.",
         "required": true,
         "type": "integer"
-      },
-      {
-        "name": "reason",
-        "in": "body",
-        "description": "Optional reason for order cancellation.",
-        "required": false,
-        "schema": {
-          "type": "object",
-          "properties": {
-            "reason": {
-              "type": "string",
-              "example": "Customer request."
-            }
-          }
-        }
       }
     ],
     "responses": {
@@ -1237,10 +1222,6 @@
             "status": {
               "type": "string",
               "example": "Canceled"
-            },
-            "inventoryUpdated": {
-              "type": "boolean",
-              "example": true
             }
           }
         }

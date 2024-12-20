@@ -1,6 +1,6 @@
-from shop.interactors.storage_interfaces.storage_interface import StorageInterface,AuthTokenDto,ProductDto,CustomerDto,PaymentDto,FeedbackDto
+from shop.interactors.storage_interfaces.storage_interface import StorageInterface,AuthTokenDto,ProductDto,CustomerDto,PaymentDto,FeedbackDto,OrderDto
 from ib_users.interfaces.service_interface import ServiceInterface
-from shop.exceptions.custom_exceptions import FeedbackIdDoesNotExists,InvalidCustomePhone,InvalidCustomerAddress,InvalidCustomerEmail,InvalidCustomerName,InvalidEmail,CustomerAlreadyExist,InvalidLimitValue,InvalidProductId,InvalidOffsetValue,InvalidProductName,InvalidDescription,InvalidCategory,InvalidPrice,InvalidExpDate,InvalidMfgDate,InvalidStockQuantity,CustomerIdDoesNotExists,ProductIdDoesNotExists,InvalidReview,InvalidRating
+from shop.exceptions.custom_exceptions import InvalidFeedbackId,FeedbackIdDoesNotExists,InvalidCustomePhone,InvalidCustomerAddress,InvalidCustomerEmail,InvalidCustomerName,InvalidEmail,CustomerAlreadyExist,InvalidLimitValue,InvalidProductId,InvalidOffsetValue,InvalidProductName,InvalidDescription,InvalidCategory,InvalidPrice,InvalidExpDate,InvalidMfgDate,InvalidStockQuantity,CustomerIdDoesNotExists,ProductIdDoesNotExists,InvalidReview,InvalidRating
 from shop.models import User,Product,Customer,Payment,Feedback
 from typing import List
 from django.db.models import Q
@@ -214,7 +214,7 @@ class StorageImplementation(StorageInterface):
             return product
 
        def validate_product_id(self,product_id:int):
-         is_valid_product_id=Product.objects.filter(id=product_id).exists()
+         is_valid_product_id=product_id is not None
          if not is_valid_product_id:
             raise InvalidProductId
 
@@ -260,3 +260,34 @@ class StorageImplementation(StorageInterface):
        def get_feedbacks(self,limit:int,offset:int)->list[FeedbackDto]:
          feedbacks=Feedback.objects.all()[offset:offset+limit]
          return feedbacks
+
+       def update_feedback(self,feedback_id:int,rating:float,review:str)->FeedbackDto:
+          feedback=Feedback.objects.get(id=feedback_id)
+          feedback.rating=rating
+          feedback.review=review
+          feedback.save()
+
+          return feedback
+
+       def validate_feedback_id(self,feedback_id:int):
+          is_valid_feedback_id=feedback_id is not None and type(feedback_id)==int
+          if not is_valid_feedback_id:
+            raise InvalidFeedbackId
+
+       def validdate_order_id(self,order_id:int):
+         is_valid_order_id=order_id is not None
+         if not is_valid_order_id:
+          raise InvalidOrderId
+
+       def validate_order_id_exists(self,order_id:int):
+        is_order_id_exists=Order.objects.get(id=order_id).exist()
+        if not is_order_id_exists:
+          raise OrderIdDoesNotExist
+
+       def cancel_order(self,order_id:int):
+        order=Order.objects.get(id=order_id)
+        order.status="Canceled"
+        order.save()
+        
+        return order
+      

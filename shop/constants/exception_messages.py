@@ -142,3 +142,18 @@ FEEDBACK_ID_DOES_NOT_EXISTS=(
     "Invalid feedback id, try with other",
     "FEEDBACK_ID_DOES_NOT_EXISTS"
 )
+
+INVALID_FEEDBACK_ID=(
+    "Invalid Feedabck id, try with other",
+    "INVALID_FEEDBACK_ID"
+)
+
+INVALID_ORDER_ID=(
+    "Invalid order id, try with other",
+    "INVALID_ORDER_ID"
+)
+
+ORDER_ID_DOES_NOT_EXISTS=(
+    "Invalid order id, try with other",
+    "ORDER_ID_DOES_NOT_EXISTS"
+)

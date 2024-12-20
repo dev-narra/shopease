@@ -7,11 +7,10 @@ from dsu.dsu_gen.openapi.fields.collection_format_field import CollectionFormatF
 
 
 class Status_200Type(object):
-    def __init__(self, message=None, orderId=None, status=None, inventoryUpdated=None,  **kwargs):
+    def __init__(self, message=None, orderId=None, status=None,  **kwargs):
         self.message = message
         self.orderId = orderId
         self.status = status
-        self.inventoryUpdated = inventoryUpdated
 
     def __str__(self):
         from dsu.dsu_gen.openapi.utils.get_unicode_str import get_unicode_str
@@ -25,7 +24,6 @@ class Status_200Serializer(serializers.Serializer):
     message = serializers.CharField(required=False, allow_blank=True, allow_null=True)
     orderId = serializers.IntegerField(required=False, allow_null=True)
     status = serializers.CharField(required=False, allow_blank=True, allow_null=True)
-    inventoryUpdated = serializers.NullBooleanField(required=False)
 
     def create(self, validated_data):
         return Status_200Type(**validated_data)

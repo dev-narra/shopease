@@ -34,7 +34,6 @@ class PaymentDto:
 
 @dataclass()
 class OrderDto:
-    products:List[ProductDto]
     customer:CustomerDto
     payment:PaymentDto
     status:str
@@ -239,4 +238,24 @@ class StorageInterface:
 
     @abstractmethod
     def get_feedbacks(self,limit:int,offset:int)->list[FeedbackDto]:
+        pass
+
+    @abstractmethod
+    def update_feedback(self,feedback_id:int,rating:float,review:str)->FeedbackDto:
+        pass
+
+    @abstractmethod
+    def validate_feedback_id(self):
+        pass
+
+    @abstractmethod
+    def validate_order_id(self):
+        pass
+
+    @abstractmethod
+    def validate_order_id_exists(self):
+        pass
+
+    @abstractmethod
+    def cancel_order(self,order_id:int):
         pass
