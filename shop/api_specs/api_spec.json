@@ -372,10 +372,7 @@
           "orders": {
             "type": "array",
             "items": { "$ref": "#/definitions/Order" }
-          },
-          "total": { "type": "integer" },
-          "page": { "type": "integer" },
-          "size": { "type": "integer" }
+          }
         }
       },
       "FeedbackList": {
@@ -1018,20 +1015,20 @@
                 ],
     "parameters": [
       {
-        "name": "page",
+        "name": "limit",
         "in": "query",
         "description": "The page number to retrieve.",
-        "required": false,
+        "required":true,
         "type": "integer",
         "minimum": 1
       },
       {
-        "name": "size",
+        "name": "offset",
         "in": "query",
         "description": "The number of orders per page.",
-        "required": false,
+        "required": true,
         "type": "integer",
-        "minimum": 1
+        "minimum": 0
       }
     ],
     "responses": {

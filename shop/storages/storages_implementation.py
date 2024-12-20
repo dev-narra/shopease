@@ -1,7 +1,7 @@
-from shop.interactors.storage_interfaces.storage_interface import StorageInterface,AuthTokenDto,ProductDto,CustomerDto,PaymentDto,FeedbackDto,OrderDto
+from shop.interactors.storage_interfaces.storage_interface import StorageInterface,AuthTokenDto,ProductDto,CustomerDto,PaymentDto,FeedbackDto,OrderDto,OrderStatusDto,CancelOrderDto
 from ib_users.interfaces.service_interface import ServiceInterface
 from shop.exceptions.custom_exceptions import InvalidFeedbackId,FeedbackIdDoesNotExists,InvalidCustomePhone,InvalidCustomerAddress,InvalidCustomerEmail,InvalidCustomerName,InvalidEmail,CustomerAlreadyExist,InvalidLimitValue,InvalidProductId,InvalidOffsetValue,InvalidProductName,InvalidDescription,InvalidCategory,InvalidPrice,InvalidExpDate,InvalidMfgDate,InvalidStockQuantity,CustomerIdDoesNotExists,ProductIdDoesNotExists,InvalidReview,InvalidRating
-from shop.models import User,Product,Customer,Payment,Feedback
+from shop.models import User,Product,Customer,Payment,Feedback,Order
 from typing import List
 from django.db.models import Q
 
@@ -280,14 +280,36 @@ class StorageImplementation(StorageInterface):
           raise InvalidOrderId
 
        def validate_order_id_exists(self,order_id:int):
-        is_order_id_exists=Order.objects.get(id=order_id).exist()
-        if not is_order_id_exists:
+        is_order_id_exists=Order.objects.get(id=order_id)
+        if  is_order_id_exists is None:
           raise OrderIdDoesNotExist
 
-       def cancel_order(self,order_id:int):
+       def cancel_order(self,order_id:int)->CancelOrderDto:
         order=Order.objects.get(id=order_id)
         order.status="Canceled"
         order.save()
         
         return order
+       
+       def update_order_status(self,order_id:int,status:str)->OrderStatusDto:
+         order=Order.objects.get(id=order_id)
+         order.status=status
+         order.save()
+
+         return order
       
+       def validate_order_status(self,status:str):
+        is_valid_status=status is not None
+        if not is_valid_status:
+          raise InvalidOrderStatus
+      
+       def get_orders_list(self,limit:int,offset:int)->list[OrderDto]:
+        orders=Order.objects.all()[offset:offset+limit]
+        return orders
+
+       def search_orders(self,name:str,status:str)->list[OrderDto]:
+            if name or status:
+               orders = Order.objects.filter(
+                  Q(customer_name__icontains=name) | Q(status__icontains=status)
+               )
+               return orders

@@ -7,11 +7,8 @@ from dsu.dsu_gen.openapi.fields.collection_format_field import CollectionFormatF
 
 
 class OrderListType(object):
-    def __init__(self, orders=None, total=None, page=None, size=None,  **kwargs):
+    def __init__(self, orders=None,  **kwargs):
         self.orders = orders
-        self.total = total
-        self.page = page
-        self.size = size
 
     def __str__(self):
         from dsu.dsu_gen.openapi.utils.get_unicode_str import get_unicode_str
@@ -24,9 +21,6 @@ class OrderListType(object):
 class OrderListSerializer(serializers.Serializer):
     from shop.build.serializers.definitions.Order.OrderSerializer import OrderSerializer
     orders = OrderSerializer(required=False, many=True)
-    total = serializers.IntegerField(required=False, allow_null=True)
-    page = serializers.IntegerField(required=False, allow_null=True)
-    size = serializers.IntegerField(required=False, allow_null=True)
 
     def create(self, validated_data):
         from shop.build.serializers.definitions.Order.OrderSerializer import OrderSerializer

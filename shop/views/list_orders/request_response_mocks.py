@@ -21,10 +21,7 @@ RESPONSE_200_JSON = """
             "expected_delivery_date": "2099-12-31",
             "order_datetime": "2099-12-31"
         }
-    ],
-    "total": 1,
-    "page": 1,
-    "size": 1
+    ]
 }
 """
 

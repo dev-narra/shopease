@@ -200,3 +200,16 @@ class PresenterInterface:
     @abstractmethod
     def get_response_for_cancel_order(self):
         pass
+
+    @abstractmethod
+    def raise_exception_for_invalid_order_status(self):
+        pass
+
+    @abstractmethod
+    def get_response_for_get_orders_list(self):
+        pass
+
+    @abstractmethod
+    def get_response_for_search_orders(self):
+        pass
+        

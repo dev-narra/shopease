@@ -28,10 +28,8 @@ from django.http import HttpResponse
 @validate_decorator(validator_class=ValidatorClass)
 def api_wrapper(*args, **kwargs):
     order_id=kwargs['path_params']['orderId']
-    print(".............................>",order_id)
     storage=StorageImplementation()
     presenter=PresenterImplementation()
-
     interactor=CancelOrderInteractor(storage=storage)
     order=interactor.cancel_order(order_id=order_id,presenter=presenter)
     response_data=json.dumps(order)

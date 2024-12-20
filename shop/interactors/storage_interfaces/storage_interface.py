@@ -34,17 +34,29 @@ class PaymentDto:
 
 @dataclass()
 class OrderDto:
-    customer:CustomerDto
-    payment:PaymentDto
+    customer_id:int
+    payment_id:int
     status:str
     order_datetime:str
     expected_delivery_date:str
+@dataclass()
+class CancelOrderDto:
+    message:str
+    orderId:int
+    status:str
+    
 
-@dataclass
+@dataclass()
 class FeedbackDto:
     customer_id:int
     rating:float
     review:float
+
+@dataclass()
+class OrderStatusDto:
+    message:str
+    orderId:int
+    newStatus:str
 
 class StorageInterface:
 
@@ -245,17 +257,33 @@ class StorageInterface:
         pass
 
     @abstractmethod
-    def validate_feedback_id(self):
+    def validate_feedback_id(self,feedback_id:int):
         pass
 
     @abstractmethod
-    def validate_order_id(self):
+    def validate_order_id(self,order_id:int):
         pass
 
     @abstractmethod
-    def validate_order_id_exists(self):
+    def validate_order_id_exists(self,order_id:int):
         pass
 
     @abstractmethod
-    def cancel_order(self,order_id:int):
+    def cancel_order(self,order_id:int)->CancelOrderDto:
+        pass
+
+    @abstractmethod
+    def update_order_status(self,order_id:int,status:str)->OrderStatusDto:
+        pass
+
+    @abstractmethod
+    def validate_order_status(self,status:str):
+        pass
+
+    @abstractmethod
+    def get_orders_list(self,limit:int,offset:int)->list[OrderDto]:
+        pass
+
+    @abstractmethod
+    def search_orders(self,name:str,status:str):
         pass

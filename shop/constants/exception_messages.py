@@ -157,3 +157,8 @@ ORDER_ID_DOES_NOT_EXISTS=(
     "Invalid order id, try with other",
     "ORDER_ID_DOES_NOT_EXISTS"
 )
+
+INVALID_ORDER_STATUS=(
+    "Invalid order status, try with other",
+    "INVALID_ORDER_STATUS"
+)
