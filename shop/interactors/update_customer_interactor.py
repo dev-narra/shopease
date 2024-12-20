@@ -1,6 +1,6 @@
 from shop.interactors.storage_interfaces.storage_interface import StorageInterface
 from shop.interactors.presenter_interfaces.presenter_interface import PresenterInterface
-from shop.exceptions.custom_exceptions import InvalidCustomePhone,InvalidCustomerAddress,InvalidCustomerEmail,InvalidCustomerName,InvalidEmail,CustomerAlreadyExist
+from shop.exceptions.custom_exceptions import InvalidCustomePhone,InvalidCustomerAddress,InvalidCustomerEmail,InvalidCustomerName,InvalidEmail,CustomerAlreadyExist,InvalidCustomerId
 
 class UpdateCustomerInteractor:
 

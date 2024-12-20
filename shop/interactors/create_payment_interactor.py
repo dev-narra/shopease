@@ -25,6 +25,6 @@ class CreatePaymentInteractor:
         except InvalidPaymentTransactionDate:
             presenter.raise_exception_for_invalid_payment_transaction_date()
 
-        payment_id=self.storage.create_payment(amount=amount,payment=payment,transaction_date=transaction_date)
-        return presenter.get_response_for_create_payment(product_id)
+        payment_id=self.storage.create_payment(amount=amount,method=method,transaction_date=transaction_date)
+        return presenter.get_response_for_create_payment(payment_id)
     

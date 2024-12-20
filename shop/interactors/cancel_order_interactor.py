@@ -11,12 +11,12 @@ class CancelOrderInteractor:
 
         try:
             self.storage.validate_order_id(order_id=order_id)
-        except:
+        except InvalidOrderId:
             presenter.raise_exception_for_invalid_order_id()
 
         try:
             self.storage.validate_order_id_exists(order_id=order_id)
-        except:
+        except OrderIdDoesNotExist:
             presenter.raise_exception_for_order_id_not_exists()
 
         order=self.storage.cancel_order(order_id=order_id)

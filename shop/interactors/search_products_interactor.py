@@ -1,6 +1,6 @@
 from shop.interactors.storage_interfaces.storage_interface import StorageInterface
 from shop.interactors.presenter_interfaces.presenter_interface import PresenterInterface
-from shop.exceptions.custom_exceptions import InvalidProductName,InvalidProductCategory
+from shop.exceptions.custom_exceptions import InvalidProductName,InvalidCategory
 
 class SearchProductIntreactor:
 

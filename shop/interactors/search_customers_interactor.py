@@ -10,12 +10,12 @@ class SearchCustomerIntreactor:
     def search_customers(self,name:str,email:str,presenter:PresenterInterface):
 
         try:
-            self.storage.validate_customer_name()
+            self.storage.validate_customer_name(name=name)
         except InvalidCustomerName:
             presenter.raise_exception_for_invalid_customer_name()
 
         try:
-            self.storage.validate_customer_email()
+            self.storage.validate_customer_email(email=email)
         except InvalidCustomerEmail:
             presenter.raise_exception_for_invalid_customer_email()
 

@@ -1,6 +1,6 @@
 from shop.interactors.storage_interfaces.storage_interface import StorageInterface,AuthTokenDto,ProductDto,CustomerDto,PaymentDto,FeedbackDto,OrderDto,OrderStatusDto,CancelOrderDto
 from ib_users.interfaces.service_interface import ServiceInterface
-from shop.exceptions.custom_exceptions import InvalidFeedbackId,FeedbackIdDoesNotExists,InvalidCustomePhone,InvalidCustomerAddress,InvalidCustomerEmail,InvalidCustomerName,InvalidEmail,CustomerAlreadyExist,InvalidLimitValue,InvalidProductId,InvalidOffsetValue,InvalidProductName,InvalidDescription,InvalidCategory,InvalidPrice,InvalidExpDate,InvalidMfgDate,InvalidStockQuantity,CustomerIdDoesNotExists,ProductIdDoesNotExists,InvalidReview,InvalidRating
+from shop.exceptions.custom_exceptions import InvalidFeedbackId,FeedbackIdDoesNotExists,InvalidCustomePhone,InvalidCustomerAddress,InvalidCustomerEmail,InvalidCustomerName,InvalidEmail,CustomerAlreadyExist,InvalidLimitValue,InvalidProductId,InvalidOffsetValue,InvalidProductName,InvalidDescription,InvalidCategory,InvalidPrice,InvalidExpDate,InvalidMfgDate,InvalidStockQuantity,CustomerIdDoesNotExists,ProductIdDoesNotExists,InvalidReview,InvalidRating,InvalidStockValue
 from shop.models import User,Product,Customer,Payment,Feedback,Order
 from typing import List
 from django.db.models import Q
@@ -315,7 +315,7 @@ class StorageImplementation(StorageInterface):
                return orders
 
        def search_payments(self,order_id:int)->list[PaymentDto]:
-           if order_id or customer_name:
+           if order_id:
               orders = Order.objects.filter(
                      id__icontains=order_id
                )
@@ -334,7 +334,7 @@ class StorageImplementation(StorageInterface):
             products=Product.objects.filter(stock_quantity__lte=stock_value)
             return products
 
-       def validate_stock_quantity(self,stock_value:int):
+       def validate_stock_value(self,stock_value:int):
            is_valid_stock_value=stock_value is not None
            if not is_valid_stock_value:
               raise InvalidStockValue

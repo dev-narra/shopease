@@ -13,7 +13,6 @@ class UserLoginInteractor:
             self.storage.validate_email(email=email)
         except InvalidEmail:
             presenter.raise_exception_for_invalid_email()
-            return 
 
         auth_tokens=self.storage.user_login(email=email)
         return presenter.get_response_for_user_login(auth_tokens)

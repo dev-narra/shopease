@@ -43,4 +43,4 @@ class CreateCustomerInteractor:
         except InvalidCustomerAddress:
             presenter.raise_exception_for_invalid_customer_address()
             
-        return none
+        return None
