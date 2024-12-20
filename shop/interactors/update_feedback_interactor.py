@@ -9,10 +9,8 @@ class UpdateFeedbackInteractor:
 
     def update_feedback(self,feedback_id:int,rating:float,review:str,presenter:PresenterInterface):
   
-        valid_input_data=self.validate_input_data(feedback_id=feedback_id,rating=rating,review=review,presenter=presenter)
-        if valid_input_data:
-            return valid_input_data
-
+        self.validate_input_data(feedback_id=feedback_id,rating=rating,review=review,presenter=presenter)
+    
         try:
             self.storage.validate_feedback_id_exists(feedback_id=feedback_id)
         except FeedbackIdDoesNotExists:

@@ -1,6 +1,6 @@
 from shop.interactors.presenter_interfaces.presenter_interface import PresenterInterface
 from shop.interactors.storage_interfaces.storage_interface import AuthTokenDto,ProductDto,CustomerDto,PaymentDto,FeedbackDto,OrderDto,OrderStatusDto,CancelOrderDto
-from shop.constants.exception_messages import INVALID_ORDER_STATUS,INVALID_ORDER_ID,ORDER_ID_DOES_NOT_EXISTS,INVALID_FEEDBACK_ID,FEEDBACK_ID_DOES_NOT_EXISTS,PRODUCT_ID_DOES_NOT_EXISTS,CUSTOMER_ID_DOES_NOT_EXISTS,INVALID_EMAIL,INVALID_CUSTOMER_EMAIL,INVALID_CUSTOMER_PHONE,INVALID_CUSTOMER_ADDRESS,INVALID_CUSTOMER_NAME,CUSTOMER_ALREADY_EXISTS,INVALID_CUSTOMER_ID,INAVLID_LIMIT_VALUE,INAVLID_OFFSET_VALUE,INVALID_DESCRIPTION,INVALID_PRICE,INVALID_MFG_DATE,INVALID_EXP_DATE,INVALID_CATEGORY,INVALID_STOCK_QUANTITY,INVALID_PRODUCT_NAME,PRODUCT_NAME_ALREADY_EXISTS,INVALID_PRODUCT_ID,INVALID_PAYMENT_AMOUNT,INVALID_PAYMENT_METHOD,INVALID_PAYMENT_TRANSACTION_DATE,INVALID_PAYMENT_ID,INVALID_RATING,INVALID_REVIEW
+from shop.constants.exception_messages import INVALID_STOCK_VALUE,INVALID_ORDER_STATUS,INVALID_ORDER_ID,ORDER_ID_DOES_NOT_EXISTS,INVALID_FEEDBACK_ID,FEEDBACK_ID_DOES_NOT_EXISTS,PRODUCT_ID_DOES_NOT_EXISTS,CUSTOMER_ID_DOES_NOT_EXISTS,INVALID_EMAIL,INVALID_CUSTOMER_EMAIL,INVALID_CUSTOMER_PHONE,INVALID_CUSTOMER_ADDRESS,INVALID_CUSTOMER_NAME,CUSTOMER_ALREADY_EXISTS,INVALID_CUSTOMER_ID,INAVLID_LIMIT_VALUE,INAVLID_OFFSET_VALUE,INVALID_DESCRIPTION,INVALID_PRICE,INVALID_MFG_DATE,INVALID_EXP_DATE,INVALID_CATEGORY,INVALID_STOCK_QUANTITY,INVALID_PRODUCT_NAME,PRODUCT_NAME_ALREADY_EXISTS,INVALID_PRODUCT_ID,INVALID_PAYMENT_AMOUNT,INVALID_PAYMENT_METHOD,INVALID_PAYMENT_TRANSACTION_DATE,INVALID_PAYMENT_ID,INVALID_RATING,INVALID_REVIEW
 
 from django_swagger_utils.drf_server.exceptions import NotFound
 from typing import List
@@ -294,3 +294,22 @@ class PresenterImplementation(PresenterInterface):
             for order in orders
         ]
         return orders_array
+
+    def get_response_for_low_stock_products(self,products:list[ProductDto]):
+        products_array=[
+            {
+              "id":product.id,
+              "description":product.description,
+              "price":product.price,
+              "mfg_date":product.mfg_date,
+              "exp_date":product.exp_date,
+              "category":product.category,
+              "stock_quantity":product.stock_quantity
+            }
+            for product in products
+        ]
+        return products_array
+
+    def raise_exception_for_invalid_stock_value(self):
+        raise NotFound(*INVALID_STOCK_VALUE)
+        

@@ -811,11 +811,19 @@
         }
       }
            },
-          "/products/low/stock/": {
+          "/products/low/": {
         "get": {
           "summary": "Get low-stock alerts",
           "description": "Retrieve a list of products with stock below a defined threshold.",
           "operationId":"get_product_low_stock",
+          "parameters":[
+            {
+              "name": "stock",
+              "in": "query",
+              "required": true,
+              "type": "integer"
+            }
+          ],
           "security": [
                     {
                         "oauth": ["read"]

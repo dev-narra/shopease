@@ -33,12 +33,23 @@ class PaymentDto:
     transaction_date:str
 
 @dataclass()
+class CompleteOrderDto:
+    customer_dto:List[CustomerDto]
+    payment_dto:List[PaymentDto]
+    status:str
+    order_datetime:str
+    exp_delivery_date:str
+    
+
+@dataclass()
 class OrderDto:
     customer_id:int
     payment_id:int
     status:str
     order_datetime:str
     expected_delivery_date:str
+
+
 @dataclass()
 class CancelOrderDto:
     message:str
@@ -286,4 +297,20 @@ class StorageInterface:
 
     @abstractmethod
     def search_orders(self,name:str,status:str):
+        pass
+
+    @abstractmethod
+    def search_payments(self,order_id:int,customer_name:str)->PaymentDto:
+        pass
+    
+    @abstractmethod
+    def get_low_stock_products(self,stock_value:int)->list[ProductDto]:
+        pass
+
+    @abstractmethod
+    def validate_stock_value(self,stock_value:int):
+        pass
+
+    @abstractmethod
+    def get_complete_order_details(self):
         pass

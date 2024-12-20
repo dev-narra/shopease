@@ -313,3 +313,28 @@ class StorageImplementation(StorageInterface):
                   Q(customer_name__icontains=name) | Q(status__icontains=status)
                )
                return orders
+
+       def search_payments(self,order_id:int)->list[PaymentDto]:
+           if order_id or customer_name:
+              orders = Order.objects.filter(
+                     id__icontains=order_id
+               )
+              payments=[
+                {
+                  "id":order.payment_id,
+                  "amount":order.payment_amount,
+                  "method":order.payment_method,
+                  "transaction_date":order.payment_transaction_date
+                }
+                for order in orders 
+              ]
+              return payments
+
+       def get_low_stock_products(self,stock_value:int)->list[PaymentDto]:
+            products=Product.objects.filter(stock_quantity__lte=stock_value)
+            return products
+
+       def validate_stock_quantity(self,stock_value:int):
+           is_valid_stock_value=stock_value is not None
+           if not is_valid_stock_value:
+              raise InvalidStockValue

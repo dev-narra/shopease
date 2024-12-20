@@ -162,3 +162,8 @@ INVALID_ORDER_STATUS=(
     "Invalid order status, try with other",
     "INVALID_ORDER_STATUS"
 )
+
+INVALID_STOCK_VALUE=(
+    "Invalid stock value, try with other",
+    "INVALID_STOCK_VALUE"
+)

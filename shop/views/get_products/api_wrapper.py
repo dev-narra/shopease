@@ -14,7 +14,6 @@ import json
 def api_wrapper(*args, **kwargs):
     limit=kwargs['query_params']['limit']
     offset=kwargs['query_params']['offset']
-    
     storage=StorageImplementation()
     presenter=PresenterImplementation()
     interactor=GetProductsInteractor(storage=storage)

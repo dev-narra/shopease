@@ -9,9 +9,7 @@ class UpdateCustomerInteractor:
 
     def update_customer(self,id:int,name:str,email:str,phone:str,address:str,presenter:PresenterInterface):
 
-        valid_input_data=self.validate_input_data(name=name,email=name,phone=phone,address=phone,presenter=presenter)
-        if valid_input_data:
-            return valid_input_data
+        self.validate_input_data(name=name,email=name,phone=phone,address=phone,presenter=presenter)
 
         try:
             self.storage.validate_customer_id(id=id)

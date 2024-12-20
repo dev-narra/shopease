@@ -1,6 +1,7 @@
 from shop.interactors.storage_interfaces.storage_interface import StorageInterface
 from shop.interactors.presenter_interfaces.presenter_interface import PresenterInterface
 from shop.exceptions.custom_exceptions import InvalidCustomerId,InvalidProductId,CustomerIdDoesNotExists,ProductIdDoesNotExists,InvalidRating,InvalidReview
+
 class AddProductFeedbackInteractor:
 
     def __init__(self,storage:StorageInterface):
@@ -8,10 +9,8 @@ class AddProductFeedbackInteractor:
 
     def add_product_feedback(self,product_id:int,customer_id:int,rating:str,review:str,presenter:PresenterInterface):
 
-        validate_input=self.validate_input_data(product_id=product_id,customer_id=customer_id,rating=rating,review=review,presenter=presenter)
-        if validate_input:
-            return validate_input
-
+        self.validate_input_data(product_id=product_id,customer_id=customer_id,rating=rating,review=review,presenter=presenter)
+        
         try:
             self.storage.validate_product_id_exists(product_id=product_id)
         except ProductIdDoesNotExists:

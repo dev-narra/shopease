@@ -6,7 +6,7 @@ from shop.build.view_environments.products_search_.router import products_search
 from shop.build.view_environments.product_create_.router import product_create_
 from shop.build.view_environments.product_update__id__.router import product_update__id__
 from shop.build.view_environments.product_delete__id__.router import product_delete__id__
-from shop.build.view_environments.products_low_stock_.router import products_low_stock_
+from shop.build.view_environments.products_low_.router import products_low_
 from shop.build.view_environments.customers_.router import customers_
 from shop.build.view_environments.customer_create_.router import customer_create_
 from shop.build.view_environments.customers_update__id__.router import customers_update__id__
@@ -34,7 +34,7 @@ urlpatterns = [
     re_path(r'^product/create/$', product_create_),
     re_path(r'^product/update/(?P<id>\d+)/$', product_update__id__),
     re_path(r'^product/delete/(?P<id>[-\w]+)/$', product_delete__id__),
-    re_path(r'^products/low/stock/$', products_low_stock_),
+    re_path(r'^products/low/$', products_low_),
     re_path(r'^customers/$', customers_),
     re_path(r'^customer/create/$', customer_create_),
     re_path(r'^customers/update/(?P<id>[-\w]+)/$', customers_update__id__),

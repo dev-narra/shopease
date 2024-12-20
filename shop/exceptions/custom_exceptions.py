@@ -96,3 +96,6 @@ class OrderIdDoesNotExist(Exception):
 
 class InvalidOrderStatus(Exception):
     pass
+
+class InvalidStockValue(Exception):
+    pass

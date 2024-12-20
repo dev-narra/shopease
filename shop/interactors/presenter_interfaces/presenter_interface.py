@@ -213,3 +213,10 @@ class PresenterInterface:
     def get_response_for_search_orders(self):
         pass
         
+    @abstractmethod
+    def get_response_for_low_stock_products(self):
+        pass
+    
+    @abstractmethod
+    def raise_exception_for_invalid_stock_value(self):
+        pass

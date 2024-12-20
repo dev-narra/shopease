@@ -9,10 +9,8 @@ class UpdateOrderStatusInteractor:
     
     def update_order_status(self,order_id:int,status:str,presenter=PresenterInterface):
 
-        valid_input_data=validate_input_data(self,order_id=order_id,status=status,presenter=presenter)
-        if valid_input_data:
-            return valid_input_data
-
+        self.validate_input_data(self,order_id=order_id,status=status,presenter=presenter)
+        
         try:
             self.storage.validate_order_id_exists(order_id=order_id)
         except OrderIdDoesNotExist:

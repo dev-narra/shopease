@@ -9,9 +9,8 @@ class UpdatePatamentInteractor:
 
     def update_payment(self,payment_id:int,amount:float,method:str,transaction_date:str,presenter:PresenterInterface):
          
-        validate_input=self.validate_input_data(amount=amount,method=method,transaction_date=transaction_date,presenter=presenter)
-        if validate_input:
-            return validate_input
+        self.validate_input_data(amount=amount,method=method,transaction_date=transaction_date,presenter=presenter)
+        
         
         try:
             self.storage.validate_payment_id(payment_id=payment_id)

@@ -9,9 +9,7 @@ class CreateProductInteractor:
 
     def create_product(self,name:str,description:str,price:float,mfg_date:str,exp_date:str,category:str,stock_quantity:int,presenter:PresenterInterface):
 
-        validate_input=self.validate_input_data(name=name,description=name,price=price,mfg_date=mfg_date,exp_date=exp_date,category=category,stock_quantity=stock_quantity,presenter=presenter)
-        if validate_input:
-            return validate_input
+        self.validate_input_data(name=name,description=name,price=price,mfg_date=mfg_date,exp_date=exp_date,category=category,stock_quantity=stock_quantity,presenter=presenter)
 
         try:
             self.storage.validate_product_name_exists(name=name)
