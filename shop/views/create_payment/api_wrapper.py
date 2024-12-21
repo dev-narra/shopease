@@ -5,7 +5,6 @@ from shop.interactors.create_payment_interactor import CreatePaymentInteractor
 from dsu.dsu_gen.openapi.decorator.interface_decorator import \
     validate_decorator
 from .validator_class import ValidatorClass
-from shop.models import Payment
 from django.http import HttpResponse
 import json
 

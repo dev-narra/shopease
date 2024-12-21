@@ -253,7 +253,7 @@
         "properties": {
           "id": { "type": "integer" },
           "amount": { "type": "number", "format": "float"},
-          "method": { "type": "string", "enum": ["Card", "NetBanking", "UPI", "COD"] },
+          "method": { "type": "string", "enum": ["Card", "NetBanking", "UPI", "COD","PayPal"] },
           "transaction_date": { "type": "string"}
         }
       },

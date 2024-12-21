@@ -24,7 +24,7 @@ class PaymentType(object):
 class PaymentSerializer(serializers.Serializer):
     id = serializers.IntegerField(required=False, allow_null=True)
     amount = serializers.FloatField(required=False, allow_null=True)
-    method = serializers.ChoiceField(choices=(('Card', 'Card'), ('NetBanking', 'NetBanking'), ('UPI', 'UPI'), ('COD', 'COD')), required=False, allow_blank=True, allow_null=True)
+    method = serializers.ChoiceField(choices=(('Card', 'Card'), ('NetBanking', 'NetBanking'), ('UPI', 'UPI'), ('COD', 'COD'), ('PayPal', 'PayPal')), required=False, allow_blank=True, allow_null=True)
     transaction_date = serializers.CharField(required=False, allow_blank=True, allow_null=True)
 
     def create(self, validated_data):

@@ -15,7 +15,7 @@ class GetProductsInteractor:
             presenter.raise_exception_for_invalid_limit_value()
 
         try:
-            self.storage.validate_offset_value(offset)
+            self.storage.validate_offset_value(offset=offset)
         except InvalidOffsetValue:
             presenter.raise_exception_for_invalid_offset_value()
 

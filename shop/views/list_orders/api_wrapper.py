@@ -14,11 +14,10 @@ from django.http import HttpResponse
 def api_wrapper(*args, **kwargs):
     limit=kwargs['query_params']['limit']
     offset=kwargs['query_params']['offset']
-
     storage=StorageImplementation()
     presenter=PresenterImplementation()
     interactor=GetOrdersListInteractor(storage=storage)
     orders_array=interactor.get_orders_list(limit=limit,offset=offset,presenter=presenter)
     response_data=json.dumps(orders_array)
-    return HttpResponse(response_data)
+    return HttpResponse(response_data,status=200)
     

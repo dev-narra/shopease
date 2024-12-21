@@ -22,7 +22,7 @@ options = {
     'REQUEST_QUERY_PARAMS_SERIALIZER': None,
     'REQUEST_HEADERS_SERIALIZER': None,
     'REQUEST_PATH_PARAMS_SERIALIZER': AddProductFeedbackRequestPathParamSerializer,
-    'DEFAULT_REQUEST_PATH_PARAMS': {"productId": 910},
+    'DEFAULT_REQUEST_PATH_PARAMS': {"productId": 71},
     'REQUEST_SERIALIZER': AddFeedbackRequestSerializer,
     'REQUEST_SERIALIZER_MANY_ITEMS': False,
     'RESPONSE': {

@@ -166,9 +166,9 @@ class PresenterImplementation(PresenterInterface):
         payments_array=[
             {
                "id":payment.id,
-               "amount":payment.amount,
+               "amount":float(payment.amount),
                "method":payment.method,
-               "transaction_date":payment.transaction_date
+               "transaction_date":str(payment.transaction_date)
             }
             for payment in payments
         ]
@@ -275,8 +275,8 @@ class PresenterImplementation(PresenterInterface):
               "customer_id":order.customer_id,
               "payment_id":order.payment_id,
               "status":order.status,
-              "order_datetime":order.order_datetime,
-              "expected_delivery_date":order.exp_delivery_date
+              "order_datetime":str(order.order_datetime),
+              "expected_delivery_date":str(order.exp_delivery_date)
             }
             for order in orders
         ]
@@ -299,10 +299,11 @@ class PresenterImplementation(PresenterInterface):
         products_array=[
             {
               "id":product.id,
+              "name":product.name,
               "description":product.description,
-              "price":product.price,
-              "mfg_date":product.mfg_date,
-              "exp_date":product.exp_date,
+              "price":float(product.price),
+              "mfg_date":str(product.mfg_date),
+              "exp_date":str(product.exp_date),
               "category":product.category,
               "stock_quantity":product.stock_quantity
             }
